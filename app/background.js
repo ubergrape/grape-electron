@@ -11,12 +11,14 @@ import windowStateKeeper from './vendor/electron_boilerplate/window_state';
 // in config/env_xxx.json file.
 import env from './env';
 
+var Menu = require("menu");
+
 var mainWindow;
 
 // Preserver of the window size and position between app launches.
 var mainWindowState = windowStateKeeper('main', {
-    width: 1000,
-    height: 600
+    width: 900,
+    height: 1000
 });
 
 app.on('ready', function () {
@@ -25,7 +27,7 @@ app.on('ready', function () {
         x: mainWindowState.x,
         y: mainWindowState.y,
         width: mainWindowState.width,
-        height: mainWindowState.height
+        height: mainWindowState.height,
     });
 
     if (mainWindowState.isMaximized) {
@@ -46,6 +48,29 @@ app.on('ready', function () {
     mainWindow.on('close', function () {
         mainWindowState.saveState(mainWindow);
     });
+
+    // Create the Application's main menu and enable the most important shortcuts.
+    var template = [{
+        label: "Application",
+        submenu: [
+            { label: "About Grape", selector: "orderFrontStandardAboutPanel:" },
+            { type: "separator" },
+            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]}, {
+        label: "Edit",
+        submenu: [
+            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+            { type: "separator" },
+            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]}
+    ];
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
 });
 
 app.on('window-all-closed', function () {
