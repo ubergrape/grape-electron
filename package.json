@@ -23,6 +23,9 @@
     "test": "node ./tasks/start --env=test"
   },
   "dependencies": {
-    "pace": "0.0.4"
+    "is-online": "^5.0.1",
+    "is-reachable": "^1.2.0",
+    "pace": "0.0.4",
+    "titlebar": "^1.4.0"
   }
 }
