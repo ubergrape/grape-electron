@@ -1,6 +1,6 @@
 electron-boilerplate
 ==============
-Comprehensive boilerplate application for [Electron runtime](http://electron.atom.io).  
+Based on a [comprehensive boilerplate](https://github.com/szwacz/electron-boilerplate) application for [Electron runtime](http://electron.atom.io).  
 
 Scope of this project:
 
