@@ -3,7 +3,7 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import devHelper from './vendor/electron_boilerplate/dev_helper';
 import windowStateKeeper from './vendor/electron_boilerplate/window_state';
 
@@ -75,4 +75,8 @@ app.on('ready', function () {
 
 app.on('window-all-closed', function () {
     app.quit();
+});
+
+ipcMain.on('addBadge', function(event, badge) {
+  app.dock.setBadge(String(badge))
 });
