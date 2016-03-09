@@ -77,6 +77,10 @@ app.on('window-all-closed', function () {
     app.quit();
 });
 
-ipcMain.on('addBadge', function(event, badge) {
+ipcMain.on('addBadge', function(e, badge) {
   app.dock.setBadge(String(badge))
+});
+
+ipcMain.on('removeBadge', function() {
+  app.dock.setBadge('')
 });
