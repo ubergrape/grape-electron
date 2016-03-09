@@ -1,11 +1,11 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "identifier": "com.example.electron-boilerplate",
-  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
-  "version": "0.1.0",
-  "author": "Mr Gumby",
-  "copyright": "© 2016, your company here",
+  "name": "grape-electron",
+  "productName": "Grape",
+  "identifier": "com.grape.grape-electron",
+  "description": "The world’s most advanced team chat meets enterprise search.",
+  "version": "3.0.0",
+  "author": "Yuri Tkachenko",
+  "copyright": "© 2016, UberGrape GmbH",
   "main": "background.js",
   "dependencies": {
     "fs-jetpack": "^0.7.0"
