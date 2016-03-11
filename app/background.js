@@ -2,24 +2,24 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
-
-import { app, BrowserWindow, ipcMain } from 'electron';
-import devHelper from './vendor/electron_boilerplate/dev_helper';
-import windowStateKeeper from './vendor/electron_boilerplate/window_state';
+import {app, BrowserWindow, ipcMain} from 'electron'
+import devHelper from './vendor/electron_boilerplate/dev_helper'
+import windowStateKeeper from './vendor/electron_boilerplate/window_state'
+import notifier from 'node-notifier'
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
-import env from './env';
+import env from './env'
 
-var Menu = require("menu");
+var Menu = require("menu")
 
-var mainWindow;
+var mainWindow
 
 // Preserver of the window size and position between app launches.
 var mainWindowState = windowStateKeeper('main', {
     width: 900,
     height: 1000
-});
+})
 
 app.on('ready', function () {
 
@@ -28,26 +28,26 @@ app.on('ready', function () {
         y: mainWindowState.y,
         width: mainWindowState.width,
         height: mainWindowState.height,
-    });
+    })
 
     if (mainWindowState.isMaximized) {
-        mainWindow.maximize();
+        mainWindow.maximize()
     }
 
     if (env.name === 'test') {
-        mainWindow.loadURL('file://' + __dirname + '/spec.html');
+        mainWindow.loadURL('file://' + __dirname + '/spec.html')
     } else {
-        mainWindow.loadURL('file://' + __dirname + '/app.html');
+        mainWindow.loadURL('file://' + __dirname + '/app.html')
     }
 
     if (env.name !== 'production') {
-        devHelper.setDevMenu();
-        mainWindow.openDevTools();
+        devHelper.setDevMenu()
+        mainWindow.openDevTools()
     }
 
     mainWindow.on('close', function () {
-        mainWindowState.saveState(mainWindow);
-    });
+        mainWindowState.saveState(mainWindow)
+    })
 
     // Create the Application's main menu and enable the most important shortcuts.
     var template = [{
@@ -55,7 +55,7 @@ app.on('ready', function () {
         submenu: [
             { label: "About Grape", selector: "orderFrontStandardAboutPanel:" },
             { type: "separator" },
-            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit() }}
         ]}, {
         label: "Edit",
         submenu: [
@@ -67,20 +67,30 @@ app.on('ready', function () {
             { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
             { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
         ]}
-    ];
+    ]
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 
-});
+})
 
 app.on('window-all-closed', function () {
-    app.quit();
-});
+    app.quit()
+})
 
 ipcMain.on('addBadge', function(e, badge) {
+  if (!app.dock) return
   app.dock.setBadge(String(badge))
-});
+})
 
 ipcMain.on('removeBadge', function() {
+  if (!app.dock) return
   app.dock.setBadge('')
-});
+})
+
+ipcMain.on('showNotification', function(e, notification) {
+  notifier.notify(Object.assign({}, notification, {wait: true}))
+  notifier.on('click', function(notifierObject, options) {
+    mainWindow.focus()
+    e.sender.send('notificationClicked', options.slug)
+  })
+})
