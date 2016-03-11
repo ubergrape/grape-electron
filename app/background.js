@@ -6,6 +6,7 @@ import {app, BrowserWindow, ipcMain} from 'electron'
 import devHelper from './vendor/electron_boilerplate/dev_helper'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
 import notifier from 'node-notifier'
+import path from 'path'
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
@@ -88,7 +89,14 @@ ipcMain.on('removeBadge', function() {
 })
 
 ipcMain.on('showNotification', function(e, notification) {
-  notifier.notify(Object.assign({}, notification, {wait: true}))
+  notifier.notify(Object.assign(
+    {},
+    notification,
+    {
+      wait: true,
+      icon: path.join(__dirname, 'images/icon.png')
+    }
+  ))
   notifier.on('click', function(notifierObject, options) {
     mainWindow.focus()
     e.sender.send('notificationClicked', options.slug)
