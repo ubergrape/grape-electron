@@ -2,7 +2,8 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
-import {app, BrowserWindow, ipcMain} from 'electron'
+import {app, BrowserWindow, ipcMain, Tray} from 'electron'
+import os from 'os'
 import devHelper from './vendor/electron_boilerplate/dev_helper'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
 import notifier from 'node-notifier'
@@ -15,6 +16,7 @@ import env from './env'
 var Menu = require("menu")
 
 var mainWindow
+var trayIcon
 
 // Preserver of the window size and position between app launches.
 var mainWindowState = windowStateKeeper('main', {
@@ -50,8 +52,7 @@ app.on('ready', function () {
         mainWindowState.saveState(mainWindow)
     })
 
-    // Create the Application's main menu and enable the most important shortcuts.
-    var template = [{
+    var mainMenu = [{
         label: "Application",
         submenu: [
             { label: "About Grape", selector: "orderFrontStandardAboutPanel:" },
@@ -70,8 +71,24 @@ app.on('ready', function () {
         ]}
     ]
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+    Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenu))
 
+    var trayMenu = Menu.buildFromTemplate([
+      { label: "Open", click: function() { mainWindow.focus() }},
+      { label: "Quit", click: function() { app.quit() }}
+    ])
+
+    trayIcon = new Tray(path.join(__dirname, 'images/tray.png'))
+    trayIcon.setToolTip('Grape')
+    trayIcon.setContextMenu(trayMenu)
+    trayIcon.on('click', function() {
+      mainWindow.isFocused() ? mainWindow.hide() : mainWindow.focus()
+    })
+    trayIcon.on('balloon-click', function() {
+      mainWindow.focus()
+    })
+
+    console.log(mainWindow)
 })
 
 app.on('window-all-closed', function () {
@@ -89,6 +106,13 @@ ipcMain.on('removeBadge', function() {
 })
 
 ipcMain.on('showNotification', function(e, notification) {
+
+  trayIcon.displayBalloon({
+    icon: path.join(__dirname, 'images/icon.png'),
+    title: notification.title,
+    content: notification.message
+  })
+
   notifier.notify(Object.assign(
     {},
     notification,
