@@ -2,11 +2,11 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
-import {app, BrowserWindow, ipcMain, Tray} from 'electron'
 import os from 'os'
+import {isNotificationSupported} from './utils'
+import {app, BrowserWindow, ipcMain, Tray} from 'electron'
 import devHelper from './vendor/electron_boilerplate/dev_helper'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
-import notifier from 'node-notifier'
 import path from 'path'
 
 // Special module holding environment variables which you declared
@@ -17,6 +17,7 @@ var Menu = require("menu")
 
 var mainWindow
 var trayIcon
+var balloonClickHandler
 
 // Preserver of the window size and position between app launches.
 var mainWindowState = windowStateKeeper('main', {
@@ -32,6 +33,8 @@ app.on('ready', function () {
         width: mainWindowState.width,
         height: mainWindowState.height,
     })
+
+    global.isNotificationSupported = isNotificationSupported()
 
     if (mainWindowState.isMaximized) {
         mainWindow.maximize()
@@ -86,9 +89,8 @@ app.on('ready', function () {
     })
     trayIcon.on('balloon-click', function() {
       mainWindow.focus()
+      balloonClickHandler()
     })
-
-    console.log(mainWindow)
 })
 
 app.on('window-all-closed', function () {
@@ -106,23 +108,12 @@ ipcMain.on('removeBadge', function() {
 })
 
 ipcMain.on('showNotification', function(e, notification) {
-
+  balloonClickHandler = function() {
+    e.sender.send('notificationClicked', notification.slug)
+  }
   trayIcon.displayBalloon({
     icon: path.join(__dirname, 'images/icon.png'),
     title: notification.title,
     content: notification.message
-  })
-
-  notifier.notify(Object.assign(
-    {},
-    notification,
-    {
-      wait: true,
-      icon: path.join(__dirname, 'images/icon.png')
-    }
-  ))
-  notifier.on('click', function(notifierObject, options) {
-    mainWindow.focus()
-    e.sender.send('notificationClicked', options.slug)
   })
 })
