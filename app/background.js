@@ -3,17 +3,18 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 import os from 'os'
-import {isNotificationSupported} from './utils'
-import {app, BrowserWindow, ipcMain, Tray} from 'electron'
+import {isNotificationSupported, isWindows} from './utils'
+import {app, BrowserWindow, ipcMain, Tray, nativeImage} from 'electron'
 import devHelper from './vendor/electron_boilerplate/dev_helper'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
+import notifier from 'node-notifier'
 import path from 'path'
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 import env from './env'
 
-var Menu = require("menu")
+var Menu = require('menu')
 
 var mainWindow
 var trayIcon
@@ -81,7 +82,7 @@ app.on('ready', function () {
       { label: "Quit", click: function() { app.quit() }}
     ])
 
-    trayIcon = new Tray(path.join(__dirname, 'images/tray.png'))
+    trayIcon = new Tray(path.join(__dirname, 'images/tray' + (isWindows() ? '-windows' : '') + '.png'))
     trayIcon.setToolTip('Grape')
     trayIcon.setContextMenu(trayMenu)
     trayIcon.on('click', function() {
@@ -94,15 +95,21 @@ app.on('ready', function () {
 })
 
 app.on('window-all-closed', function () {
-    app.quit()
+  app.quit()
 })
 
 ipcMain.on('addBadge', function(e, badge) {
+  mainWindow.setOverlayIcon(
+    path.join(__dirname, 'images/overlay.png'),
+    (badge + ' unread channel' + parseInt(badge) > 1 ? 's' : '')
+  )
+
   if (!app.dock) return
   app.dock.setBadge(String(badge))
 })
 
 ipcMain.on('removeBadge', function() {
+  mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
   if (!app.dock) return
   app.dock.setBadge('')
 })

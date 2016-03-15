@@ -4,7 +4,7 @@
   "identifier": "com.grape.grape-electron",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "version": "3.0.0",
-  "author": "Yuri Tkachenko",
+  "author": "UberGrape GmbH",
   "copyright": "© 2016, UberGrape GmbH",
   "main": "background.js",
   "dependencies": {
