@@ -3,11 +3,23 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 import os from 'os'
-import {isNotificationSupported, isWindows} from './utils'
-import {app, BrowserWindow, ipcMain, Tray, nativeImage} from 'electron'
+
+import {
+  isNotificationSupported,
+  isWindows,
+  isOSX
+} from './utils'
+
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Tray,
+  nativeImage
+} from 'electron'
+
 import devHelper from './vendor/electron_boilerplate/dev_helper'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
-import notifier from 'node-notifier'
 import path from 'path'
 
 // Special module holding environment variables which you declared
@@ -26,6 +38,8 @@ var mainWindowState = windowStateKeeper('main', {
     height: 1000
 })
 
+var dontPreventClose = false
+
 app.on('ready', function () {
 
     mainWindow = new BrowserWindow({
@@ -33,6 +47,23 @@ app.on('ready', function () {
         y: mainWindowState.y,
         width: mainWindowState.width,
         height: mainWindowState.height,
+    })
+
+    mainWindow.on('close', function(e) {
+      if (!dontPreventClose) {
+        e.preventDefault()
+
+        if (isWindows()) {
+          mainWindow.setSkipTaskbar(true)
+          mainWindow.hide()
+        }
+        if (isOSX()) app.hide()
+      }
+      mainWindowState.saveState(mainWindow)
+    })
+
+    mainWindow.on('hide', function() {
+      mainWindow.blurWebView()
     })
 
     global.isNotificationSupported = isNotificationSupported()
@@ -52,16 +83,16 @@ app.on('ready', function () {
         mainWindow.openDevTools()
     }
 
-    mainWindow.on('close', function () {
-        mainWindowState.saveState(mainWindow)
-    })
-
     var mainMenu = [{
         label: "Application",
         submenu: [
             { label: "About Grape", selector: "orderFrontStandardAboutPanel:" },
             { type: "separator" },
-            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit() }}
+            { label: "Quit", accelerator: "Command+Q", click: function() {
+                dontPreventClose = true
+                app.quit()
+              }
+            }
         ]}, {
         label: "Edit",
         submenu: [
@@ -78,40 +109,81 @@ app.on('ready', function () {
     Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenu))
 
     var trayMenu = Menu.buildFromTemplate([
-      { label: "Open", click: function() { mainWindow.focus() }},
-      { label: "Quit", click: function() { app.quit() }}
+      { label: "Open", click: function() {
+          mainWindow.show()
+          mainWindow.focus()
+        }
+      },
+      { label: "Quit", click: function() {
+          dontPreventClose = true
+          app.quit()
+        }
+      }
     ])
 
-    trayIcon = new Tray(path.join(__dirname, 'images/tray' + (isWindows() ? '-windows' : '') + '.png'))
+    if (isWindows()) {
+      trayIcon = new Tray(path.join(__dirname, 'images/tray-windows.png'))
+    } else if (isOSX()) {
+      trayIcon = new Tray(
+        path.join(
+          __dirname,
+          'images/tray' + (app.isDarkMode() ? '-white.png' : '.png'))
+      )
+      trayIcon.setPressedImage(path.join(__dirname, 'images/tray-white.png'))
+    } else {
+      trayIcon = new Tray(path.join(__dirname, 'images/tray.png'))
+    }
+
     trayIcon.setToolTip('Grape')
     trayIcon.setContextMenu(trayMenu)
     trayIcon.on('click', function() {
-      mainWindow.isFocused() ? mainWindow.hide() : mainWindow.focus()
+      if (isWindows()) mainWindow.setSkipTaskbar(false)
+      mainWindow.show()
+      mainWindow.focus()
     })
     trayIcon.on('balloon-click', function() {
+      mainWindow.show()
       mainWindow.focus()
       balloonClickHandler()
     })
 })
 
-app.on('window-all-closed', function () {
-  app.quit()
+app.on('window-all-closed', function () {})
+
+app.on('platform-theme-changed', function () {
+  if (isOSX()) {
+    trayIcon.setImage(
+      path.join(
+        __dirname,
+        'images/tray' + (app.isDarkMode() ? '-white.png' : '.png'))
+    )
+  }
 })
 
 ipcMain.on('addBadge', function(e, badge) {
-  mainWindow.setOverlayIcon(
-    path.join(__dirname, 'images/overlay.png'),
-    (badge + ' unread channel' + parseInt(badge) > 1 ? 's' : '')
-  )
+  if (isWindows()) {
+    mainWindow.setOverlayIcon(
+      path.join(__dirname, 'images/overlay.png'),
+      (badge + ' unread channel' + parseInt(badge) > 1 ? 's' : '')
+    )
+  } else {
+    trayIcon.setImage(path.join(__dirname, 'images/tray-blue.png'))
+  }
 
-  if (!app.dock) return
-  app.dock.setBadge(String(badge))
+  if (app.dock) app.dock.setBadge(String(badge))
 })
 
 ipcMain.on('removeBadge', function() {
-  mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
-  if (!app.dock) return
-  app.dock.setBadge('')
+  if (isWindows()) {
+    mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
+  } else if (isOSX()) {
+    trayIcon.setImage(
+      path.join(
+        __dirname,
+        'images/tray' + (app.isDarkMode() ? '-white.png' : '.png'))
+    )
+  }
+  if (app.dock) app.dock.setBadge('')
 })
 
 ipcMain.on('showNotification', function(e, notification) {
