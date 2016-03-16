@@ -164,6 +164,9 @@ app.on('ready', function () {
 })
 
 app.on('window-all-closed', function () {})
+app.on('before-quit', function () {
+  dontPreventClose = true
+})
 
 app.on('platform-theme-changed', function () {
   if (isOSX()) {
