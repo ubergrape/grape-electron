@@ -59,7 +59,7 @@ app.on('ready', function () {
           mainWindow.hide()
 
           storage.has('closeBalloonShown', function(e, hasKey) {
-            if (error) throw error;
+            if (eZ) throw eZ;
 
             if (!hasKey) {
               trayIcon.displayBalloon({
