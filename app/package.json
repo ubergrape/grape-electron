@@ -8,6 +8,7 @@
   "copyright": "© 2016, UberGrape GmbH",
   "main": "background.js",
   "dependencies": {
-    "fs-jetpack": "^0.7.0"
+    "fs-jetpack": "^0.7.0",
+    "electron-json-storage": "^2.0.0"
   }
 }

@@ -7,7 +7,8 @@ import os from 'os'
 import {
   isNotificationSupported,
   isWindows,
-  isOSX
+  isOSX,
+  isExternalUrl
 } from './utils'
 
 import {
@@ -15,7 +16,8 @@ import {
   BrowserWindow,
   ipcMain,
   Tray,
-  nativeImage
+  nativeImage,
+  shell
 } from 'electron'
 
 import devHelper from './vendor/electron_boilerplate/dev_helper'
@@ -59,7 +61,7 @@ app.on('ready', function () {
           mainWindow.hide()
 
           storage.has('closeBalloonShown', function(e, hasKey) {
-            if (eZ) throw eZ;
+            if (e) throw e;
 
             if (!hasKey) {
               trayIcon.displayBalloon({
@@ -160,6 +162,16 @@ app.on('ready', function () {
       mainWindow.show()
       mainWindow.focus()
       balloonClickHandler()
+    })
+
+    const {webContents} = mainWindow
+
+    webContents.on('new-window', function(e, url) {
+      console.log(url)
+      if (isExternalUrl(url, webContents.getURL())) {
+        e.preventDefault()
+        shell.openExternal(url)
+      }
     })
 })
 
