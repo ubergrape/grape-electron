@@ -62,10 +62,6 @@ app.on('ready', function () {
       mainWindowState.saveState(mainWindow)
     })
 
-    mainWindow.on('hide', function() {
-      mainWindow.blurWebView()
-    })
-
     global.isNotificationSupported = isNotificationSupported()
 
     if (mainWindowState.isMaximized) {
@@ -148,7 +144,9 @@ app.on('ready', function () {
     })
 })
 
-app.on('window-all-closed', function () {})
+app.on('window-all-closed', function () {
+
+})
 
 app.on('platform-theme-changed', function () {
   if (isOSX()) {
