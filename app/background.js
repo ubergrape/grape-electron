@@ -21,6 +21,7 @@ import {
 import devHelper from './vendor/electron_boilerplate/dev_helper'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
 import path from 'path'
+import storage from 'electron-json-storage'
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
@@ -56,6 +57,20 @@ app.on('ready', function () {
         if (isWindows()) {
           mainWindow.setSkipTaskbar(true)
           mainWindow.hide()
+
+          storage.has('closeBalloonShown', function(e, hasKey) {
+            if (error) throw error;
+
+            if (!hasKey) {
+              trayIcon.displayBalloon({
+                icon: path.join(__dirname, 'images/icon.png'),
+                title: 'Notifications for Grape',
+                content: 'You\'ll see notifications for new private messages and mentions here.'
+              })
+
+              storage.set('closeBalloonShown', {shown: true}, function(e) { if (e) throw(e) })
+            }
+          })
         }
         if (isOSX()) app.hide()
       }
