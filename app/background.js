@@ -161,7 +161,7 @@ app.on('ready', function () {
     trayIcon.on('balloon-click', function() {
       mainWindow.show()
       mainWindow.focus()
-      balloonClickHandler()
+      if (balloonClickHandler) balloonClickHandler()
     })
 
     const {webContents} = mainWindow
