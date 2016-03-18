@@ -167,7 +167,6 @@ app.on('ready', function () {
     const {webContents} = mainWindow
 
     webContents.on('new-window', function(e, url) {
-      console.log(url)
       if (isExternalUrl(url, webContents.getURL())) {
         e.preventDefault()
         shell.openExternal(url)
@@ -199,7 +198,6 @@ ipcMain.on('addBadge', function(e, badge) {
   } else {
     trayIcon.setImage(path.join(__dirname, 'images/tray-blue.png'))
   }
-
   if (app.dock) app.dock.setBadge(String(badge))
 })
 
