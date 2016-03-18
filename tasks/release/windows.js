@@ -5,7 +5,7 @@ var gulpUtil = require('gulp-util');
 var childProcess = require('child_process');
 var jetpack = require('fs-jetpack');
 var asar = require('asar');
-var utils = require('./utils');
+var utils = require('../utils');
 
 var projectDir;
 var tmpDir;
@@ -68,13 +68,20 @@ var finalize = function () {
 };
 
 var renameApp = function () {
-    return readyAppDir.renameAsync('electron.exe', manifest.productName + '.exe');
+    return readyAppDir.renameAsync(
+      'electron.exe',
+      manifest.productName + (utils.getEnvName() === 'staging' ? '-staging' : '') + '.exe'
+    );
 };
 
 var createInstaller = function () {
     var deferred = Q.defer();
 
-    var finalPackageName = manifest.name + '_' + manifest.version + '.exe';
+    var finalPackageName =
+      manifest.name +
+      (utils.getEnvName() === 'staging' ? '-staging_' : '_') +
+      manifest.version + '.exe';
+
     var installScript = projectDir.read('resources/windows/installer.nsi');
 
     installScript = utils.replace(installScript, {
@@ -123,12 +130,12 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
-    .then(copyRuntime)
-    .then(cleanupRuntime)
-    .then(packageBuiltApp)
-    .then(finalize)
-    .then(renameApp)
-    .then(createInstaller)
-    .then(cleanClutter)
-    .catch(console.error);
+        .then(copyRuntime)
+        .then(cleanupRuntime)
+        .then(packageBuiltApp)
+        .then(finalize)
+        .then(renameApp)
+        .then(createInstaller)
+        .then(cleanClutter)
+        .catch(console.error);
 };

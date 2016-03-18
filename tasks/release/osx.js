@@ -4,7 +4,7 @@ var Q = require('q');
 var gulpUtil = require('gulp-util');
 var jetpack = require('fs-jetpack');
 var asar = require('asar');
-var utils = require('./utils');
+var utils = require('../utils');
 var child_process = require('child_process');
 
 var projectDir;
@@ -18,7 +18,9 @@ var init = function () {
     tmpDir = projectDir.dir('./tmp', { empty: true });
     releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
-    finalAppDir = tmpDir.cwd(manifest.productName + '.app');
+    finalAppDir = tmpDir.cwd(
+      manifest.productName + (utils.getEnvName() === 'staging' ? '-staging' : '') + '.app'
+    );
 
     return Q();
 };
@@ -94,9 +96,10 @@ var signApp = function () {
 
 var packToDmgFile = function () {
     var deferred = Q.defer();
-
     var appdmg = require('appdmg');
-    var dmgName = manifest.name + '_' + manifest.version + '.dmg';
+    var dmgName = manifest.name +
+      (utils.getEnvName() === 'staging' ? '-staging_' : '_') +
+      manifest.version + '.dmg';
 
     // Prepare appdmg config
     var dmgManifest = projectDir.read('resources/osx/appdmg.json');
@@ -135,13 +138,13 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
-    .then(copyRuntime)
-    .then(cleanupRuntime)
-    .then(packageBuiltApp)
-    .then(finalize)
-    .then(renameApp)
-    .then(signApp)
-    .then(packToDmgFile)
-    .then(cleanClutter)
-    .catch(console.error);
+        .then(copyRuntime)
+        .then(cleanupRuntime)
+        .then(packageBuiltApp)
+        .then(finalize)
+        .then(renameApp)
+        .then(signApp)
+        .then(packToDmgFile)
+        .then(cleanClutter)
+        .catch(console.error);
 };
