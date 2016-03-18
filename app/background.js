@@ -61,7 +61,7 @@ app.on('ready', function () {
           mainWindow.hide()
 
           storage.has('closeBalloonShown', function(e, hasKey) {
-            if (e) throw e;
+            if (e) throw e
 
             if (!hasKey) {
               trayIcon.displayBalloon({
@@ -177,6 +177,15 @@ app.on('ready', function () {
 app.on('window-all-closed', function () {})
 app.on('before-quit', function () {
   dontPreventClose = true
+})
+
+app.on('certificate-error', function(event, webContents, url, error, certificate, callback) {
+    if (url.indexOf('uebergrape.staging.chatgrape.com') > -1) {
+      event.preventDefault()
+      callback(true)
+    } else {
+      callback(true)
+    }
 })
 
 app.on('platform-theme-changed', function () {
