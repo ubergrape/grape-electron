@@ -25,7 +25,7 @@ export function isExternalUrl(url, current) {
   if (!url || !current) return true
 
   const newHost = getHost(url)
-  const currentHost = getHost(url)
+  const currentHost = getHost(current)
   if (!newHost) return true
 
   return newHost !== currentHost
