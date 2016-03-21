@@ -61,7 +61,7 @@ app.on('ready', function () {
           mainWindow.hide()
 
           storage.has('closeBalloonShown', function(e, hasKey) {
-            if (e) throw e;
+            if (e) throw e
 
             if (!hasKey) {
               trayIcon.displayBalloon({
@@ -179,6 +179,15 @@ app.on('before-quit', function () {
   dontPreventClose = true
 })
 
+app.on('certificate-error', function(event, webContents, url, error, certificate, callback) {
+    if (url.indexOf('uebergrape.staging.chatgrape.com') > -1) {
+      event.preventDefault()
+      callback(true)
+    } else {
+      callback(true)
+    }
+})
+
 app.on('platform-theme-changed', function () {
   if (isOSX()) {
     trayIcon.setImage(
@@ -216,7 +225,7 @@ ipcMain.on('removeBadge', function() {
 
 ipcMain.on('showNotification', function(e, notification) {
   balloonClickHandler = function() {
-    e.sender.send('notificationClicked', notification.slug)
+    e.sender.send('notificationClicked', notification.id)
   }
   trayIcon.displayBalloon({
     icon: path.join(__dirname, 'images/icon.png'),
