@@ -227,7 +227,7 @@ ipcMain.on('removeBadge', function() {
 
 ipcMain.on('showNotification', function(e, notification) {
   balloonClickHandler = function() {
-    e.sender.send(String(notification.id))
+    e.sender.send(String(notification.event))
   }
   trayIcon.displayBalloon({
     icon: path.join(__dirname, 'images/icon.png'),
