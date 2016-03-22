@@ -86,13 +86,13 @@ app.on('ready', function () {
     global.isNotificationSupported = isNotificationSupported()
 
     if (mainWindowState.isMaximized) {
-        mainWindow.maximize()
+      mainWindow.maximize()
     }
 
     if (env.name === 'test') {
-        mainWindow.loadURL('file://' + __dirname + '/spec.html')
+      mainWindow.loadURL('file://' + __dirname + '/spec.html')
     } else {
-        mainWindow.loadURL('file://' + __dirname + '/app.html')
+      mainWindow.loadURL(env.host)
     }
 
     if (env.name !== 'production') {
@@ -167,10 +167,12 @@ app.on('ready', function () {
     const {webContents} = mainWindow
 
     webContents.on('new-window', function(e, url) {
-      if (isExternalUrl(url, webContents.getURL())) {
-        e.preventDefault()
-        shell.openExternal(url)
-      }
+      e.preventDefault()
+      shell.openExternal(url)
+    })
+    webContents.on('will-navigate', function(e, url) {
+      e.preventDefault()
+      shell.openExternal(url)
     })
 })
 
