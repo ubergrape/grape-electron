@@ -8,6 +8,11 @@ export function isOSX() {
   return os.type() === 'Darwin'
 }
 
+export function osType() {
+  if (isWindows()) return 'win'
+  if (isOSX()) return 'osx'
+}
+
 export function isNotificationSupported() {
   return (
       isWindows() &&
