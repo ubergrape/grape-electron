@@ -94,12 +94,6 @@ app.on('ready', function () {
     } else {
       mainWindow.loadURL(env.host)
     }
-
-    if (env.name !== 'production') {
-        devHelper.setDevMenu()
-        mainWindow.openDevTools()
-    }
-
     var mainMenu = [{
         label: "Application",
         submenu: [
@@ -122,6 +116,11 @@ app.on('ready', function () {
             { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
         ]}
     ]
+
+    if (env.name !== 'production') {
+      mainWindow.openDevTools()
+      mainMenu = mainMenu.concat(devHelper.menu)
+    }
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenu))
 
