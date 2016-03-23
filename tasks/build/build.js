@@ -43,14 +43,14 @@ gulp.task('copy-watch', copyTask);
 
 var bundleApplication = function () {
     return Q.all([
-            bundle(srcDir.path('background.js'), destDir.path('background.js')),
+            bundle(srcDir.path('index.js'), destDir.path('index.js')),
         ]);
 };
 
 var bundleSpecs = function () {
     return generateSpecImportsFile().then(function (specEntryPointPath) {
         return Q.all([
-                bundle(srcDir.path('background.js'), destDir.path('background.js')),
+                bundle(srcDir.path('index.js'), destDir.path('index.js')),
                 bundle(specEntryPointPath, destDir.path('spec.js')),
             ]);
     });
