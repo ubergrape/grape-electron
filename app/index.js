@@ -86,7 +86,7 @@ app.on('platform-theme-changed', function () {
 ipcMain.on('addBadge', function(e, badge) {
   if (isWindows()) {
     state.mainWindow.setOverlayIcon(
-      statusBarOverlay,
+      paths.statusBarOverlay,
       (badge + ' unread channel' + (parseInt(badge) > 1 ? 's' : ''))
     )
   } else {
@@ -113,7 +113,7 @@ ipcMain.on('showNotification', function(e, notification) {
     title: notification.title,
     content: notification.message
   })
-  trayIcon.once('click', function() {
+  trayIcon.once('balloon-click', function() {
     e.sender.send(String(notification.event))
   })
 })
