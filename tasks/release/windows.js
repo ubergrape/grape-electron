@@ -42,12 +42,15 @@ var packageBuiltApp = function () {
 };
 
 var finalize = function () {
-    var deferred = Q.defer();
 
     projectDir.copy('resources/windows/icon.ico', readyAppDir.path('icon.ico'));
+    projectDir.copy('resources/windows/grapefile_client.exe', readyAppDir.path('grapefile_client.exe'));
+
+    var rcedit = require('rcedit');
+    var electronExePromise = Q.defer()
+    var fileCilentExePropmise = Q.defer()
 
     // Replace Electron icon for your own.
-    var rcedit = require('rcedit');
     rcedit(readyAppDir.path('electron.exe'), {
         'icon': projectDir.path('resources/windows/icon.ico'),
         'version-string': {
@@ -60,11 +63,19 @@ var finalize = function () {
         }
     }, function (err) {
         if (!err) {
-            deferred.resolve();
+            electronExePromise.resolve();
+            // Replace Default icon at grapefile_client.
+            rcedit(readyAppDir.path('grapefile_client.exe'), {
+                'icon': projectDir.path('resources/windows/icon.ico')
+            }, function (err) {
+                if (!err) {
+                    fileCilentExePropmise.resolve()
+                }
+            });
         }
     });
 
-    return deferred.promise;
+    return Q.all([electronExePromise.propmise, fileCilentExePropmise.promise]);
 };
 
 var renameApp = function () {

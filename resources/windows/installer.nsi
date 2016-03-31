@@ -94,6 +94,11 @@ Section "Install"
     WriteRegStr HKLM "${uninstkey}" "Publisher" "${author}"
     WriteRegStr HKLM "${uninstkey}" "DisplayVersion" "${version}"
 
+
+    WriteRegStr HKCR "grapefile" "URL Protocol" ""
+    WriteRegStr HKCR "grapefile\shell" "" "open"
+    WriteRegStr HKCR "grapefile\shell\open\command" "" '"$INSTDIR\grapefile_client.exe" "%1"'
+
     ; Remove all application files copied by previous installation
     RMDir /r "$INSTDIR"
 
@@ -154,6 +159,7 @@ Section "Uninstall"
 
     DeleteRegKey HKLM "${uninstkey}"
     DeleteRegKey HKLM "${regkey}"
+    DeleteRegKey HKCR "grapefile"
 
     SetShellVarContext all
     Delete "$SMPROGRAMS\${productName}.lnk"
