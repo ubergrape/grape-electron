@@ -16,7 +16,9 @@
 	<string>{{productName}}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleVersion</key>
+  <key>CFBundleVersion</key>
+  <string>{{version}}</string>
+	<key>CFBundleShortVersionString</key>
 	<string>{{version}}</string>
 	<key>CFBundleGetInfoString</key>
 	<string>{{version}}</string>
