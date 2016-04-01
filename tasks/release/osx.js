@@ -80,15 +80,20 @@ var renameApp = function () {
     });
     // Rename application
     finalAppDir.rename('Contents/MacOS/Electron', manifest.productName);
+    var appPath = releasesDir.path(finalAppDir.path().split('/').pop())
+    releasesDir.remove(appPath)
+    releasesDir.copy(finalAppDir.path(), appPath)
     return Q();
 };
 
 var signApp = function () {
     var identity = utils.getSigningId();
     if (identity) {
-        var cmd = 'codesign --deep --force --sign "' + identity + '" "' + finalAppDir.path() + '"';
-        gulpUtil.log('Signing with:', cmd);
-        return Q.nfcall(child_process.exec, cmd);
+      var sign = projectDir.path('resources/osx/sign.sh')
+      var cmd =  sign + ' ' + releasesDir.path() + ' ' + identity;
+      gulpUtil.log('Signing with:', cmd);
+      return Q.nfcall(child_process.exec, cmd);
+      return Q();
     } else {
         return Q();
     }
