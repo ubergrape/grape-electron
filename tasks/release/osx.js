@@ -6,6 +6,7 @@ var jetpack = require('fs-jetpack');
 var asar = require('asar');
 var utils = require('../utils');
 var child_process = require('child_process');
+var sign = require('electron-osx-sign')
 
 var projectDir;
 var releasesDir;
@@ -52,6 +53,8 @@ var finalize = function () {
         productName: manifest.productName,
         identifier: manifest.identifier,
         version: manifest.version,
+        build: manifest.build,
+        major: manifest.major,
         copyright: manifest.copyright
     });
     finalAppDir.write('Contents/Info.plist', info);
@@ -88,16 +91,41 @@ var renameApp = function () {
 
 var signApp = function () {
     var identity = utils.getSigningId();
+    var deferred = Q.defer();
     if (identity) {
-      var sign = projectDir.path('resources/osx/sign.sh')
-      var cmd =  sign + ' ' + releasesDir.path() + ' ' + identity;
-      gulpUtil.log('Signing with:', cmd);
-      return Q.nfcall(child_process.exec, cmd);
-      return Q();
+      sign(
+        {
+          app: releasesDir.path(finalAppDir.path().split('/').pop()),
+          entitlements: projectDir.path('resources/osx/parent.plist'),
+          'entitlements-inherit': projectDir.path('resources/osx/child.plist'),
+          identity: identity,
+          platform: 'mas',
+          'additional-binaries': [],
+          verbose: true
+        },
+        function(err) {
+          if (err) console.log(err)
+          deferred.resolve()
+        }
+      )
+      return deferred.promise
     } else {
         return Q();
     }
 };
+
+var packToPkgFile = function() {
+  var identity = utils.getSigningId();
+  if (identity) {
+    var pack = projectDir.path('resources/osx/pack.sh')
+    var cmd = pack + ' ' + releasesDir.path() + ' ' + identity;
+    gulpUtil.log('Packing with:', cmd);
+    return Q.nfcall(child_process.exec, cmd);
+    return Q();
+  } else {
+    return Q();
+  }
+}
 
 var packToDmgFile = function () {
     var deferred = Q.defer();
@@ -149,6 +177,7 @@ module.exports = function () {
         .then(finalize)
         .then(renameApp)
         .then(signApp)
+        .then(packToPkgFile)
         .then(packToDmgFile)
         .then(cleanClutter)
         .catch(console.error);

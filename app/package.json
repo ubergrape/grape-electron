@@ -4,6 +4,8 @@
   "identifier": "com.ChatGrape",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "version": "2.0.0",
+  "major": "2.0",
+  "build": "2.0.2",
   "author": "UberGrape GmbH",
   "copyright": "© 2016, UberGrape GmbH",
   "main": "index.js",

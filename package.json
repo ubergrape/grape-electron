@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "asar": "^0.10.0",
-    "electron-prebuilt": "^0.37.2",
+    "electron-prebuilt": "0.37.3",
     "fs-jetpack": "^0.7.0",
     "gulp": "^3.9.0",
     "gulp-less": "^3.0.3",
@@ -23,5 +23,8 @@
     "start": "node ./tasks/start",
     "test": "node ./tasks/start --env=test",
     "install-native": "node ./tasks/install_native_module"
+  },
+  "dependencies": {
+    "electron-osx-sign": "^0.3.0"
   }
 }

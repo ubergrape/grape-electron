@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
   <key>CFBundleVersion</key>
-  <string>{{version}}</string>
+  <string>{{build}}</string>
 	<key>CFBundleShortVersionString</key>
-	<string>{{version}}</string>
+	<string>{{major}}</string>
 	<key>CFBundleGetInfoString</key>
 	<string>{{version}}</string>
   <key>LSApplicationCategoryType</key>
