@@ -54,7 +54,9 @@ app.on('ready', function () {
     } else {
 
       storage.get('lastUrl', function(error, data) {
-        state.mainWindow.loadURL(data.url || env.host)
+        let url = env.host
+        if (!error && data && data.url) url = data.url
+        state.mainWindow.loadURL(url)
       })
     }
 
