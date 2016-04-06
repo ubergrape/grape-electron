@@ -19,6 +19,7 @@ import {
 // in config/env_xxx.json file.
 import env from './env'
 import state from './state'
+import storage from 'electron-json-storage'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
 import * as paths from './paths'
 import * as menu from './menu'
@@ -29,7 +30,7 @@ import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
 
 // Preserver of the window size and position between app launches.
 state.dimensions = windowStateKeeper('main', {
-  width: 900,
+  width: 1075,
   height: 1000
 })
 
@@ -51,7 +52,10 @@ app.on('ready', function () {
     if (env.name === 'test') {
       state.mainWindow.loadURL('file://' + __dirname + '/spec.html')
     } else {
-      state.mainWindow.loadURL(env.host)
+
+      storage.get('lastUrl', function(error, data) {
+        state.mainWindow.loadURL(data.url || env.host)
+      })
     }
 
     if (env.name !== 'production') state.mainWindow.openDevTools()
@@ -69,7 +73,7 @@ app.on('before-quit', function () {
 })
 
 app.on('certificate-error', function(e, webContents, url, error, certificate, callback) {
-    if (url.indexOf('uebergrape.staging.chatgrape.com') > -1) {
+    if (url.indexOf('staging.chatgrape.com') > -1) {
       e.preventDefault()
       callback(true)
     } else {

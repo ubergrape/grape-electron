@@ -36,5 +36,6 @@ export default function(e) {
     }
     if (isOSX()) app.hide()
   }
+  storage.set('lastUrl', {url: state.mainWindow.webContents.getURL()})
   state.dimensions.saveState(state.mainWindow)
 }
