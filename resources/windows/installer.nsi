@@ -17,8 +17,7 @@
 !define icon "{{icon}}"
 !define setupIcon "{{setupIcon}}"
 !define banner "{{banner}}"
-
-!define exec "{{productName}}.exe"
+!define exec "{{exeName}}"
 
 !define regkey "Software\${productName}"
 !define uninstkey "Software\Microsoft\Windows\CurrentVersion\Uninstall\${productName}"

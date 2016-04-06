@@ -12,12 +12,14 @@ var tmpDir;
 var releasesDir;
 var readyAppDir;
 var manifest;
+var exeName;
 
 var init = function () {
     projectDir = jetpack;
     tmpDir = projectDir.dir('./tmp', { empty: true });
     releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
+    exeName = manifest.productName + (utils.getEnvName() === 'staging' ? '-staging' : '') + '.exe'
     readyAppDir = tmpDir.cwd(manifest.name);
 
     return Q();
@@ -59,7 +61,7 @@ var finalize = function () {
             'ProductVersion': manifest.version,
             'CompanyName': manifest.author, // it might be better to add another field to package.json for this
             'LegalCopyright': manifest.copyright,
-            'OriginalFilename': manifest.productName + '.exe'
+            'OriginalFilename': exeName
         }
     }, function (err) {
         if (!err) {
@@ -81,7 +83,7 @@ var finalize = function () {
 var renameApp = function () {
     return readyAppDir.renameAsync(
       'electron.exe',
-      manifest.productName + (utils.getEnvName() === 'staging' ? '-staging' : '') + '.exe'
+      exeName
     );
 };
 
@@ -98,6 +100,7 @@ var createInstaller = function () {
     installScript = utils.replace(installScript, {
         name: manifest.name,
         productName: manifest.productName,
+        exeName: exeName,
         author: manifest.author,
         version: manifest.version,
         src: readyAppDir.path(),
