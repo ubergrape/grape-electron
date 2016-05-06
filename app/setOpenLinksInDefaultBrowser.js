@@ -7,6 +7,7 @@ const openInrternal = [
   '**/chat',
   '**/accounts/logout',
   '**/accounts/login',
+  '**/accounts/settings/**',
   '**/organization/dashboard'
 ]
 
