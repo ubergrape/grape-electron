@@ -5,7 +5,8 @@
 import {
   isNotificationSupported,
   isWindows,
-  isOSX
+  isOSX,
+  isExternalUrl
 } from './utils'
 
 import {
@@ -55,7 +56,12 @@ app.on('ready', function () {
 
       storage.get('lastUrl', function(error, data) {
         let url = env.host
-        if (!error && data && data.url) url = data.url
+        if (
+          !error &&
+          data &&
+          data.url &&
+          !isExternalUrl(data.url)
+        ) url = data.url
         state.mainWindow.loadURL(url)
       })
     }
