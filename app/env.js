@@ -13,7 +13,7 @@ var appDir = jetpack.cwd(app.getAppPath());
 
 var manifest = appDir.read('package.json', 'json');
 
-if (manifest.env.name = 'development') {
+if (manifest.env.name === 'development') {
   manifest.env.host = isWindows() ? manifest.env.host.win : manifest.env.host.default
 }
 
