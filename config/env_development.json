@@ -2,5 +2,8 @@
   "name": "development",
   "description": "Add here any environment specific stuff you like.",
 
-  "host": "http://localhost:8000/chat/"
+  "host": {
+    "default": "http://localhost:8000/chat",
+    "win": "http://10.211.55.2:8000/chat"
+  }
 }
