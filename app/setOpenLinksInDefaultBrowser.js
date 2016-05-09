@@ -7,9 +7,13 @@ const openInrternal = [
   '**/chat',
   '**/accounts/logout',
   '**/accounts/login',
+  '**/accounts/login/**',
+  '**/accounts/complete/**',
   '**/accounts/settings',
   '**/accounts/settings/**',
-  '**/organization/dashboard'
+  '**/organization/dashboard',
+  '**/accounts.google.com/**',
+  '**/github.com/login**'
 ]
 
 function removeTrailingSlash(str) {
