@@ -35,6 +35,20 @@ state.dimensions = windowStateKeeper('main', {
   height: 1000
 })
 
+
+const shouldQuit = app.makeSingleInstance(function() {
+  const {mainWindow} = state
+  // Someone tried to run a second instance, we should focus our window
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    mainWindow.focus()
+  }
+  return true
+})
+
+if (shouldQuit) quit()
+
+
 app.on('ready', function () {
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
