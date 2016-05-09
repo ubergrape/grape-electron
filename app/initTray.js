@@ -1,16 +1,10 @@
 import {app, Tray} from 'electron'
+import showMainWindow from './showMainWindow'
 import state from './state'
 import {isWindows, osType} from './utils'
 import * as paths from './paths'
 import * as menu from './menu'
 
-
-function showMainWindow() {
-  const {mainWindow} = state
-  if (isWindows()) mainWindow.setSkipTaskbar(false)
-  mainWindow.show()
-  mainWindow.focus()
-}
 
 export default function() {
   const {Menu} = state

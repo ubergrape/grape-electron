@@ -22,6 +22,7 @@ import env from './env'
 import state from './state'
 import storage from 'electron-json-storage'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
+import showMainWindow from './showMainWindow'
 import * as paths from './paths'
 import * as menu from './menu'
 import quit from './quit'
@@ -39,10 +40,7 @@ state.dimensions = windowStateKeeper('main', {
 const shouldQuit = app.makeSingleInstance(function() {
   const {mainWindow} = state
   // Someone tried to run a second instance, we should focus our window
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore()
-    mainWindow.focus()
-  }
+  if (mainWindow) showMainWindow()
   return true
 })
 
