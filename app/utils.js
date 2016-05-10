@@ -1,3 +1,5 @@
+import minimatch from 'minimatch'
+
 var os = require('os')
 
 export function isWindows() {
@@ -32,6 +34,5 @@ export function isExternalUrl(url, current) {
   const newHost = getHost(url)
   const currentHost = getHost(current)
   if (!newHost) return true
-
-  return newHost !== currentHost
+  return !minimatch(newHost, `**${currentHost}`)
 }

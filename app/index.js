@@ -2,6 +2,7 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
+
 import {
   isNotificationSupported,
   isWindows,
@@ -51,7 +52,16 @@ app.on('ready', function () {
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
 
-    state.mainWindow = new BrowserWindow(state.dimensions)
+    const prefs = Object.assign(
+      {},
+      state.dimensions,
+      {
+        webPreferences: {
+          allowDisplayingInsecureContent: true
+        }
+      }
+    )
+    state.mainWindow = new BrowserWindow(prefs)
     state.mainWindow.on('close', close)
 
     state.mainWindow.on('hide', function() {
@@ -72,7 +82,7 @@ app.on('ready', function () {
           !error &&
           data &&
           data.url &&
-          !isExternalUrl(data.url)
+          !isExternalUrl(data.url, url)
         ) url = data.url
         state.mainWindow.loadURL(url)
       })
