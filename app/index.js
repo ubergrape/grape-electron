@@ -30,6 +30,8 @@ import quit from './quit'
 import close from './close'
 import initTray from './initTray'
 import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
+import loadURL from './loadURL'
+import handleOffline from './handleOffline'
 
 // Preserver of the window size and position between app launches.
 state.dimensions = windowStateKeeper('main', {
@@ -37,8 +39,7 @@ state.dimensions = windowStateKeeper('main', {
   height: 1000
 })
 
-
-const shouldQuit = app.makeSingleInstance(function() {
+const shouldQuit = app.makeSingleInstance(() => {
   const {mainWindow} = state
   // Someone tried to run a second instance, we should focus our window
   if (mainWindow) showMainWindow()
@@ -47,8 +48,7 @@ const shouldQuit = app.makeSingleInstance(function() {
 
 if (shouldQuit) quit()
 
-
-app.on('ready', function () {
+app.on('ready', () => {
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
 
@@ -62,9 +62,11 @@ app.on('ready', function () {
       }
     )
     state.mainWindow = new BrowserWindow(prefs)
+    const {webContents} = state.mainWindow
+
     state.mainWindow.on('close', close)
 
-    state.mainWindow.on('hide', function() {
+    state.mainWindow.on('hide', () => {
       state.mainWindow.blurWebView()
     })
 
@@ -73,10 +75,9 @@ app.on('ready', function () {
     }
 
     if (env.name === 'test') {
-      state.mainWindow.loadURL('file://' + __dirname + '/spec.html')
+      state.mainWindow.loadURL(`file://${__dirname}/spec.html`)
     } else {
-
-      storage.get('lastUrl', function(error, data) {
+      storage.get('lastUrl', (error, data) => {
         let url = env.host
         if (
           !error &&
@@ -84,7 +85,7 @@ app.on('ready', function () {
           data.url &&
           !isExternalUrl(data.url, url)
         ) url = data.url
-        state.mainWindow.loadURL(url)
+        loadURL(url)
       })
     }
 
@@ -95,14 +96,16 @@ app.on('ready', function () {
 
     initTray()
     setOpenLinksInDefaultBrowser()
+    webContents.on('will-navigate', handleOffline.bind(null, undefined))
+
 })
 
-app.on('window-all-closed', function () {})
-app.on('before-quit', function () {
+app.on('window-all-closed', () => {})
+app.on('before-quit', () => {
   state.dontPreventClose = true
 })
 
-app.on('certificate-error', function(e, webContents, url, error, certificate, callback) {
+app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {
     if (url.indexOf('staging.chatgrape.com') > -1) {
       e.preventDefault()
       callback(true)
@@ -111,13 +114,13 @@ app.on('certificate-error', function(e, webContents, url, error, certificate, ca
     }
 })
 
-app.on('platform-theme-changed', function () {
+app.on('platform-theme-changed', () => {
   if (!isOSX()) return
   let icon = paths[app.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
   state.trayIcon.setImage(icon)
 })
 
-ipcMain.on('addBadge', function(e, badge) {
+ipcMain.on('addBadge', (e, badge) => {
   if (isWindows()) {
     state.mainWindow.setOverlayIcon(
       paths.statusBarOverlay,
@@ -129,7 +132,7 @@ ipcMain.on('addBadge', function(e, badge) {
   }
 })
 
-ipcMain.on('removeBadge', function() {
+ipcMain.on('removeBadge', () => {
   const {trayIcon, mainWindow} = state
   if (isWindows()) {
     mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
@@ -140,14 +143,18 @@ ipcMain.on('removeBadge', function() {
   }
 })
 
-ipcMain.on('showNotification', function(e, notification) {
+ipcMain.on('showNotification', (e, notification) => {
   const {trayIcon} = state
   trayIcon.displayBalloon({
     icon: paths.icon,
     title: notification.title,
     content: notification.message
   })
-  trayIcon.once('balloon-click', function() {
+  trayIcon.once('balloon-click', () => {
     e.sender.send(String(notification.event))
   })
+})
+
+ipcMain.on('loadChat', (e, notification) => {
+  loadURL(env.host)
 })

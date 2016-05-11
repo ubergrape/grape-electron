@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Grape: Lost Connection</title>
+  <style>
+    body
+    {
+      padding: 50px 50px 50px 400px;
+      margin: 0;
+      min-height: 300px;
+      color: #333;
+      background: #e2e7ef url('../images/icon.png') 50px 50px no-repeat;
+      background-size: 256px
+    }
+    body,
+    button
+    {
+      font: normal 15px/1.5 "Proxima Nova", Arial, Helvetica, Geneva, sans-serif;
+    }
+
+    button
+    {
+      color: #0080ff;
+      background: none;
+      border: none;
+      margin: 0;
+      padding: 0;
+      outline: none;
+      cursor: pointer;
+    }
+
+    button:hover
+    {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Check your connection, please.</h1>
+  <p>And try to <button id="load">load Grape</button> again.</p>
+  <script>
+    const {ipcRenderer} = require('electron')
+    const button = document.querySelector('#load');
+    button.addEventListener('click', () => {
+      ipcRenderer.send('loadChat');
+      button.classList.add('loading')
+      button.parentNode.textContent = 'Loading…'
+    })
+  </script>
+</body>
+</html>
