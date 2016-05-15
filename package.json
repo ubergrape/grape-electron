@@ -9,7 +9,8 @@
     "q": "^1.4.1",
     "rollup": "^0.25.4",
     "tree-kill": "^0.1.1",
-    "yargs": "^4.2.0"
+    "yargs": "^4.2.0",
+    "node-uuid": "^1.4.7"
   },
   "optionalDependencies": {
     "appdmg": "^0.3.2",
@@ -18,8 +19,10 @@
   "scripts": {
     "postinstall": "cd app && npm install",
     "build": "gulp build",
-    "release": "gulp release --env=production",
-    "release-staging": "gulp release --env=staging",
+    "release:exe": "gulp release --env=production",
+    "release:msi": "gulp release --env=production --wix",
+    "release:exe:staging": "gulp release --env=staging",
+    "release:msi:staging": "gulp release --env=staging --wix",
     "start": "node ./tasks/start",
     "test": "node ./tasks/start --env=test",
     "install-native": "node ./tasks/install_native_module"

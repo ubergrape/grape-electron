@@ -3,7 +3,7 @@
 var argv = require('yargs').argv;
 var os = require('os');
 
-module.exports.os = function () {
+module.exports.os = function() {
     switch (os.platform()) {
         case 'darwin':
             return 'osx';
@@ -15,26 +15,35 @@ module.exports.os = function () {
     return 'unsupported';
 };
 
-module.exports.replace = function (str, patterns) {
-    Object.keys(patterns).forEach(function (pattern) {
+module.exports.replace = function(str, patterns) {
+    Object.keys(patterns).forEach(function(pattern) {
         var matcher = new RegExp('{{' + pattern + '}}', 'g');
         str = str.replace(matcher, patterns[pattern]);
     });
     return str;
 };
 
-module.exports.getEnvName = function () {
+module.exports.convertToRtf = function(plain) {
+    plain = plain.replace(/\n/g, "\\par\n");
+    return "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang2057{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}\n\\viewkind4\\uc1\\pard\\f0\\fs17 " + plain + "\\par\n}";
+};
+
+module.exports.getEnvName = function() {
     return argv.env || 'development';
 };
 
-module.exports.getSigningId = function () {
+module.exports.getSigningId = function() {
     return argv.sign;
 };
 
 // Fixes https://github.com/nodejs/node-v0.x-archive/issues/2318
-module.exports.spawnablePath = function (path) {
+module.exports.spawnablePath = function(path) {
     if (process.platform === 'win32') {
         return path + '.cmd';
     }
     return path;
+};
+
+module.exports.useWix = function () {
+    return !(argv.wix === undefined);
 };
