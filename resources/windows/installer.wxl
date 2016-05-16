@@ -3,7 +3,7 @@
 <?define ProductId = "{{productId}}"?>
 <?define ProductUpgradeCode = "{{upgradeCode}}"?>
 <?define ProductName = "{{productName}}"?>
-<?define   = "{{  }}"?>
+<?define exeName = "{{exeName}}"?>
 <?define Manufacturer = "{{manufacturer}}"?>
 <?define Icon = "{{icon}}"?>
 <?define License = "{{license}}"?>
@@ -53,7 +53,7 @@
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ProgramMenuSubfolder" Name="$(var.ProductName)">
           <Component Id="ProgramMenuShortcuts" Guid="4EF42B6C-123E-4ECA-A879-B8497745C57C">
-            <Shortcut Id="ProgramMenuShortcut" Name="$(var.ProductName)" Icon="ProductIcon" Target="[INSTALLDIR]$(var.  )" WorkingDirectory="INSTALLDIR"/>
+            <Shortcut Id="ProgramMenuShortcut" Name="$(var.ProductName)" Icon="ProductIcon" Target="[INSTALLDIR]$(var.exeName)" WorkingDirectory="INSTALLDIR"/>
                         <RegistryValue KeyPath="yes"
                                        Root="HKCU"
                                        Key="Software\$(var.ProductName)"
@@ -68,7 +68,7 @@
       <Directory Id="DesktopFolder" Name="Desktop">
         <Component Id="DekstopShortcuts" Guid="3AFDDA03-2698-4D7E-BA8D-CD0E5C79CE0B">
                 <Shortcut Id="DesktopShortcut" Name="$(var.ProductName)"
-                Target="[INSTALLDIR]$(var.  )"
+                Target="[INSTALLDIR]$(var.exeName)"
                 Icon="ProductIcon"/>
                     <RegistryValue KeyPath="yes"
                                    Root="HKCU"

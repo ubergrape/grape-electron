@@ -19,10 +19,8 @@
   "scripts": {
     "postinstall": "cd app && npm install",
     "build": "gulp build",
-    "release:exe": "gulp release --env=production",
-    "release:msi": "gulp release --env=production --wix",
-    "release:exe:staging": "gulp release --env=staging",
-    "release:msi:staging": "gulp release --env=staging --wix",
+    "release": "gulp release --env=production",
+    "release:staging": "gulp release --env=staging",
     "start": "node ./tasks/start",
     "test": "node ./tasks/start --env=test",
     "install-native": "node ./tasks/install_native_module"

@@ -45,10 +45,6 @@ module.exports.spawnablePath = function(path) {
     return path;
 };
 
-module.exports.useWix = function () {
-    return !(argv.wix === undefined);
-};
-
 module.exports.finalPackageName = function (manifest, extention) {
     var name = manifest.name
     var version = manifest.version

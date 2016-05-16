@@ -26,10 +26,6 @@ var init = function() {
     return Q();
 };
 
-var createInstaller = function() {
-    return utils.useWix() ? createWixInstaller() : createNsisInstaller();
-};
-
 var copyRuntime = function() {
     return projectDir.copyAsync('node_modules/electron-prebuilt/dist', readyAppDir.path(), { overwrite: true });
 };
@@ -90,61 +86,6 @@ var renameApp = function() {
       'electron.exe',
       exeName
     );
-};
-
-var createNsisInstaller = function() {
-    var deferred = Q.defer();
-
-    var finalPackageName = utils.finalPackageName(manifest, 'exe')
-    var installScript = projectDir.read('resources/windows/installer.nsi');
-
-    installScript = utils.replace(installScript, {
-        name: manifest.name,
-        productName: manifest.productName,
-        exeName: exeName,
-        author: manifest.author,
-        version: manifest.version,
-        src: readyAppDir.path(),
-        dest: releasesDir.path(finalPackageName),
-        icon: readyAppDir.path('icon.ico'),
-        setupIcon: projectDir.path('resources/windows/setup-icon.ico'),
-        banner: projectDir.path('resources/windows/setup-banner.bmp'),
-    });
-    tmpDir.write('installer.nsi', installScript);
-
-    gulpUtil.log('Building installer with NSIS...');
-
-    // Remove destination file if already exists.
-    releasesDir.remove(finalPackageName);
-
-    // Note: NSIS have to be added to PATH (environment variables).
-    var nsis = childProcess.spawn('makensis', [
-        tmpDir.path('installer.nsi')
-    ], {
-        stdio: 'inherit'
-    });
-    nsis.on('error', function (err) {
-        if (err.message === 'spawn makensis ENOENT') {
-            throw "Can't find NSIS. Are you sure you've installed it and"
-                + " added to PATH environment variable?";
-        } else {
-            throw err;
-        }
-    });
-    nsis.on('close', function() {
-        gulpUtil.log('Installer ready!', releasesDir.path(finalPackageName));
-        deferred.resolve();
-    });
-
-    return deferred.promise;
-};
-
-var createWixInstaller = function() {
-    return generateListOfFiles()
-        .then(runCandleForMsi)
-        .then(runLightForMsi)
-        .then(runCandleForBootstraper)
-        .then(runLightForBootstraper);
 };
 
 var generateListOfFiles = function() {
@@ -215,10 +156,10 @@ var runCandleForMsi = function() {
         exeName: exeName,
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
-        topBanner: projectDir.path('resources/windows/wix/top.bmp'),
-        leftBanner: projectDir.path('resources/windows/wix/left.bmp'),
-        ico32: projectDir.path('resources/windows/wix/32.bmp'),
-        ico16: projectDir.path('resources/windows/wix/16.bmp'),
+        topBanner: projectDir.path('resources/windows/top.bmp'),
+        leftBanner: projectDir.path('resources/windows/left.bmp'),
+        ico32: projectDir.path('resources/windows/icon.ico'),
+        ico16: projectDir.path('resources/windows/icon.ico'),
         license: tmpDir.path('LICENSE.rtf'),
         productId: uuid.v4(),
         upgradeCode: uuid.v4(),
@@ -299,9 +240,9 @@ var runCandleForBootstraper = function() {
     var wixFile = projectDir.read('resources/windows/bootstraper.wxl');
 
     wixFile = utils.replace(wixFile, {
-        name: manifest.name,
         productName: manifest.productName,
         exeName: exeName,
+        logo: projectDir.path('resources/windows/grape_64.png'),
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
         license: tmpDir.path('LICENSE.rtf'),
@@ -374,6 +315,14 @@ var runLightForBootstraper  = function() {
     });
 
     return deferred.promise;
+};
+
+var createInstaller = function() {
+  return generateListOfFiles()
+    .then(runCandleForMsi)
+    .then(runLightForMsi)
+    .then(runCandleForBootstraper)
+    .then(runLightForBootstraper);
 };
 
 var cleanClutter = function() {

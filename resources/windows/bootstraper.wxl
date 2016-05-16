@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?define ProductVersion = "{{version}}"?>
 <?define ProductUpgradeCode = "{{upgradeCode}}"?>
-<?define Name = "{{name}}"?>
+<?define Name = "{{productName}}"?>
 <?define Manufacturer = "{{manufacturer}}"?>
 <?define Icon = "{{icon}}"?>
 <?define License = "{{license}}"?>
 <?define MSI = "{{msi}}"?>
+<?define Logo = "{{logo}}"?>
 
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -13,6 +14,8 @@
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" >
     <bal:WixStandardBootstrapperApplication
     LicenseFile="$(var.License)"
+    LogoFile="$(var.Logo)"
+    LogoSideFile="$(var.Logo)"
   SuppressRepair="yes"
   xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" />
     </BootstrapperApplicationRef>
