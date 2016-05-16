@@ -95,11 +95,7 @@ var renameApp = function() {
 var createNsisInstaller = function() {
     var deferred = Q.defer();
 
-    var finalPackageName =
-      manifest.name +
-      (utils.getEnvName() === 'staging' ? '-staging_' : '_') +
-      manifest.version + '.exe';
-
+    var finalPackageName = utils.finalPackageName(manifest, 'exe')
     var installScript = projectDir.read('resources/windows/installer.nsi');
 
     installScript = utils.replace(installScript, {
@@ -218,7 +214,10 @@ var runCandleForMsi = function() {
         productName: manifest.productName,
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
-        banner: projectDir.path('resources/windows/setup-banner.bmp'),
+        topBanner: projectDir.path('resources/windows/wix/top.bmp'),
+        leftBanner: projectDir.path('resources/windows/wix/left.bmp'),
+        ico32: projectDir.path('resources/windows/wix/32.bmp'),
+        ico16: projectDir.path('resources/windows/wix/16.bmp'),
         license: tmpDir.path('LICENSE.rtf'),
         productId: uuid.v4(),
         upgradeCode: uuid.v4(),
@@ -259,7 +258,7 @@ var runCandleForMsi = function() {
 var runLightForMsi = function() {
     var deferred = Q.defer();
 
-    var finalPackageName = manifest.name + '_' + manifest.version + '.msi';
+    var finalPackageName = utils.finalPackageName(manifest, 'msi')
 
        gulpUtil.log('Running Light to create an MSI installer...');
 
@@ -303,11 +302,10 @@ var runCandleForBootstraper = function() {
         productName: manifest.productName,
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
-        banner: projectDir.path('resources/windows/setup-banner.bmp'),
         license: tmpDir.path('LICENSE.rtf'),
         upgradeCode: uuid.v4(),
-        manufacturer : manifest.name,
-        msi : releasesDir.path(manifest.name + '_' + manifest.version + '.msi')
+        manufacturer: manifest.name,
+        msi: releasesDir.path(utils.finalPackageName(manifest, 'msi'))
     });
 
     tmpDir.write('bootstraper.wxl', wixFile);
@@ -345,7 +343,7 @@ var runCandleForBootstraper = function() {
 var runLightForBootstraper  = function() {
     var deferred = Q.defer();
 
-    var finalPackageName = manifest.name + '_' + manifest.version + '.exe';
+    var finalPackageName = utils.finalPackageName(manifest, 'exe')
 
     gulpUtil.log('Running Light to create an bootstraper installer...');
 

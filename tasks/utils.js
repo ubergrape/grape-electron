@@ -2,6 +2,7 @@
 
 var argv = require('yargs').argv;
 var os = require('os');
+var exports = module.exports
 
 module.exports.os = function() {
     switch (os.platform()) {
@@ -46,4 +47,12 @@ module.exports.spawnablePath = function(path) {
 
 module.exports.useWix = function () {
     return !(argv.wix === undefined);
+};
+
+module.exports.finalPackageName = function (manifest, extention) {
+    var name = manifest.name
+    var version = manifest.version
+    return name +
+      (exports.getEnvName() === 'staging' ? '-staging_' : '_') +
+      version + '.' + extention
 };

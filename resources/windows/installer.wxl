@@ -6,6 +6,10 @@
 <?define Manufacturer = "{{manufacturer}}"?>
 <?define Icon = "{{icon}}"?>
 <?define License = "{{license}}"?>
+<?define topBanner = "{{topBanner}}"?>
+<?define leftBanner = "{{leftBanner}}"?>
+<?define ico32 = "{{ico32}}"?>
+<?define ico16 = "{{ico16}}"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
@@ -24,6 +28,12 @@
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
 
     <WixVariable Id="WixUILicenseRtf" Value="$(var.License)" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.topBanner)" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.leftBanner)" />
+    <WixVariable Id="WixUIExclamationIco" Value="$(var.ico32)" />
+    <WixVariable Id="WixUIInfoIco" Value="$(var.ico32)" />
+    <WixVariable Id="WixUINewIco" Value="$(var.ico16)" />
+    <WixVariable Id="WixUIUpIco" Value="$(var.ico16)" />
 
     <Upgrade Id="$(var.ProductUpgradeCode)">
       <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED"/>
@@ -79,9 +89,41 @@
     </UI>
 
     <Feature Id="DefaultFeature" Level="1">
-            <ComponentGroupRef Id="ApplicationFiles"/>
+      <ComponentGroupRef Id="ApplicationFiles"/>
       <ComponentRef Id="ProgramMenuShortcuts"/>
       <ComponentRef Id="DekstopShortcuts"/>
+      <ComponentRef Id="RegistryEntries"/>
     </Feature>
   </Product>
+
+  <Fragment>
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="RegistryEntries">
+        <RegistryKey Root="HKCR"
+                     Key="grapefile"
+                     ForceCreateOnInstall="yes"
+                     ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Name="URL Protocol" Value=""/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="grapefile\DefaultIcon"
+                     ForceCreateOnInstall="yes"
+                     ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Value="[INSTALLDIR]grape.png"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="grapefile\shell"
+                     ForceCreateOnInstall="yes"
+                     ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Value="open"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="grapefile\shell\open\command"
+                     ForceCreateOnInstall="yes"
+                     ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Value="&quot;[INSTALLDIR]grapefile_client.exe&quot; &quot;%1&quot;"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
 </Wix>
