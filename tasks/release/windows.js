@@ -212,6 +212,7 @@ var runCandleForMsi = function() {
     wixFile = utils.replace(wixFile, {
         name: manifest.name,
         productName: manifest.productName,
+        exeName: exeName,
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
         topBanner: projectDir.path('resources/windows/wix/top.bmp'),
@@ -300,6 +301,7 @@ var runCandleForBootstraper = function() {
     wixFile = utils.replace(wixFile, {
         name: manifest.name,
         productName: manifest.productName,
+        exeName: exeName,
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
         license: tmpDir.path('LICENSE.rtf'),
