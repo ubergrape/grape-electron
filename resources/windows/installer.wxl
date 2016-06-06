@@ -17,8 +17,8 @@
    xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
   <Product Id="$(var.ProductId)" UpgradeCode="$(var.ProductUpgradeCode)" Name="$(var.ProductName)" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" Language="1033" >
 
-
     <Package InstallerVersion="200" Compressed="yes" InstallScope = "perMachine"/>
+
     <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
 
     <Icon Id="ProductIcon" SourceFile="$(var.Icon)"/>
@@ -86,7 +86,11 @@
     </InstallExecuteSequence>
 
     <UI>
-      <UIRef Id="WixUI_InstallDir" />
+      <UIRef Id="WixUI_Minimal" />
+      <Publish Dialog="ExitDialog"
+          Control="Finish"
+          Event="DoAction"
+          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
     </UI>
 
     <Feature Id="DefaultFeature" Level="1">
@@ -95,6 +99,17 @@
       <ComponentRef Id="DekstopShortcuts"/>
       <ComponentRef Id="RegistryEntries"/>
     </Feature>
+
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Grape" />
+
+    <Property Id="WixShellExecTarget" Value="[#$(var.exeName)]" />
+    <CustomAction
+      Id="LaunchApplication"
+      BinaryKey="WixCA"
+      DllEntry="WixShellExec"
+      Impersonate="yes"/>
+
   </Product>
 
   <Fragment>
