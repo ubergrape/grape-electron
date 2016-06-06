@@ -174,6 +174,10 @@ var runCandleForMsi = function() {
     var candle = childProcess.spawn('candle', [
         tmpDir.path('installer.wxl'),
         tmpDir.path('files.wxl'),
+        '-ext',
+        'WixUIExtension.dll',
+        '-ext',
+        'WixUtilExtension.dll',
         '-out',
         tmpDir.path() + '\\'
     ], {
@@ -210,6 +214,8 @@ var runLightForMsi = function() {
         releasesDir.path(finalPackageName),
         '-ext',
         'WixUIExtension.dll',
+        '-ext',
+        'WixUtilExtension.dll',
         '-sw1076',
         tmpDir.path('installer.wixobj'),
         tmpDir.path('files.wixobj')
@@ -260,6 +266,10 @@ var runCandleForBootstraper = function() {
         tmpDir.path('bootstraper.wxl'),
         '-ext',
         'WixBalExtension.dll',
+        '-ext',
+        'WixUIExtension.dll',
+        '-ext',
+        'WixUtilExtension.dll',
         '-out',
         tmpDir.path() + '\\'
     ], {
@@ -296,6 +306,10 @@ var runLightForBootstraper  = function() {
         releasesDir.path(finalPackageName),
         '-ext',
         'WixBalExtension.dll',
+        '-ext',
+        'WixUIExtension.dll',
+        '-ext',
+        'WixUtilExtension.dll',
         tmpDir.path('bootstraper.wixobj')
     ], {
         stdio: 'inherit'
