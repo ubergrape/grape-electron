@@ -103,7 +103,14 @@
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Grape" />
 
-    <Property Id="WixShellExecTarget" Value="[#$(var.exeName)]" />
+    <!--
+      HOW TO GET `Value=[#XXX]`
+      1. comment `cleanClutter` function in tasks/release/windows.js
+      2. `npm run release` on Windows
+      3. go to ./tmp/files.wxl
+      4. find `Grape.exe` and take it's `id` value.
+    -->
+    <Property Id="WixShellExecTarget" Value="[#fil2121EFDAB0FA66BA1202EA011B1F0340]" />
     <CustomAction
       Id="LaunchApplication"
       BinaryKey="WixCA"
