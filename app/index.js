@@ -62,21 +62,17 @@ app.on('ready', () => {
       }
     )
     state.mainWindow = new BrowserWindow(prefs)
+    state.mainWindow.loadURL(`file://${__dirname}/html/loading.html`)
+
     const {webContents} = state.mainWindow
-
-    state.mainWindow.on('close', close)
-
-    state.mainWindow.on('hide', () => {
-      state.mainWindow.blurWebView()
-    })
-
-    if (state.dimensions.isMaximized) {
-      state.mainWindow.maximize()
-    }
+    webContents.once('will-navigate', handleOffline.bind(null, undefined))
 
     if (env.name === 'test') {
       state.mainWindow.loadURL(`file://${__dirname}/spec.html`)
     } else {
+
+      const newMain = new BrowserWindow(Object.assign({}, prefs, {show: false}))
+
       storage.get('lastUrl', (error, data) => {
         let url = env.host
         if (
@@ -85,19 +81,30 @@ app.on('ready', () => {
           data.url &&
           !isExternalUrl(data.url, url)
         ) url = data.url
-        loadURL(url)
+        newMain.loadURL(url)
+        newMain.webContents.once('did-finish-load', () => {
+          newMain.show()
+          state.mainWindow.close()
+          state.mainWindow = newMain
+          state.mainWindow.on('close', close)
+          state.mainWindow.on('hide', () => {
+            state.mainWindow.blurWebView()
+          })
+
+          if (env.name !== 'production') state.mainWindow.openDevTools()
+
+          initTray()
+          setOpenLinksInDefaultBrowser()
+        })
       })
     }
 
-    if (env.name !== 'production') state.mainWindow.openDevTools()
+    if (state.dimensions.isMaximized) {
+      state.mainWindow.maximize()
+    }
 
     const Menu = state.Menu = require('menu')
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
-
-    initTray()
-    setOpenLinksInDefaultBrowser()
-    webContents.on('will-navigate', handleOffline.bind(null, undefined))
-
 })
 
 app.on('window-all-closed', () => {})
