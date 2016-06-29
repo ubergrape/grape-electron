@@ -63,6 +63,7 @@ app.on('ready', () => {
     )
     state.mainWindow = new BrowserWindow(prefs)
     state.mainWindow.loadURL(`file://${__dirname}/html/loading.html`)
+    state.mainWindow.once('close', () => state.mainWindow = null)
 
     const {webContents} = state.mainWindow
     webContents.once('will-navigate', handleOffline.bind(null, undefined))
@@ -83,8 +84,19 @@ app.on('ready', () => {
         ) url = data.url
         newMain.loadURL(url)
         newMain.webContents.once('did-finish-load', () => {
-          newMain.show()
-          state.mainWindow.close()
+          let hidden = true
+
+          if (state.mainWindow) {
+            state.mainWindow.close()
+            hidden = false
+          }
+
+          if (hidden) {
+            app.once('activate', () => newMain.show())
+          } else {
+            newMain.show()
+          }
+
           state.mainWindow = newMain
           state.mainWindow.on('close', close)
           state.mainWindow.on('hide', () => {
