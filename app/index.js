@@ -14,7 +14,8 @@ import {
   app,
   BrowserWindow,
   ipcMain,
-  nativeImage
+  nativeImage,
+  systemPreferences
 } from 'electron'
 
 // Special module holding environment variables which you declared
@@ -22,6 +23,7 @@ import {
 import env from './env'
 import state from './state'
 import storage from 'electron-json-storage'
+import contextMenu from 'electron-context-menu'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
 import showMainWindow from './showMainWindow'
 import * as paths from './paths'
@@ -32,6 +34,8 @@ import initTray from './initTray'
 import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
 import loadURL from './loadURL'
 import handleOffline from './handleOffline'
+
+contextMenu()
 
 // Preserver of the window size and position between app launches.
 state.dimensions = windowStateKeeper('main', {
@@ -115,7 +119,7 @@ app.on('ready', () => {
       state.mainWindow.maximize()
     }
 
-    const Menu = state.Menu = require('menu')
+    const Menu = state.Menu = require('electron').Menu
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
 })
 
@@ -133,9 +137,8 @@ app.on('certificate-error', (e, webContents, url, error, certificate, callback) 
     }
 })
 
-app.on('platform-theme-changed', () => {
-  if (!isOSX()) return
-  let icon = paths[app.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
+  let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
   state.trayIcon.setImage(icon)
 })
 
@@ -156,7 +159,7 @@ ipcMain.on('removeBadge', () => {
   if (isWindows()) {
     mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
   } else {
-    let icon = paths[app.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+    let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
     trayIcon.setImage(icon)
     if (app.dock) app.dock.setBadge('')
   }

@@ -1,4 +1,4 @@
-import {app, Tray} from 'electron'
+import {app, Tray, systemPreferences} from 'electron'
 import showMainWindow from './showMainWindow'
 import state from './state'
 import {isWindows, osType} from './utils'
@@ -14,7 +14,7 @@ export default function() {
       state.trayIcon = new Tray(paths.trayWindowsIcon)
       break
     case 'osx': {
-      let icon = paths[app.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+      let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
       state.trayIcon = new Tray(icon)
       state.trayIcon.setPressedImage(paths.trayWhiteIcon)
       break

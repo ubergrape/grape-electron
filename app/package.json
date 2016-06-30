@@ -10,6 +10,7 @@
   "copyright": "© 2016, UberGrape GmbH",
   "main": "index.js",
   "dependencies": {
+    "electron-context-menu": "^0.2.1",
     "electron-json-storage": "^2.0.0",
     "fs-jetpack": "^0.7.0",
     "minimatch": "^3.0.0"
