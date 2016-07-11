@@ -6,5 +6,7 @@
     <true/>
     <key>com.apple.security.inherit</key>
     <true/>
+    <key>com.apple.security.temporary-exception.sbpl</key>
+    <string>(allow mach-lookup (global-name-regex #"^org.chromium.Chromium.rohitfork.[0-9]+$"))</string>
   </dict>
 </plist>

@@ -32,7 +32,9 @@
 	<string>AtomApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
-	<key>NSHumanReadableCopyright</key>
-	<string>{{copyright}}</string>
+  <key>NSHumanReadableCopyright</key>
+  <string>{{copyright}}</string>
+	<key>ElectronTeamID</key>
+	<string>Y8DPE6DGC7</string>
 </dict>
 </plist>

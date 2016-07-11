@@ -26,6 +26,6 @@
     "install-native": "node ./tasks/install_native_module"
   },
   "dependencies": {
-    "electron-osx-sign": "^0.3.0"
+    "electron-osx-sign": "^0.4.0-beta4"
   }
 }
