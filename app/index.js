@@ -160,7 +160,9 @@ ipcMain.on('removeBadge', () => {
   const {trayIcon, mainWindow} = state
   if (isWindows()) {
     mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
-  } else {
+  }
+
+  if (isOSX()) {
     let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
     trayIcon.setImage(icon)
     if (app.dock) app.dock.setBadge('')
