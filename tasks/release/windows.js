@@ -27,7 +27,11 @@ var init = function() {
 };
 
 var copyRuntime = function() {
-    return projectDir.copyAsync('node_modules/electron-prebuilt/dist', readyAppDir.path(), { overwrite: true });
+    return projectDir.copyAsync(
+      'node_modules/electron-prebuilt/dist',
+      readyAppDir.path(),
+      { overwrite: true }
+    );
 };
 
 var cleanupRuntime = function() {
@@ -88,6 +92,36 @@ var renameApp = function() {
     );
 };
 
+var signApp = function() {
+    var password = utils.getSigningId();
+    var cert = utils.getCert();
+    var deferred = Q.defer();
+    if (password) {
+      console.log(releasesDir.path(utils.finalPackageName(manifest, 'msi')))
+      var sign = childProcess.spawn('signtool', [
+          'sign',
+          '/f',
+          cert,
+          '/p',
+          password,
+          '/td',
+          'SHA256',
+          releasesDir.path(utils.finalPackageName(manifest, 'msi'))
+      ], {
+        stdio: 'inherit'
+      });
+      sign.on('error', function (err) {
+        throw err;
+      });
+      sign.on('close', function() {
+        gulpUtil.log('App signed!');
+        deferred.resolve();
+      });
+    } else {
+        return Q();
+    }
+}
+
 var generateListOfFiles = function() {
     var deferred = Q.defer();
 
@@ -136,7 +170,7 @@ var runCandleForMsi = function() {
 
     gulpUtil.log('Converting LICENSE file to rtf...');
 
-    var license = readyAppDir.read('LICENSE');
+    var license = projectDir.read('resources/windows/LICENSE');
 
     license = utils.convertToRtf(license);
 
@@ -352,5 +386,6 @@ module.exports = function() {
         .then(renameApp)
         .then(createInstaller)
         .then(cleanClutter)
+        .then(signApp)
         .catch(console.error);
 };

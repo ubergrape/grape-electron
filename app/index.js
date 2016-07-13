@@ -137,10 +137,12 @@ app.on('certificate-error', (e, webContents, url, error, certificate, callback) 
     }
 })
 
-systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
-  let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
-  state.trayIcon.setImage(icon)
-})
+if (isOSX()) {
+  systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
+    let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+    state.trayIcon.setImage(icon)
+  })
+}
 
 ipcMain.on('addBadge', (e, badge) => {
   if (isWindows()) {
