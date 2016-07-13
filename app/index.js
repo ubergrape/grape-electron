@@ -35,7 +35,15 @@ import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
 import loadURL from './loadURL'
 import handleOffline from './handleOffline'
 
-contextMenu()
+contextMenu({
+  append: params => [{
+    label: 'Save Image to…',
+    visible: params.mediaType === 'image',
+    click: e => {
+      state.mainWindow.webContents.downloadURL(params.srcURL)
+    }
+  }]
+})
 
 // Preserver of the window size and position between app launches.
 state.dimensions = windowStateKeeper('main', {
