@@ -54,7 +54,6 @@ var finalize = function () {
         identifier: manifest.identifier,
         version: manifest.version,
         build: manifest.build,
-        major: manifest.major,
         copyright: manifest.copyright
     });
     finalAppDir.write('Contents/Info.plist', info);

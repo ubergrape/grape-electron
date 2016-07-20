@@ -19,7 +19,7 @@
   <key>CFBundleVersion</key>
   <string>{{build}}</string>
 	<key>CFBundleShortVersionString</key>
-	<string>{{major}}</string>
+	<string>{{version}}</string>
 	<key>CFBundleGetInfoString</key>
 	<string>{{version}}</string>
   <key>LSApplicationCategoryType</key>
