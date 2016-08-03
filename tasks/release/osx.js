@@ -13,12 +13,14 @@ var releasesDir;
 var tmpDir;
 var finalAppDir;
 var manifest;
+var electronVersion;
 
 var init = function () {
     projectDir = jetpack;
     tmpDir = projectDir.dir('./tmp', { empty: true });
     releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
+    electronVersion = projectDir.read('package.json', 'json').devDependencies['electron-prebuilt'];
     finalAppDir = tmpDir.cwd(
       manifest.productName + (utils.getEnvName() === 'staging' ? '-staging' : '') + '.app'
     );
@@ -98,9 +100,8 @@ var signApp = function () {
           entitlements: projectDir.path('resources/osx/parent.plist'),
           'entitlements-inherit': projectDir.path('resources/osx/child.plist'),
           identity: identity,
-          platform: 'mas',
-          'additional-binaries': [],
-          verbose: true
+          version: electronVersion,
+          platform: 'mas'
         },
         function(err) {
           if (err) console.log(err)
