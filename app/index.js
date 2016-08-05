@@ -51,15 +51,6 @@ state.dimensions = windowStateKeeper('main', {
   height: 1000
 })
 
-const shouldQuit = app.makeSingleInstance(() => {
-  const {mainWindow} = state
-  // Someone tried to run a second instance, we should focus our window
-  if (mainWindow) showMainWindow()
-  return true
-})
-
-if (shouldQuit) quit()
-
 app.on('ready', () => {
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
