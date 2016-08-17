@@ -2,5 +2,9 @@
   "name": "production",
   "description": "Add here any environment specific stuff you like.",
 
-  "host": "https://chatgrape.com/chat/"
+  "host": {
+    "protocol": "https",
+    "domain": "chatgrape.com",
+    "path": "chat"
+  }
 }

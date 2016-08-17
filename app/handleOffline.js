@@ -23,5 +23,4 @@ export default function(url) {
     if (!response) offline()
     response = false
   }, responseTimeout)
-
 }

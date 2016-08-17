@@ -14,8 +14,8 @@ export default function(e) {
       state.mainWindow.setSkipTaskbar(true)
       state.mainWindow.hide()
 
-      storage.has('closeBalloonShown', function(e, hasKey) {
-        if (e) throw e
+      storage.has('closeBalloonShown', (err, hasKey) => {
+        if (err) throw err
 
         if (!hasKey) {
           state.trayIcon.displayBalloon({
@@ -27,8 +27,8 @@ export default function(e) {
           storage.set(
             'closeBalloonShown',
             {shown: true},
-            function(e) {
-              if (e) throw(e)
+            setErr => {
+              if (setErr) throw setErr
             }
           )
         }
@@ -36,6 +36,9 @@ export default function(e) {
     }
     if (isOSX()) app.hide()
   }
-  storage.set('lastUrl', {url: state.mainWindow.webContents.getURL()})
+  storage.set('lastUrl', {
+    url: state.mainWindow.webContents.getURL(),
+    domain: state.domain
+  })
   state.dimensions.saveState(state.mainWindow)
 }

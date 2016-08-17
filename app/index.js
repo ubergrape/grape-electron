@@ -4,42 +4,35 @@
 // window from here.
 
 import {
-  isNotificationSupported,
-  isWindows,
-  isOSX,
-  isExternalUrl
-} from './utils'
-
-import {
   app,
   BrowserWindow,
   ipcMain,
   nativeImage,
   systemPreferences
 } from 'electron'
+import storage from 'electron-json-storage'
+import contextMenu from 'electron-context-menu'
 
+import {
+  isNotificationSupported,
+  isWindows,
+  isOSX
+} from './utils'
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 import env from './env'
 import state from './state'
-import storage from 'electron-json-storage'
-import contextMenu from 'electron-context-menu'
 import windowStateKeeper from './vendor/electron_boilerplate/window_state'
-import showMainWindow from './showMainWindow'
 import * as paths from './paths'
 import * as menu from './menu'
-import quit from './quit'
-import close from './close'
-import initTray from './initTray'
-import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
+import loadApp from './loadApp'
 import loadURL from './loadURL'
-import handleOffline from './handleOffline'
 
 contextMenu({
   append: params => [{
     label: 'Save Image to…',
     visible: params.mediaType === 'image',
-    click: e => {
+    click: () => {
       state.mainWindow.webContents.downloadURL(params.srcURL)
     }
   }]
@@ -52,10 +45,13 @@ state.dimensions = windowStateKeeper('main', {
 })
 
 app.on('ready', () => {
-    // set global to be accessible from webpage
-    global.isNotificationSupported = isNotificationSupported()
+  // set global to be accessible from webpage
+  const {host: {protocol, domain, path}, name} = env
 
-    const prefs = Object.assign(
+  state.url = `${protocol}://${domain}/${path}`
+
+  storage.get('lastUrl', (error, data) => {
+    state.prefs = Object.assign(
       {},
       state.dimensions,
       {
@@ -64,54 +60,30 @@ app.on('ready', () => {
         }
       }
     )
-    state.mainWindow = new BrowserWindow(prefs)
-    state.mainWindow.loadURL(`file://${__dirname}/html/loading.html`)
-    state.mainWindow.once('close', () => state.mainWindow = null)
+    state.mainWindow = new BrowserWindow(state.prefs)
+    let hasUrlInStorage = false
 
-    const {webContents} = state.mainWindow
-    webContents.once('will-navigate', handleOffline.bind(null, undefined))
-
-    if (env.name === 'test') {
-      state.mainWindow.loadURL(`file://${__dirname}/spec.html`)
+    if (!error && data) {
+      if (data.url) {
+        hasUrlInStorage = true
+        state.url = data.url
+      }
+      if (data.domain) {
+        global.domain = data.domain
+      } else {
+        global.domain = domain
+      }
     } else {
+      global.domain = domain
+    }
 
-      const newMain = new BrowserWindow(Object.assign({}, prefs, {show: false}))
+    global.isNotificationSupported = isNotificationSupported()
 
-      storage.get('lastUrl', (error, data) => {
-        let url = env.host
-        if (
-          !error &&
-          data &&
-          data.url &&
-          !isExternalUrl(data.url, url)
-        ) url = data.url
-        newMain.loadURL(url)
-        newMain.webContents.once('did-finish-load', () => {
-          let hidden = true
-
-          if (state.mainWindow) {
-            state.mainWindow.close()
-            hidden = false
-          }
-
-          if (hidden) {
-            app.once('activate', () => newMain.show())
-          } else {
-            newMain.show()
-          }
-
-          state.mainWindow = newMain
-          state.mainWindow.on('close', close)
-          state.mainWindow.on('hide', () => {
-            state.mainWindow.blurWebView()
-          })
-
-          if (env.name !== 'production') state.mainWindow.openDevTools()
-
-          initTray()
-          setOpenLinksInDefaultBrowser()
-        })
-      })
+    if (hasUrlInStorage) {
+      loadApp()
+    } else {
+      const page = `file://${__dirname}/${name === 'test' ? 'spec.html' : 'html/domain.html'}`
+      state.mainWindow.loadURL(page)
     }
 
     if (state.dimensions.isMaximized) {
@@ -120,6 +92,7 @@ app.on('ready', () => {
 
     const Menu = state.Menu = require('electron').Menu
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
+  })
 })
 
 app.on('window-all-closed', () => {})
@@ -128,17 +101,17 @@ app.on('before-quit', () => {
 })
 
 app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {
-    if (url.indexOf('staging.chatgrape.com') > -1) {
-      e.preventDefault()
-      callback(true)
-    } else {
-      callback(false)
-    }
+  if (url.indexOf('staging.chatgrape.com') > -1) {
+    e.preventDefault()
+    callback(true)
+  } else {
+    callback(false)
+  }
 })
 
 if (isOSX()) {
   systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
-    let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+    const icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
     state.trayIcon.setImage(icon)
   })
 }
@@ -147,7 +120,7 @@ ipcMain.on('addBadge', (e, badge) => {
   if (isWindows()) {
     state.mainWindow.setOverlayIcon(
       paths.statusBarOverlay,
-      (badge + ' unread channel' + (parseInt(badge) > 1 ? 's' : ''))
+      (badge + ' unread channel' + (parseInt(badge, 10) > 1 ? 's' : ''))
     )
   } else {
     state.trayIcon.setImage(paths.trayBlueIcon)
@@ -162,7 +135,7 @@ ipcMain.on('removeBadge', () => {
   }
 
   if (isOSX()) {
-    let icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+    const icon = paths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
     trayIcon.setImage(icon)
     if (app.dock) app.dock.setBadge('')
   }
@@ -180,6 +153,14 @@ ipcMain.on('showNotification', (e, notification) => {
   })
 })
 
-ipcMain.on('loadChat', (e, notification) => {
-  loadURL(env.host)
+ipcMain.on('domain', (e, domain) => {
+  const {host: {protocol, path}} = env
+  state.url = `${protocol}://${domain}/${path}`
+  global.domain = domain
+
+  loadApp(state.url)
+})
+
+ipcMain.on('loadChat', () => {
+  loadURL(state.url)
 })

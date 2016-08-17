@@ -18,7 +18,7 @@ export function osType() {
 export function isNotificationSupported() {
   return (
       isWindows() &&
-        parseInt(os.release().split('.')[0]) < 10
+        parseInt(os.release().split('.')[0], 10) < 10
   ) ? false : true
 }
 
