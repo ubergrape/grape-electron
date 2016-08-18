@@ -4,10 +4,10 @@ import env from './env'
 import state from './state'
 import quit from './quit'
 import {isOSX} from './utils'
-import loadURL from './loadURL'
+import loadApp from './loadApp'
 
 function backToChat() {
-  loadURL(state.url)
+  loadApp()
 }
 
 function chooseDomain() {

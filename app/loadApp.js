@@ -10,9 +10,10 @@ import close from './close'
 import initTray from './initTray'
 import handleOffline from './handleOffline'
 import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
+import {urls} from './constants'
 
-export default function loadApp() {
-  state.mainWindow.loadURL(`file://${__dirname}/html/loading.html`)
+export default function loadApp(url = state.getUrl()) {
+  state.mainWindow.loadURL(urls.loading)
   state.mainWindow.once('close', () => state.mainWindow = null)
 
   const {webContents} = state.mainWindow
@@ -20,12 +21,14 @@ export default function loadApp() {
 
   const newMain = new BrowserWindow(Object.assign({}, state.prefs, {show: false}))
 
-  newMain.loadURL(state.url)
+  newMain.loadURL(url)
   newMain.webContents.once('did-finish-load', () => {
     let hidden = true
 
     if (state.mainWindow) {
+      state.dontPreventClose = true
       state.mainWindow.close()
+      state.dontPreventClose = false
       hidden = false
     }
 

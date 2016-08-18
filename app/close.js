@@ -38,7 +38,7 @@ export default function(e) {
   }
   storage.set('lastUrl', {
     url: state.mainWindow.webContents.getURL(),
-    domain: state.domain
+    host: state.host
   })
   state.dimensions.saveState(state.mainWindow)
 }

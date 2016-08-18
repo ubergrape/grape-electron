@@ -27,6 +27,7 @@ import * as paths from './paths'
 import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
+import {urls} from './constants'
 
 contextMenu({
   append: params => [{
@@ -45,11 +46,6 @@ state.dimensions = windowStateKeeper('main', {
 })
 
 app.on('ready', () => {
-  // set global to be accessible from webpage
-  const {host: {protocol, domain, path}, name} = env
-
-  state.url = `${protocol}://${domain}/${path}`
-
   storage.get('lastUrl', (error, data) => {
     state.prefs = Object.assign(
       {},
@@ -60,30 +56,24 @@ app.on('ready', () => {
         }
       }
     )
-    state.mainWindow = new BrowserWindow(state.prefs)
-    let hasUrlInStorage = false
 
-    if (!error && data) {
-      if (data.url) {
-        hasUrlInStorage = true
-        state.url = data.url
-      }
-      if (data.domain) {
-        global.domain = data.domain
-      } else {
-        global.domain = domain
-      }
-    } else {
-      global.domain = domain
-    }
-
+    // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
+    global.host = state.host
 
-    if (hasUrlInStorage) {
-      loadApp()
+    state.mainWindow = new BrowserWindow(state.prefs)
+
+    let lastUrl
+    if (!error && data) {
+      if (data.host) {
+        global.host = state.host = data.host
+      }
+      if (data.url && data.url.includes(state.host.domain)) lastUrl = data.url
+    }
+    if (lastUrl) {
+      loadApp(lastUrl)
     } else {
-      const page = `file://${__dirname}/${name === 'test' ? 'spec.html' : 'html/domain.html'}`
-      state.mainWindow.loadURL(page)
+      state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
     }
 
     if (state.dimensions.isMaximized) {
@@ -154,13 +144,11 @@ ipcMain.on('showNotification', (e, notification) => {
 })
 
 ipcMain.on('domain', (e, domain) => {
-  const {host: {protocol, path}} = env
-  state.url = `${protocol}://${domain}/${path}`
-  global.domain = domain
-
-  loadApp(state.url)
+  state.host.domain = domain
+  global.host.domain = domain
+  loadApp()
 })
 
 ipcMain.on('loadChat', () => {
-  loadURL(state.url)
+  loadURL(state.getUrl())
 })

@@ -76,7 +76,7 @@
 
     const form = document.querySelector('#form')
     const input = form.querySelector('.domain')
-    input.value = remote.getGlobal('domain')
+    input.value = remote.getGlobal('host').domain
     input.selectionStart = 0
     input.selectionEnd = input.value.length
 
