@@ -68,7 +68,8 @@ app.on('ready', () => {
       if (data.host) {
         global.host = state.host = data.host
       }
-      if (data.url && data.url.includes(state.host.domain)) lastUrl = data.url
+      const chatUrl = `${state.host.domain}/${state.host.path}`
+      if (data.url && data.url.includes(chatUrl)) lastUrl = data.url
     }
     if (lastUrl) {
       loadApp(lastUrl)
