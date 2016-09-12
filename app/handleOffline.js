@@ -1,15 +1,13 @@
-import state from './state'
 
 const responseTimeout = 10000
 
-function offline(e, code) {
-  if (code === -3) return // Redirect
-  state.mainWindow.loadURL('file://' + __dirname + '/html/lost-connection.html')
-}
-
-export default function(url) {
+export default function handleOffline(url, win) {
+  function offline(e, code) {
+    if (code === -3) return // Redirect
+    win.loadURL('file://' + __dirname + '/html/lost-connection.html')
+  }
   let response = false
-  const {webContents} = state.mainWindow
+  const {webContents} = win
   webContents.on('did-fail-load', offline)
   webContents.on('did-get-response-details', function onDidResponse() {
     response = true
@@ -17,7 +15,7 @@ export default function(url) {
     webContents.removeListener('did-get-response-details', onDidResponse)
   })
 
-  if (url) state.mainWindow.loadURL(url)
+  if (url) win.loadURL(url)
 
   setTimeout(() => {
     if (!response) offline()

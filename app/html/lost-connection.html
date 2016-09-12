@@ -34,19 +34,31 @@
     {
       text-decoration: underline;
     }
+
+    h1, h2
+    {
+      line-height: 1;
+      margin: 0;
+    }
+
+    h2
+    {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <h1>Check your connection, please.</h1>
+  <h1>The app could not connect to the Grape server</h1>
+  <h2>Please check if your internet connection is working properly</h2>
   <p>And try to <button id="load">load Grape</button> again.</p>
-  <script>
-    const {ipcRenderer} = require('electron')
-    const button = document.querySelector('#load');
-    button.addEventListener('click', () => {
-      ipcRenderer.send('loadChat');
-      button.classList.add('loading')
-      button.parentNode.textContent = 'Loading…'
-    })
-  </script>
+<script>
+  const {ipcRenderer} = require('electron')
+  const button = document.querySelector('#load')
+  button.addEventListener('click', () => {
+    ipcRenderer.send('loadChat')
+    button.classList.add('loading')
+    button.parentNode.textContent = 'Loading…'
+  })
+</script>
 </body>
 </html>

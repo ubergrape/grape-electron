@@ -8,7 +8,7 @@ import env from './env'
 import state from './state'
 import close from './close'
 import initTray from './initTray'
-import handleOffline from './handleOffline'
+import loadURL from './loadURL'
 import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
 import {urls} from './constants'
 
@@ -16,12 +16,8 @@ export default function loadApp(url = state.getUrl()) {
   state.mainWindow.loadURL(urls.loading)
   state.mainWindow.once('close', () => state.mainWindow = null)
 
-  const {webContents} = state.mainWindow
-  webContents.once('will-navigate', handleOffline.bind(null, undefined))
-
   const newMain = new BrowserWindow(Object.assign({}, state.prefs, {show: false}))
-
-  newMain.loadURL(url)
+  loadURL(url, newMain)
   newMain.webContents.once('did-finish-load', () => {
     let hidden = true
 
