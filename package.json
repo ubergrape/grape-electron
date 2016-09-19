@@ -26,7 +26,6 @@
     "install-native": "node ./tasks/install_native_module"
   },
   "dependencies": {
-    "electron-osx-sign": "^0.4.0-beta4",
-    "lodash.clonedeep": "^4.5.0"
+    "electron-osx-sign": "^0.4.0-beta4"
   }
 }
