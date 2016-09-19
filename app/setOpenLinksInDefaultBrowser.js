@@ -26,7 +26,10 @@ function shouldOpenedInternal(url) {
 }
 
 function openExternal(e, url) {
-  if (shouldOpenedInternal(removeTrailingSlash(url))) return
+  if (
+    url.startsWith('file://') ||
+    shouldOpenedInternal(removeTrailingSlash(url))
+  ) return
   e.preventDefault()
   shell.openExternal(url)
 }

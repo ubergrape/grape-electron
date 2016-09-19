@@ -12,6 +12,7 @@
     "electron-context-menu": "^0.2.1",
     "electron-json-storage": "^2.0.0",
     "fs-jetpack": "^0.7.0",
+    "lodash.clone": "^4.5.0",
     "minimatch": "^3.0.0"
   },
   "devDependencies": {

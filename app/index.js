@@ -12,6 +12,7 @@ import {
 } from 'electron'
 import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
+import clone from 'lodash.clone'
 
 import {
   isNotificationSupported,
@@ -60,6 +61,7 @@ app.on('ready', () => {
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
     global.host = state.host
+    global.grapeHost = env.host
 
     state.mainWindow = new BrowserWindow(state.prefs)
 
@@ -68,12 +70,12 @@ app.on('ready', () => {
       if (data.host) {
         global.host = state.host = data.host
       }
-      const chatUrl = `${state.host.domain}/${state.host.path}`
-      if (data.url && data.url.includes(chatUrl)) lastUrl = data.url
+      if (data.url && data.url.includes(state.host.domain)) lastUrl = data.url
     }
     if (lastUrl) {
       loadApp(lastUrl)
     } else {
+      global.host = clone(env.host)
       state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
     }
 

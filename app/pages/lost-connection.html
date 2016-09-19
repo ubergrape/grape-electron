@@ -19,6 +19,7 @@
       font: normal 15px/1.5 "Proxima Nova", Arial, Helvetica, Geneva, sans-serif;
     }
 
+    a,
     button
     {
       color: #0080ff;
@@ -30,6 +31,7 @@
       cursor: pointer;
     }
 
+    a:hover,
     button:hover
     {
       text-decoration: underline;
@@ -49,11 +51,21 @@
 </head>
 <body>
   <h1>The app could not connect to the Grape server</h1>
-  <h2>Please check if your internet connection is working properly</h2>
-  <p>And try to <button id="load">load Grape</button> again.</p>
+  <h2>Please check if your internet connection is working properly.</h2>
+  <p>Try to <button id="load">load Grape</button> again.</p>
 <script>
-  const {ipcRenderer} = require('electron')
+  const {ipcRenderer, remote} = require('electron')
   const button = document.querySelector('#load')
+
+  const domain = remote.getGlobal('host').domain
+  const grapeDomain = remote.getGlobal('grapeHost').domain
+
+  if (domain !== grapeDomain) {
+    const p = document.createElement('P')
+    p.innerHTML = 'Or try to <a href="domain.html">change On Premise domain</a>.'
+    document.body.appendChild(p)
+  }
+
   button.addEventListener('click', () => {
     ipcRenderer.send('loadChat')
     button.classList.add('loading')

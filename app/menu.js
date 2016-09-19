@@ -11,7 +11,7 @@ function backToChat() {
 }
 
 function chooseDomain() {
-  state.mainWindow.loadURL(`file://${__dirname}/html/domain.html`)
+  state.mainWindow.loadURL(`file://${__dirname}/pages/domain.html`)
 }
 
 const mainMenu = [

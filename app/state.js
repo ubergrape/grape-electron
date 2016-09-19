@@ -1,6 +1,7 @@
 import env from './env'
+import clone from 'lodash.clone'
 const state = {
-  host: env.host
+  host: clone(env.host)
 }
 
 state.getUrl = function getUrl() {
