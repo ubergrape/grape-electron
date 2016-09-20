@@ -1,10 +1,11 @@
+import {urls} from './constants'
 
 const responseTimeout = 10000
 
 export default function handleOffline(url, win) {
   function offline(e, code) {
     if (code === -3) return // Redirect
-    win.loadURL('file://' + __dirname + '/pages/lost-connection.html')
+    win.loadURL(urls.lostConection)
   }
   let response = false
   const {webContents} = win

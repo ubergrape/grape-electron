@@ -5,13 +5,14 @@ import state from './state'
 import quit from './quit'
 import {isOSX} from './utils'
 import loadApp from './loadApp'
+import {urls} from './constants'
 
 function backToChat() {
   loadApp()
 }
 
 function chooseDomain() {
-  state.mainWindow.loadURL(`file://${__dirname}/pages/domain.html`)
+  state.mainWindow.loadURL(urls.domain)
 }
 
 const mainMenu = [
