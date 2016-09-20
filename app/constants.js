@@ -1,5 +1,8 @@
+const root = 'file://${__dirname}'
+const pages = `${root}/pages`
 export const urls = {
-  test: `file://${__dirname}/spec.html`,
-  domain: `file://${__dirname}/pages/domain.html`,
-  loading: `file://${__dirname}/pages/loading.html`
+  test: `${root}/spec.html`,
+  domain: `${pages}/domain.html`,
+  loading: `${pages}/loading.html`,
+  lostConnection: `${pages}/lost-connection.html`
 }
