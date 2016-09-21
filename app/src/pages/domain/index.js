@@ -19,7 +19,7 @@ function render() {
 
         <div class="host">
           <label class="host__label" for="host">Server URL</label>
-           <input class="input" id="host" placeholder="example.com">
+          <input class="input" id="host" placeholder="example.com"/>
         </div>
         <div class="submit">
           <button class="submit-btn" type="submit">Continue</button>

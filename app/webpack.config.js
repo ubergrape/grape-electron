@@ -2,7 +2,6 @@ var webpack = require('webpack')
 var path = require('path')
 var CopyFilesPlugin = require('copy-webpack-plugin')
 
-
 module.exports = {
   entry: {
     pages: ['./src/pages/index.js']
@@ -41,5 +40,13 @@ module.exports = {
   },
   resolve: {
     fallback: path.join(__dirname, 'node_modules')
+  },
+  node: {
+    global: false,
+    process: false,
+    Buffer: false,
+    __filename: false,
+    __dirname: false,
+    setImmediate: false
   }
 }
