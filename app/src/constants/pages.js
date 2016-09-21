@@ -1,8 +1,7 @@
-const root = `file://${__dirname}`
-const local = `${root}/dist/pages/index.html`
-
+const root = `file://${process.cwd()}/build`
+const pages = `${root}/dist/pages/index.html`
 export const urls = {
-  domain: `${local}?page=domain`,
-  loading: `${local}?page=loading`,
-  lostConnection: `${local}?page=lostConnection`
+  domain: `${pages}?page=domain`,
+  loading: `${pages}?page=loading`,
+  lostConnection: `${pages}?page=lostConnection`
 }

@@ -66,14 +66,6 @@ header
   margin-bottom: 10px;
 }
 
-.cbox
-{
-  position: fixed;
-  top: -100%;
-  left: -100%;
-  visibility: hidden;
-}
-
 .tab
 {
   font-weight: bold;
@@ -105,7 +97,7 @@ header
   border-radius: 0 5px 5px 0
 }
 
-.cbox:checked + .tab
+.tab_selected
 {
   background: #007cff;
   color: #fff;
@@ -120,7 +112,7 @@ header
   transition: height 0.3s ease-in-out;
 }
 
-.cbox#on-premise-cbox:checked ~ .host
+.host_expanded
 {
   height: 80px;
 }
