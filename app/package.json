@@ -39,6 +39,8 @@
   },
   "scripts": {
     "build": "npm run build:dist",
-    "build:dist": "webpack --bail"
+    "build:watch": "npm run build:dist:watch",
+    "build:dist": "webpack --bail",
+    "build:dist:watch": "webpack --progress --colors --watch"
   }
 }

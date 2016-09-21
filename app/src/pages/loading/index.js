@@ -1,17 +1,16 @@
-function render() {
-  document.title = 'Loading Grape'
-  document.body.innerHTML = `
-    <style type="text/css">
-      html, body
-      {
-        height: 100%
-      }
-      body
-      {
-        background: #fff url("../images/loading.gif") 50% 50% no-repeat;
-      }
-    </style>
-  `
-}
+import React from 'react'
+import DocumentTitle from 'react-document-title'
 
-if (location.search === '?page=loading') render()
+const css = `
+  html, body {
+    height: 100%
+  }
+  body {
+    background: #fff url("../images/loading.gif") 50% 50% no-repeat;
+  }
+`
+export default () => (
+  <DocumentTitle title="Loading Grape">
+    <style dangerouslySetInnerHTML={{__html: css}} />
+  </DocumentTitle>
+)

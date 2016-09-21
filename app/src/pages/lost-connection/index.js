@@ -21,18 +21,22 @@ export default class LostConnection extends Component {
   }
 
   renderButton() {
-    if (this.state.isLoading) {
-      return <button className="loading" onClick={this.onReload}>Loading…</button>
-    }
-
-    return <button onClick={this.onReload}>load Grape</button>
+    const {isLoading} = this.state
+    return (
+      <button
+        className={isLoading ? 'loading' : ''}
+        onClick={this.onReload}
+        disabled={isLoading}>
+        {isLoading ? 'Loading…' : 'load Grape'}
+      </button>
+    )
   }
 
   render() {
     return (
       <DocumentTitle title="Grape: Lost Connection">
         <div>
-          <style type="text/css" dangerouslySetInnerHTML={{__html: css}} />
+          <style dangerouslySetInnerHTML={{__html: css}} />
           <h1>The app could not connect to the Grape server</h1>
           <h2>Please check if your internet connection is working properly.</h2>
           <p>Try to {this.renderButton()} again.</p>
