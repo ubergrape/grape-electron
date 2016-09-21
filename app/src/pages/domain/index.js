@@ -22,10 +22,7 @@ export default class Domain extends Component {
   }
 
   onSelectGrape = () => {
-    this.setState({
-      tab: 'grape',
-      value: ''
-    })
+    this.setState({tab: 'grape'})
   }
 
   onSubmit = (e) => {
