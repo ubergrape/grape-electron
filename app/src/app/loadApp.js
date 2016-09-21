@@ -10,7 +10,7 @@ import close from './close'
 import initTray from './initTray'
 import loadURL from './loadURL'
 import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
-import {urls} from './constants'
+import {urls} from '../constants/pages'
 
 export default function loadApp(url = state.getUrl()) {
   state.mainWindow.loadURL(urls.loading)

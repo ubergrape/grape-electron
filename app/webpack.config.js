@@ -5,7 +5,7 @@ var CopyFilesPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
-    app: ['./src/index.js']
+    pages: ['./src/pages/index.js']
   },
   output: {
     path: './dist',
