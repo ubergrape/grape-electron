@@ -1,4 +1,4 @@
-import {urls} from './constants'
+import {urls} from '../constants/pages'
 
 const responseTimeout = 10000
 

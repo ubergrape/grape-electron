@@ -1,6 +1,6 @@
 const {ipcRenderer, remote} = window.require('electron')
 import css from 'raw!./index.css'
-import {urls} from '../../constants'
+import {urls} from '../../constants/pages'
 
 function render() {
   document.title = 'Grape: Lost Connection'

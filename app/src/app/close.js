@@ -3,7 +3,7 @@ import {app} from 'electron'
 import state from './state'
 import {isWindows, isOSX} from './utils'
 
-import * as paths from './paths'
+import * as imagePaths from '../constants/images'
 import storage from 'electron-json-storage'
 
 export default function(e) {
@@ -19,7 +19,7 @@ export default function(e) {
 
         if (!hasKey) {
           state.trayIcon.displayBalloon({
-            icon: paths.icon,
+            icon: imagePaths.icon,
             title: 'Notifications for Grape',
             content: 'You\'ll see notifications for new private messages and mentions here.'
           })

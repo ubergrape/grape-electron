@@ -1,11 +1,11 @@
-import devHelper from './vendor/electron_boilerplate/dev_helper'
+import devMenu from '../electron/devMenu'
 import showMainWindow from './showMainWindow'
 import env from './env'
 import state from './state'
 import quit from './quit'
 import {isOSX} from './utils'
 import loadApp from './loadApp'
-import {urls} from './constants'
+import {urls} from '../constants/pages'
 
 function backToChat() {
   loadApp()
@@ -41,7 +41,7 @@ const mainMenu = [
 if (isOSX()) mainMenu[0].submenu.push({type: 'separator'}, {label: 'About Grape', role: 'about'})
 
 
-export const main = env.name !== 'production' ? mainMenu.concat(devHelper.menu) : mainMenu
+export const main = env.name !== 'production' ? mainMenu.concat(devMenu) : mainMenu
 
 export const tray = [
   {label: 'Open', click: showMainWindow},

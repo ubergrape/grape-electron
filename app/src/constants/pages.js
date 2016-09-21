@@ -1,5 +1,5 @@
 const root = `file://${__dirname}`
-const local = `${root}/dist/local/index.html`
+const local = `${root}/dist/pages/index.html`
 
 export const urls = {
   test: `${root}/spec.html`,
