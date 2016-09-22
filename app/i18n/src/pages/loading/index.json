@@ -1,0 +1,7 @@
+[
+  {
+    "id": "loadingGrapeTitle",
+    "description": "Window title.",
+    "defaultMessage": "Grape: Loading…"
+  }
+]

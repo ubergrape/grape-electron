@@ -1,6 +1,7 @@
 [
   {
     "id": "lostConnectionTitle",
+    "description": "Window title.",
     "defaultMessage": "Grape: Lost Connection"
   },
   {

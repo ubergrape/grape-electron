@@ -16,7 +16,8 @@ const {domain: grapeDomain} = remote.getGlobal('grapeHost')
 const messages = defineMessages({
   title: {
     id: 'lostConnectionTitle',
-    defaultMessage: 'Grape: Lost Connection'
+    defaultMessage: 'Grape: Lost Connection',
+    description: 'Window title.'
   }
 })
 
