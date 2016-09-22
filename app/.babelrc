@@ -4,6 +4,6 @@
     "transform-decorators-legacy",
     ["react-intl", {
       "messagesDir": "./i18n"
-    }],
+    }]
   ]
 }
