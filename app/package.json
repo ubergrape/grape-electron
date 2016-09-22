@@ -12,11 +12,13 @@
     "electron-context-menu": "^0.2.1",
     "electron-json-storage": "^2.0.0",
     "fs-jetpack": "^0.7.0",
+    "intl": "^1.2.5",
     "lodash.clone": "^4.5.0",
     "minimatch": "^3.0.0",
     "react": "^15.3.2",
     "react-document-title": "^2.0.2",
     "react-dom": "^15.3.2",
+    "react-intl": "^2.1.5",
     "reset.css": "^2.0.2"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "babel-eslint": "^4.1.5",
     "babel-loader": "^6.2.2",
     "babel-plugin-react-intl": "^2.2.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
@@ -38,9 +41,14 @@
     "webpack": "^1.13.2"
   },
   "scripts": {
-    "build": "npm run build:dist",
+    "build": "npm run build:lib && npm run build:dist",
+    "build:lib": "npm run clear:lib && babel src --out-dir lib",
     "build:watch": "npm run build:dist:watch",
     "build:dist": "webpack --bail",
-    "build:dist:watch": "webpack --progress --colors --watch"
+    "build:dist:watch": "webpack --progress --colors --watch",
+    "clear:lib": "rm -fr ./lib/*",
+    "clear:i18n": "rm -rf ./i18n/{src,export}",
+    "i18n-export": "babel-node i18n/scripts/export.js",
+    "i18n-import": "npm run build && babel-node i18n/scripts/import.js"
   }
 }
