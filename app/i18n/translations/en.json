@@ -1,0 +1,12 @@
+{
+  "lostConnectionTitle": "Grape: Lost Connection",
+  "loading": "Loading…",
+  "_loading.comment": "Button text when it is loading.",
+  "reloadGrape": "reload Grape",
+  "_reloadGrape.comment": "Text for button which will reload the page.",
+  "couldNotConnect": "The app could not connect to the Grape server.",
+  "checkInternetConnection": "Please check if your internet connection is working properly.",
+  "tryToReload": "Try to {button} again.",
+  "tryTochangeDomain": "Or try to {button}.",
+  "changeDomain": "change On Premise domain"
+}

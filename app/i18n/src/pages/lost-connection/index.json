@@ -1,0 +1,36 @@
+[
+  {
+    "id": "lostConnectionTitle",
+    "defaultMessage": "Grape: Lost Connection"
+  },
+  {
+    "id": "loading",
+    "description": "Button text when it is loading.",
+    "defaultMessage": "Loading…"
+  },
+  {
+    "id": "reloadGrape",
+    "description": "Text for button which will reload the page.",
+    "defaultMessage": "reload Grape"
+  },
+  {
+    "id": "couldNotConnect",
+    "defaultMessage": "The app could not connect to the Grape server."
+  },
+  {
+    "id": "checkInternetConnection",
+    "defaultMessage": "Please check if your internet connection is working properly."
+  },
+  {
+    "id": "tryToReload",
+    "defaultMessage": "Try to {button} again."
+  },
+  {
+    "id": "tryTochangeDomain",
+    "defaultMessage": "Or try to {button}."
+  },
+  {
+    "id": "changeDomain",
+    "defaultMessage": "change On Premise domain"
+  }
+]
