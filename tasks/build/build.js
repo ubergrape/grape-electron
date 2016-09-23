@@ -16,7 +16,10 @@ var paths = {
         './node_modules/**',
         './lib/**'
     ],
-}
+    watchFromAppDir: [
+        './lib/**'
+    ]
+};
 
 // -------------------------------------
 // Tasks
@@ -26,15 +29,20 @@ gulp.task('clean', function (callback) {
     return destDir.dirAsync('.', { empty: true });
 });
 
-
 var copyTask = function () {
     return projectDir.copyAsync('app', destDir.path(), {
-            overwrite: true,
-            matching: paths.copyFromAppDir
-        });
+        overwrite: true,
+        matching: paths.copyFromAppDir
+    });
+};
+var watchTask = function () {
+    return projectDir.copyAsync('app', destDir.path(), {
+        overwrite: true,
+        matching: paths.watchFromAppDir
+    });
 };
 gulp.task('copy', ['clean'], copyTask);
-gulp.task('copy-watch', copyTask);
+gulp.task('copy-watch', watchTask);
 
 
 gulp.task('finalize', ['clean'], function () {
@@ -67,7 +75,10 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
+    gulp.watch(paths.watchFromAppDir, {
+        cwd: 'app',
+        debounceDelay: 2000
+    }, ['copy-watch']);
 });
 
 gulp.task('build', ['copy', 'finalize']);

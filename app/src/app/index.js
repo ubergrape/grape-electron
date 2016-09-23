@@ -2,7 +2,6 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
-
 import {
   app,
   BrowserWindow,
@@ -13,7 +12,7 @@ import {
 import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
 import clone from 'lodash.clone'
-import {defineMessages, formatMessage} from '../i18n'
+import {defineMessages} from 'react-intl'
 
 import {
   isNotificationSupported,
@@ -30,11 +29,17 @@ import loadApp from './loadApp'
 import loadURL from './loadURL'
 import {urls} from '../constants/pages'
 import * as imagePaths from '../constants/images'
+import {formatMessage} from '../i18n'
+
 
 const messages = defineMessages({
   saveImageTo: {
     id: 'saveImageTo',
     defaultMessage: 'Save Image to…'
+  },
+  windowsBadgeIconTitle: {
+    id: 'windowsBadgeIconTitle',
+    defaultMessage: '{amount} unread {amount, plural, one {channel} other {channels}}'
   }
 })
 
@@ -121,7 +126,10 @@ ipcMain.on('addBadge', (e, badge) => {
   if (isWindows()) {
     state.mainWindow.setOverlayIcon(
       imagePaths.statusBarOverlay,
-      (badge + ' unread channel' + (parseInt(badge, 10) > 1 ? 's' : ''))
+      formatMessage(
+        messages.windowsBadgeIconTitle,
+        {amount: parseInt(badge, 10)}
+      )
     )
   } else {
     state.trayIcon.setImage(imagePaths.trayBlueIcon)

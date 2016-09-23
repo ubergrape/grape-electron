@@ -5,7 +5,6 @@ import {isWindows, osType} from './utils'
 import * as imagePaths from '../constants/images'
 import * as menu from './menu'
 
-
 export default function() {
   const {Menu} = state
 
