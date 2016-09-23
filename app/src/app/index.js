@@ -31,7 +31,6 @@ import {urls} from '../constants/pages'
 import * as imagePaths from '../constants/images'
 import {formatMessage} from '../i18n'
 
-
 const messages = defineMessages({
   saveImageTo: {
     id: 'saveImageTo',

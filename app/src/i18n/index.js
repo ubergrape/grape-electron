@@ -3,13 +3,14 @@ import {renderToString} from 'react-dom/server'
 import {addLocaleData, IntlProvider, injectIntl} from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
+import {app} from 'electron'
 
 import * as translations from './translations'
 
 addLocaleData([...en, ...de])
 
-// FIXME
-const locale = 'en'
+// If app is not defined, we are in denderer process.
+const locale = (app ? app.getLocale() : navigator.language).substr(0, 2)
 
 const messages = translations[locale]
 
