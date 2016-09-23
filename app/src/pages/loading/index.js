@@ -5,7 +5,7 @@ import {
   injectIntl
 } from 'react-intl'
 
-const css = `
+const styles = `
   html, body {
     height: 100%
   }
@@ -24,6 +24,6 @@ const messages = defineMessages({
 
 export default injectIntl(({intl: {formatMessage}}) => (
   <DocumentTitle title={formatMessage(messages.title)}>
-    <style dangerouslySetInnerHTML={{__html: css}} />
+    <style dangerouslySetInnerHTML={{__html: styles}} />
   </DocumentTitle>
 ))

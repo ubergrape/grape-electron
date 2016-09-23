@@ -6,10 +6,10 @@ import {
   injectIntl
 } from 'react-intl'
 
-import css from 'raw!./index.css'
+import styles from './styles'
 import {urls} from '../../constants/pages'
 
-const {ipcRenderer, remote} = window.require('electron')
+const {ipcRenderer, remote} = require('electron')
 const {domain} = remote.getGlobal('host')
 const {domain: grapeDomain} = remote.getGlobal('grapeHost')
 
@@ -70,7 +70,7 @@ export default class LostConnection extends Component {
     return (
       <DocumentTitle title={formatMessage(messages.title)}>
         <div>
-          <style dangerouslySetInnerHTML={{__html: css}} />
+          <style dangerouslySetInnerHTML={{__html: styles}} />
           <h1>
             <FormattedMessage
               id="couldNotConnect"

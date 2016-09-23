@@ -3,24 +3,17 @@ var path = require('path')
 var CopyFilesPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: {
-    pages: ['./src/pages/index.js']
-  },
   output: {
-    path: './dist',
-    filename: '[name].js'
+    path: './lib',
+    filename: 'build.js'
   },
   plugins: [
     new CopyFilesPlugin([
       {
-        from: './src/images',
-        to: './images'
-      },
-      {
-        context: './src',
-        from: '**/*.html',
-        to: './'
-      },
+        from: '**/*.{png,jpg,gif,svg,html}',
+        to: './',
+        context: './src'
+      }
     ]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

@@ -13,6 +13,7 @@ import {
 import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
 import clone from 'lodash.clone'
+import {defineMessages, formatMessage} from '../i18n'
 
 import {
   isNotificationSupported,
@@ -30,9 +31,16 @@ import loadURL from './loadURL'
 import {urls} from '../constants/pages'
 import * as imagePaths from '../constants/images'
 
+const messages = defineMessages({
+  saveImageTo: {
+    id: 'saveImageTo',
+    defaultMessage: 'Save Image to…'
+  }
+})
+
 contextMenu({
   append: params => [{
-    label: 'Save Image to…',
+    label: formatMessage(messages.saveImageTo),
     visible: params.mediaType === 'image',
     click: () => {
       state.mainWindow.webContents.downloadURL(params.srcURL)

@@ -5,7 +5,6 @@ var Q = require('q');
 var gulp = require('gulp');
 var jetpack = require('fs-jetpack');
 
-var bundle = require('./bundle');
 var utils = require('../utils');
 
 var projectDir = jetpack;
@@ -16,10 +15,7 @@ var paths = {
     copyFromAppDir: [
         './dist/**',
         './node_modules/**',
-        './src/**',
-        './**/*.html',
-        './**/*.css',
-        './**/*.+(jpg|png|svg|gif)'
+        './lib/**'
     ],
 }
 
@@ -41,19 +37,6 @@ var copyTask = function () {
 gulp.task('copy', ['clean'], copyTask);
 gulp.task('copy-watch', copyTask);
 
-
-var bundleApplication = function () {
-    return Q.all([
-            bundle(srcDir.path('index.js'), destDir.path('index.js')),
-        ]);
-};
-
-
-var bundleTask = function () {
-    return bundleApplication();
-};
-gulp.task('bundle', ['clean'], bundleTask);
-gulp.task('bundle-watch', bundleTask);
 
 gulp.task('finalize', ['clean'], function () {
     var manifest = srcDir.read('package.json', 'json');
@@ -85,9 +68,7 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js', ['bundle-watch']);
     gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
 });
 
-
-gulp.task('build', ['bundle', 'copy', 'finalize']);
+gulp.task('build', ['copy', 'finalize']);

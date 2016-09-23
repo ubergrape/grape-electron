@@ -6,9 +6,9 @@ import {
   injectIntl
 } from 'react-intl'
 
-import css from 'raw!./index.css'
+import styles from './styles'
 
-const {ipcRenderer, remote} = window.require('electron')
+const {ipcRenderer, remote} = require('electron')
 const {domain} = remote.getGlobal('host')
 const {domain: grapeDomain} = remote.getGlobal('grapeHost')
 
@@ -60,7 +60,7 @@ export default class Domain extends Component {
     return (
       <DocumentTitle title={formatMessage(messages.title)}>
         <div className="container">
-          <style dangerouslySetInnerHTML={{__html: css}} />
+          <style dangerouslySetInnerHTML={{__html: styles}} />
           <header>
             <img className="logo" src="../images/grape-logo.png" alt="Grape" />
           </header>
