@@ -5,7 +5,6 @@ var Q = require('q');
 var gulp = require('gulp');
 var jetpack = require('fs-jetpack');
 
-var bundle = require('./bundle');
 var utils = require('../utils');
 
 var projectDir = jetpack;
@@ -14,14 +13,13 @@ var destDir = projectDir.cwd('./build');
 
 var paths = {
     copyFromAppDir: [
-        './dist/**',
         './node_modules/**',
-        './src/**',
-        './**/*.html',
-        './**/*.css',
-        './**/*.+(jpg|png|svg|gif)'
+        './lib/**'
     ],
-}
+    watchFromAppDir: [
+        './lib/**'
+    ]
+};
 
 // -------------------------------------
 // Tasks
@@ -31,29 +29,21 @@ gulp.task('clean', function (callback) {
     return destDir.dirAsync('.', { empty: true });
 });
 
-
 var copyTask = function () {
     return projectDir.copyAsync('app', destDir.path(), {
-            overwrite: true,
-            matching: paths.copyFromAppDir
-        });
+        overwrite: true,
+        matching: paths.copyFromAppDir
+    });
+};
+var watchTask = function () {
+    return projectDir.copyAsync('app', destDir.path(), {
+        overwrite: true,
+        matching: paths.watchFromAppDir
+    });
 };
 gulp.task('copy', ['clean'], copyTask);
-gulp.task('copy-watch', copyTask);
+gulp.task('copy-watch', watchTask);
 
-
-var bundleApplication = function () {
-    return Q.all([
-            bundle(srcDir.path('index.js'), destDir.path('index.js')),
-        ]);
-};
-
-
-var bundleTask = function () {
-    return bundleApplication();
-};
-gulp.task('bundle', ['clean'], bundleTask);
-gulp.task('bundle-watch', bundleTask);
 
 gulp.task('finalize', ['clean'], function () {
     var manifest = srcDir.read('package.json', 'json');
@@ -85,9 +75,10 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js', ['bundle-watch']);
-    gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
+    gulp.watch(paths.watchFromAppDir, {
+        cwd: 'app',
+        debounceDelay: 2000
+    }, ['copy-watch']);
 });
 
-
-gulp.task('build', ['bundle', 'copy', 'finalize']);
+gulp.task('build', ['copy', 'finalize']);

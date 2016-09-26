@@ -1,7 +1,11 @@
 import React from 'react'
 import DocumentTitle from 'react-document-title'
+import {
+  defineMessages,
+  injectIntl
+} from 'react-intl'
 
-const css = `
+const styles = `
   html, body {
     height: 100%
   }
@@ -9,8 +13,17 @@ const css = `
     background: #fff url("../images/loading.gif") 50% 50% no-repeat;
   }
 `
-export default () => (
-  <DocumentTitle title="Loading Grape">
-    <style dangerouslySetInnerHTML={{__html: css}} />
+
+const messages = defineMessages({
+  title: {
+    id: 'loadingGrapeTitle',
+    defaultMessage: 'Grape: Loading…',
+    description: "Window title."
+  }
+})
+
+export default injectIntl(({intl: {formatMessage}}) => (
+  <DocumentTitle title={formatMessage(messages.title)}>
+    <style dangerouslySetInnerHTML={{__html: styles}} />
   </DocumentTitle>
-)
+))
