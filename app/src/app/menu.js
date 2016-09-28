@@ -73,7 +73,7 @@ const messages = defineMessages({
   }
 })
 
-const mainMenu = [
+export let main = [
   {
     label: formatMessage(messages.application),
     submenu: [
@@ -97,13 +97,15 @@ const mainMenu = [
 ]
 
 if (isOSX()) {
-  mainMenu[0].submenu.push(
+  main[0].submenu.push(
     {type: 'separator'},
     {label: formatMessage(messages.about), role: 'about'}
   )
 }
 
-export const main = env.name !== 'production' ? mainMenu.concat(devMenu) : mainMenu
+if (env.name !== 'production') {
+  main = main.concat(devMenu)
+}
 
 export const tray = [
   {label: formatMessage(messages.open), click: showMainWindow},
