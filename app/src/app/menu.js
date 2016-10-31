@@ -10,10 +10,6 @@ import loadApp from './loadApp'
 import {urls} from '../constants/pages'
 import {formatMessage} from '../i18n'
 
-function backToChat() {
-  loadApp()
-}
-
 function chooseDomain() {
   state.mainWindow.loadURL(urls.domain)
 }
@@ -78,7 +74,7 @@ export let main = [
     label: formatMessage(messages.application),
     submenu: [
       {label: formatMessage(messages.quit), accelerator: 'Cmd+Q', click: quit},
-      {label: formatMessage(messages.backToChat), click: backToChat},
+      {label: formatMessage(messages.backToChat), click: loadApp},
       {label: formatMessage(messages.chooseDomain), click: chooseDomain}
     ]
   },

@@ -4,6 +4,9 @@
 // window from here.
 import {app} from 'electron'
 
+import {register as registerShortcuts} from './shortcuts'
+
 app.on('ready', () => {
   require('./initApp')
+  registerShortcuts()
 })

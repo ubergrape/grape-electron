@@ -1,24 +1,27 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow} from 'electron'
 
 export default [{
   label: 'Development',
-  submenu: [{
+  submenu: [
+    {
       label: 'Reload',
       accelerator: 'CmdOrCtrl+R',
-      click: function () {
-          BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache();
+      click: () => {
+        BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache()
       }
-  },{
+    },
+    {
       label: 'Toggle DevTools',
-      accelerator: 'Alt+CmdOrCtrl+I',
-      click: function () {
-          BrowserWindow.getFocusedWindow().toggleDevTools();
+      click: () => {
+        BrowserWindow.getFocusedWindow().toggleDevTools()
       }
-  },{
+    },
+    {
       label: 'Quit',
       accelerator: 'CmdOrCtrl+Q',
-      click: function () {
-          app.quit();
+      click: () => {
+        app.quit()
       }
-  }]
+    }
+  ]
 }]
