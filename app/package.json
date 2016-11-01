@@ -42,10 +42,12 @@
   "scripts": {
     "build": "npm run clear:lib && npm run build:js && npm run build:assets",
     "build:js": "babel src --out-dir lib",
-    "build:assets": "cpy '**/*.{png,gif,html}' ../lib --cwd=./src --parents",
-    "clear:lib": "rimraf './lib/*'",
-    "clear:i18n": "rimraf './i18n/{src,export}'",
-    "i18n-export": "babel-node i18n/scripts/export.js",
-    "i18n-import": "npm run build && babel-node i18n/scripts/import.js"
+    "build:assets": "cpy **/*.{png,gif,html} ../lib --cwd=./src --parents",
+    "clear": "npm run clear:lib && npm run clear:i18n",
+    "clear:lib": "rimraf ./lib/**",
+    "clear:i18n": "rimraf ./i18n/{src,export}",
+    "i18n:export": "npm run build && babel-node i18n/scripts/export.js",
+    "i18n:import": "npm run build && babel-node i18n/scripts/import.js",
+    "postinstall": "npm run build"
   }
 }
