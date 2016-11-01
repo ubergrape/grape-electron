@@ -1,5 +1,4 @@
-const root = `file://${process.cwd()}/build`
-const pages = `${root}/lib/pages/index.html`
+const pages = `file://${__dirname}/../pages/index.html`
 export const urls = {
   domain: `${pages}?page=domain`,
   loading: `${pages}?page=loading`,
