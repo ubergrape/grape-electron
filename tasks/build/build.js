@@ -55,10 +55,6 @@ gulp.task('finalize', ['clean'], function () {
             manifest.name += '-dev';
             manifest.productName += ' Dev';
             break;
-        case 'staging':
-            manifest.name += '-stg';
-            manifest.productName += ' Staging';
-            break;
         case 'test':
             manifest.name += '-test';
             manifest.productName += ' Test';

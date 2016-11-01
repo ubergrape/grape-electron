@@ -52,7 +52,5 @@ module.exports.spawnablePath = function(path) {
 module.exports.finalPackageName = function (manifest, extention) {
     var name = manifest.name
     var version = manifest.version
-    return name +
-      (exports.getEnvName() === 'staging' ? '-staging_' : '_') +
-      version + '.' + extention
+    return name + '-' + version + '.' + extention
 };

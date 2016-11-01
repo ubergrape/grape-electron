@@ -20,7 +20,7 @@ var init = function() {
     tmpDir = projectDir.dir('./tmp', { empty: true });
     releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
-    exeName = manifest.productName + (utils.getEnvName() === 'staging' ? '-staging' : '') + '.exe'
+    exeName = manifest.productName + '.exe';
     readyAppDir = tmpDir.cwd(manifest.name);
 
     return Q();
