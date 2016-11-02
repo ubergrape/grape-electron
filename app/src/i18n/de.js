@@ -24,7 +24,7 @@ export default {
   "menuOpen": "Öffnen",
   "chooseDomainTitle": "Grape: Domain auswählen",
   "whereToConnectTitle": "Wohin wollen Sie verbinden?",
-  "grapeTab": "Grape",
+  "grapeTab": "Grape Cloud",
   "onPremiseTab": "On-Premise",
   "continue": "Weiter",
   "loadingGrapeTitle": "Grape: lädt…",

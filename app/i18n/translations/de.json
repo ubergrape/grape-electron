@@ -19,7 +19,7 @@
   "chooseDomainTitle": "Grape: Domain auswählen",
   "_chooseDomainTitle.comment": "Window title.",
   "whereToConnectTitle": "Wohin wollen Sie verbinden?",
-  "grapeTab": "Grape",
+  "grapeTab": "Grape Cloud",
   "_grapeTab.comment": "Grape tab title in domain picker.",
   "onPremiseTab": "On-Premise",
   "_onPremiseTab.comment": "On Premise tab title in domain picker.",

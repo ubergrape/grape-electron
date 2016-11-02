@@ -24,8 +24,8 @@ export default {
   "menuOpen": "Open",
   "chooseDomainTitle": "Grape: Choose Domain",
   "whereToConnectTitle": "Where do you want to connect?",
-  "grapeTab": "Grape",
-  "onPremiseTab": "On Premise",
+  "grapeTab": "Grape Cloud",
+  "onPremiseTab": "On-Premise",
   "continue": "Continue",
   "loadingGrapeTitle": "Grape: Loading…",
   "lostConnectionTitle": "Grape: Lost Connection",
@@ -35,5 +35,5 @@ export default {
   "checkInternetConnection": "Please check if your internet connection is working properly.",
   "tryToReload": "Try to {button} again.",
   "tryTochangeDomain": "Or try to {button}.",
-  "changeDomain": "change On Premise domain"
+  "changeDomain": "change On-Premise domain"
 }

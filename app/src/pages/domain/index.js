@@ -75,7 +75,7 @@ export default class Domain extends Component {
               className={`tab tab_left ${tab === 'grape' ? 'tab_selected' : ''}`}>
               <FormattedMessage
                 id="grapeTab"
-                defaultMessage="Grape"
+                defaultMessage="Grape Cloud"
                 description="Grape tab title in domain picker." />
             </label>
             <label
@@ -83,8 +83,8 @@ export default class Domain extends Component {
               className={`tab tab_right ${tab === 'onPremise' ? 'tab_selected' : ''}`}>
               <FormattedMessage
                 id="onPremiseTab"
-                defaultMessage="On Premise"
-                description="On Premise tab title in domain picker." />
+                defaultMessage="On-Premise"
+                description="On-Premise tab title in domain picker." />
             </label>
             <div className={`host ${tab === 'onPremise' ? 'host_expanded' : ''}`}>
               <label className="host__label" htmlFor="host">Server URL</label>
