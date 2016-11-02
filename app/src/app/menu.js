@@ -1,3 +1,5 @@
+import {defineMessages} from 'react-intl'
+
 import devMenu from '../electron/devMenu'
 import showMainWindow from './showMainWindow'
 import env from './env'
@@ -6,44 +8,102 @@ import quit from './quit'
 import {isOSX} from './utils'
 import loadApp from './loadApp'
 import {urls} from '../constants/pages'
-
-function backToChat() {
-  loadApp()
-}
+import {formatMessage} from '../i18n'
 
 function chooseDomain() {
   state.mainWindow.loadURL(urls.domain)
 }
 
-const mainMenu = [
+const messages = defineMessages({
+  application: {
+    id: 'menuApplication',
+    defaultMessage: 'Application'
+  },
+  quit: {
+    id: 'menuQuit',
+    defaultMessage: 'Quit'
+  },
+  backToChat: {
+    id: 'menuBackToChat',
+    defaultMessage: 'Back to chat'
+  },
+  chooseDomain: {
+    id: 'menuChooseDomain',
+    defaultMessage: 'Choose domain'
+  },
+  edit: {
+    id: 'menuEdit',
+    defaultMessage: 'Edit'
+  },
+  undo: {
+    id: 'menuUndo',
+    defaultMessage: 'Undo'
+  },
+  redo: {
+    id: 'menuRedo',
+    defaultMessage: 'Redo'
+  },
+  cut: {
+    id: 'menuCut',
+    defaultMessage: 'Cut'
+  },
+  copy: {
+    id: 'menuCopy',
+    defaultMessage: 'Copy'
+  },
+  paste: {
+    id: 'menuPaste',
+    defaultMessage: 'Paste'
+  },
+  selectAll: {
+    id: 'menuSelectAll',
+    defaultMessage: 'Select All'
+  },
+  about: {
+    id: 'menuAbout',
+    defaultMessage: 'About Grape'
+  },
+  open: {
+    id: 'menuOpen',
+    defaultMessage: 'Open'
+  }
+})
+
+export let main = [
   {
-    label: 'Application',
+    label: formatMessage(messages.application),
     submenu: [
-      {label: 'Quit', accelerator: 'Command+Q', click: quit},
-      {label: 'Back to chat', click: backToChat},
-      {label: 'Choose domain', click: chooseDomain}
+      {label: formatMessage(messages.quit), accelerator: 'Cmd+Q', click: quit},
+      {label: formatMessage(messages.backToChat), click: loadApp},
+      {label: formatMessage(messages.chooseDomain), click: chooseDomain}
     ]
   },
   {
-    label: 'Edit',
+    label: formatMessage(messages.edit),
     submenu: [
-      {label: 'Undo', accelerator: 'CmdOrCtrl+Z', role: 'undo'},
-      {label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', role: 'redo'},
+      {label: formatMessage(messages.undo), accelerator: 'CmdOrCtrl+Z', role: 'undo'},
+      {label: formatMessage(messages.redo), accelerator: 'Shift+CmdOrCtrl+Z', role: 'redo'},
       {type: 'separator'},
-      {label: 'Cut', accelerator: 'CmdOrCtrl+X', role: 'cut'},
-      {label: 'Copy', accelerator: 'CmdOrCtrl+C', role: 'copy'},
-      {label: 'Paste', accelerator: 'CmdOrCtrl+V', role: 'paste'},
-      {label: 'Select All', accelerator: 'CmdOrCtrl+A', role: 'selectall'}
+      {label: formatMessage(messages.cut), accelerator: 'CmdOrCtrl+X', role: 'cut'},
+      {label: formatMessage(messages.copy), accelerator: 'CmdOrCtrl+C', role: 'copy'},
+      {label: formatMessage(messages.paste), accelerator: 'CmdOrCtrl+V', role: 'paste'},
+      {label: formatMessage(messages.selectAll), accelerator: 'CmdOrCtrl+A', role: 'selectall'}
     ]
   }
 ]
 
-if (isOSX()) mainMenu[0].submenu.push({type: 'separator'}, {label: 'About Grape', role: 'about'})
+if (isOSX()) {
+  main[0].submenu.push(
+    {type: 'separator'},
+    {label: formatMessage(messages.about), role: 'about'}
+  )
+}
 
-
-export const main = env.name !== 'production' ? mainMenu.concat(devMenu) : mainMenu
+if (env.name !== 'production') {
+  main = main.concat(devMenu)
+}
 
 export const tray = [
-  {label: 'Open', click: showMainWindow},
-  {label: 'Quit', click: quit}
+  {label: formatMessage(messages.open), click: showMainWindow},
+  {label: formatMessage(messages.quit), click: quit}
 ]

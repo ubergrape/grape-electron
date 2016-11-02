@@ -5,7 +5,7 @@ const responseTimeout = 10000
 export default function handleOffline(url, win) {
   function offline(e, code) {
     if (code === -3) return // Redirect
-    win.loadURL(urls.lostConection)
+    win.loadURL(urls.lostConnection)
   }
   let response = false
   const {webContents} = win

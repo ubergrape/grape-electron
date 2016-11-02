@@ -1,7 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 
-import {wrapWithIntlProvider} from '../i18n/setup'
+import {wrapWithIntlProvider} from '../i18n'
 import Domain from './domain'
 import Loading from './loading'
 import LostConnection from './lost-connection'
