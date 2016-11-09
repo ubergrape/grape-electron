@@ -75,7 +75,7 @@ export let main = [
     submenu: [
       {label: formatMessage(messages.quit), accelerator: 'Cmd+Q', click: quit},
       {label: formatMessage(messages.backToChat), click: loadApp},
-      {label: formatMessage(messages.chooseDomain), click: chooseDomain}
+      {label: formatMessage(messages.chooseDomain), click: chooseDomain, enabled: !env.chooseDomainDisabled}
     ]
   },
   {

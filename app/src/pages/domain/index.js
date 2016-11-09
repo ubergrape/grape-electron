@@ -42,7 +42,7 @@ export default class Domain extends Component {
   onSubmit = (e) => {
     e.preventDefault()
     const value = this.state.tab === 'grape' ? grapeDomain : this.state.value
-    ipcRenderer.send('domain', value)
+    ipcRenderer.send('domainChange', value)
   }
 
   onRefInput = (ref) => {

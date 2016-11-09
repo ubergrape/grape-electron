@@ -1,20 +1,9 @@
-// Simple module exposes environment variables to rest of the code.
+import {env} from '../../package.json'
+import rc from './rc'
 
-import jetpack from 'fs-jetpack'
-import {isWindows} from './utils'
-
-let app
-if (process.type === 'renderer') {
-  app = require('electron').remote.app
-} else {
-  app = require('electron').app
-}
-const appDir = jetpack.cwd(app.getAppPath())
-
-const manifest = appDir.read('package.json', 'json')
-
-if (manifest.env.name === 'development') {
-  manifest.env.host = isWindows() ? manifest.env.host.win : manifest.env.host.default
+if (rc.domain) {
+  env.host.domain = rc.domain
+  env.chooseDomainDisabled = true
 }
 
-export default manifest.env
+export default env
