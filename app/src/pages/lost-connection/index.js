@@ -12,6 +12,7 @@ import {urls} from '../../constants/pages'
 const {ipcRenderer, remote} = require('electron')
 const {domain} = remote.getGlobal('host')
 const {domain: grapeDomain} = remote.getGlobal('grapeHost')
+const chooseDomainDisabled = remote.getGlobal('chooseDomainDisabled')
 
 const messages = defineMessages({
   title: {
@@ -89,7 +90,7 @@ export default class LostConnection extends Component {
                 button: this.renderButton()
               }} />
           </p>
-          {domain !== grapeDomain &&
+          {domain !== grapeDomain && !chooseDomainDisabled &&
             <p>
               <FormattedMessage
                 id="tryTochangeDomain"

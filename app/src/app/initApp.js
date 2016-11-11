@@ -16,8 +16,6 @@ import {
   isWindows,
   isOSX
 } from './utils'
-// Special module holding environment variables which you declared
-// in config/env_xxx.json file.
 import env from './env'
 import state from './state'
 import windowStateKeeper from '../electron/windowStateKeeper'
@@ -69,18 +67,21 @@ storage.get('lastUrl', (error, data) => {
   global.isNotificationSupported = isNotificationSupported()
   global.host = state.host
   global.grapeHost = env.host
+  global.chooseDomainDisabled = env.chooseDomainDisabled
 
   state.mainWindow = new BrowserWindow(state.prefs)
 
   let lastUrl
   if (!error && data) {
-    if (data.host) {
+    if (data.host && data.host.domain === env.host.domain) {
       global.host = state.host = data.host
     }
-    if (data.url && data.url.includes(state.host.domain)) lastUrl = data.url
+    if (data.url && data.url.includes(env.host.domain)) lastUrl = data.url
   }
   if (lastUrl) {
     loadApp(lastUrl)
+  } else if (env.chooseDomainDisabled) {
+    loadApp()
   } else {
     global.host = clone(env.host)
     state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
@@ -155,7 +156,7 @@ ipcMain.on('showNotification', (e, notification) => {
   })
 })
 
-ipcMain.on('domain', (e, domain) => {
+ipcMain.on('domainChange', (e, domain) => {
   state.host.domain = domain
   global.host.domain = domain
   loadApp()

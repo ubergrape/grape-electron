@@ -1,18 +1,9 @@
 {
   "name": "development",
   "description": "Add here any environment specific stuff you like.",
-
-
   "host": {
-    "default": {
-      "protocol": "https",
-      "domain": "dev03.chatgrape.com",
-      "path": "chat"
-    },
-    "win": {
-      "protocol": "http",
-      "domain": "10.211.55.2:8000",
-      "path": "chat"
-    }
+    "protocol": "https",
+    "domain": "dev03.chatgrape.com",
+    "path": "chat"
   }
 }
