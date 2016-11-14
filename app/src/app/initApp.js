@@ -145,7 +145,7 @@ ipcMain.on('removeBadge', () => {
 })
 
 ipcMain.on('showNotification', (e, notification) => {
-  const {trayIcon} = state
+  const {trayIcon, mainWindow} = state
   trayIcon.displayBalloon({
     icon: imagePaths.icon,
     title: notification.title,
@@ -154,6 +154,11 @@ ipcMain.on('showNotification', (e, notification) => {
   trayIcon.once('balloon-click', () => {
     e.sender.send(String(notification.event))
   })
+
+  mainWindow.once('focus', () => {
+    mainWindow.flashFrame(false)
+  })
+  mainWindow.flashFrame(true)
 })
 
 ipcMain.on('domainChange', (e, domain) => {
