@@ -9,6 +9,9 @@ const openInrternal = [
   '**/accounts/login',
   '**/accounts/login/**',
   '**/accounts/complete/**',
+  '**/accounts/settings',
+  '**/accounts/settings/**',
+  '**/organization/dashboard',
   '**/accounts.google.com/**',
   '**/github.com/login**'
 ]
