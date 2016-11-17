@@ -1,0 +1,47 @@
+import {app} from 'electron'
+import url from 'url'
+
+import state from './state'
+import {urls} from '../constants/pages'
+
+let lastUrl
+
+const actions = {
+  login: (urlObj) => {
+    const {mainWindow: win} = state
+    win.webContents.once('dom-ready', () => {
+      const token = urlObj.path.substr(1)
+      const action = url.format({
+        protocol: state.host.protocol,
+        host: state.host.domain,
+        pathname: '/accounts/tokenauth/'
+      })
+      win.webContents.send('submitTokenAuth', {token, action})
+    })
+    win.loadURL(urls.tokenAuth)
+  }
+}
+
+
+export function handle() {
+  if (!lastUrl || !state.mainWindow) return false
+
+  const urlObj = url.parse(lastUrl)
+  const action = actions[urlObj.host]
+
+  if (!action) return false
+
+  action(urlObj)
+  lastUrl = null
+  return true
+}
+
+export function register() {
+  app.setAsDefaultProtocolClient('chatgrape')
+
+  app.on('open-url', (e, url) => {
+    e.preventDefault()
+    lastUrl = url
+    handle()
+  })
+}

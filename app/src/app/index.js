@@ -4,9 +4,12 @@
 // window from here.
 import {app} from 'electron'
 
+import {register as registerProtocol} from './protocolClient'
 import {register as registerShortcuts} from './shortcuts'
 
-app.on('ready', () => {
+registerProtocol()
+
+app.once('ready', () => {
   require('./initApp')
   registerShortcuts()
 })

@@ -24,6 +24,7 @@ import loadApp from './loadApp'
 import loadURL from './loadURL'
 import {urls} from '../constants/pages'
 import * as imagePaths from '../constants/images'
+import {handle as handleProtocol} from './protocolClient'
 
 const messages = defineMessages({
   saveImageTo: {
@@ -52,7 +53,7 @@ state.dimensions = windowStateKeeper('main', {
   height: 1000
 })
 
-storage.get('lastUrl', (error, data) => {
+storage.get('lastUrl', (err, data) => {
   state.prefs = Object.assign(
     {},
     state.dimensions,
@@ -71,13 +72,26 @@ storage.get('lastUrl', (error, data) => {
 
   state.mainWindow = new BrowserWindow(state.prefs)
 
+  if (state.dimensions.isMaximized) {
+    state.mainWindow.maximize()
+  }
+
+  const Menu = state.Menu = require('electron').Menu
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
+
+  const isProtocolHandled = handleProtocol()
+
+  if (err || isProtocolHandled) return
+
   let lastUrl
-  if (!error && data) {
+
+  if (data) {
     if (data.host && data.host.domain === env.host.domain) {
       global.host = state.host = data.host
     }
     if (data.url && data.url.includes(env.host.domain)) lastUrl = data.url
   }
+
   if (lastUrl) {
     loadApp(lastUrl)
   } else if (env.chooseDomainDisabled) {
@@ -86,13 +100,6 @@ storage.get('lastUrl', (error, data) => {
     global.host = clone(env.host)
     state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
   }
-
-  if (state.dimensions.isMaximized) {
-    state.mainWindow.maximize()
-  }
-
-  const Menu = state.Menu = require('electron').Menu
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
 })
 
 app.on('window-all-closed', () => {})
