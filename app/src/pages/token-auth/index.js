@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {ipcRenderer} from 'electron'
 import DocumentTitle from 'react-document-title'
 import {
-  FormattedMessage,
   defineMessages,
   injectIntl
 } from 'react-intl'
@@ -15,7 +14,8 @@ const messages = defineMessages({
   }
 })
 
-export default class extends Component {
+@injectIntl
+export default class TokenAuth extends Component {
   constructor(props) {
     super(props)
 
@@ -39,6 +39,7 @@ export default class extends Component {
 
   render() {
     const {url, token} = this.state
+    const {intl: {formatMessage}} = this.props
 
     return (
       <DocumentTitle title={formatMessage(messages.title)}>
