@@ -11,12 +11,12 @@ const actions = {
     const {mainWindow: win} = state
     win.webContents.once('dom-ready', () => {
       const token = urlObj.path.substr(1)
-      const action = url.format({
+      const postUrl = url.format({
         protocol: state.host.protocol,
         host: state.host.domain,
         pathname: '/accounts/tokenauth/'
       })
-      win.webContents.send('submitTokenAuth', {token, action})
+      win.webContents.send('submitAuthToken', {token, url: postUrl})
     })
     win.loadURL(urls.tokenAuth)
   }

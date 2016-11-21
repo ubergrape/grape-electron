@@ -1,5 +1,19 @@
 import React, {Component} from 'react'
 import {ipcRenderer} from 'electron'
+import DocumentTitle from 'react-document-title'
+import {
+  FormattedMessage,
+  defineMessages,
+  injectIntl
+} from 'react-intl'
+
+const messages = defineMessages({
+  title: {
+    id: 'ssoLoginTitle',
+    defaultMessage: 'Grape: SSO Login',
+    description: 'Window title.'
+  }
+})
 
 export default class extends Component {
   constructor(props) {
@@ -7,14 +21,14 @@ export default class extends Component {
 
     this.state = {
       token: '',
-      action: ''
+      url: ''
     }
 
-    ipcRenderer.on('submitTokenAuth', this.onSubmitTokenAuth)
+    ipcRenderer.on('submitAuthToken', this.onSubmitTokenAuth)
   }
 
-  onSubmitTokenAuth = (e, {token, action}) => {
-    this.setState({token, action}, () => {
+  onSubmitTokenAuth = (e, {url, token}) => {
+    this.setState({url, token}, () => {
       this.form.submit()
     })
   }
@@ -24,15 +38,17 @@ export default class extends Component {
   }
 
   render() {
-    const {action, token} = this.state
+    const {url, token} = this.state
 
     return (
-      <form
-        action={action}
-        method="post"
-        ref={this.onRefForm}>
-        <input type="hidden" name="token" value={token} />
-      </form>
+      <DocumentTitle title={formatMessage(messages.title)}>
+        <form
+          action={url}
+          method="post"
+          ref={this.onRefForm}>
+          <input type="hidden" name="token" value={token} />
+        </form>
+      </DocumentTitle>
     )
   }
 }
