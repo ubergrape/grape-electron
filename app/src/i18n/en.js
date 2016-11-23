@@ -35,5 +35,6 @@ export default {
   "checkInternetConnection": "Please check if your internet connection is working properly.",
   "tryToReload": "Try to {button} again.",
   "tryTochangeDomain": "Or try to {button}.",
-  "changeDomain": "change On-Premise domain"
+  "changeDomain": "change On-Premise domain",
+  "ssoLoginTitle": "Grape: SSO Login"
 }
