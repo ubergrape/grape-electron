@@ -19,10 +19,10 @@
   "chooseDomainTitle": "Grape: Choose Domain",
   "_chooseDomainTitle.comment": "Window title.",
   "whereToConnectTitle": "Where do you want to connect?",
-  "grapeTab": "Grape",
+  "grapeTab": "Grape Cloud",
   "_grapeTab.comment": "Grape tab title in domain picker.",
-  "onPremiseTab": "On Premise",
-  "_onPremiseTab.comment": "On Premise tab title in domain picker.",
+  "onPremiseTab": "On-Premise",
+  "_onPremiseTab.comment": "On-Premise tab title in domain picker.",
   "continue": "Continue",
   "loadingGrapeTitle": "Grape: Loading…",
   "_loadingGrapeTitle.comment": "Window title.",
@@ -36,5 +36,7 @@
   "checkInternetConnection": "Please check if your internet connection is working properly.",
   "tryToReload": "Try to {button} again.",
   "tryTochangeDomain": "Or try to {button}.",
-  "changeDomain": "change On Premise domain"
+  "changeDomain": "change On-Premise domain",
+  "ssoLoginTitle": "Grape: SSO Login",
+  "_ssoLoginTitle.comment": "Window title."
 }
