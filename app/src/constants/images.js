@@ -1,6 +1,7 @@
 import path from 'path'
+import {lib} from './paths'
 
-export const images = path.join(__dirname, '..', 'images')
+export const images = path.join(lib, 'images')
 export const icon = path.join(images, 'icon.png')
 export const trayIcon = path.join(images, 'tray.png')
 export const trayWhiteIcon = path.join(images, 'tray-white.png')

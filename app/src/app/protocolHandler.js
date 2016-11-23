@@ -3,6 +3,10 @@ import url from 'url'
 
 import state from './state'
 import {urls} from '../constants/pages'
+import {isWindows} from './utils'
+import ensureFocus from './ensureFocus'
+
+export const protocol = 'chatgrape'
 
 let lastUrl
 
@@ -22,7 +26,6 @@ const actions = {
   }
 }
 
-
 export function handle() {
   if (!lastUrl || !state.mainWindow) return false
 
@@ -31,13 +34,14 @@ export function handle() {
 
   if (!action) return false
 
+  ensureFocus()
   action(urlObj)
   lastUrl = null
   return true
 }
 
 export function register() {
-  app.setAsDefaultProtocolClient('chatgrape')
+  app.setAsDefaultProtocolClient(protocol)
 
   app.on('open-url', (e, url) => {
     e.preventDefault()

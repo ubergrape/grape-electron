@@ -4,12 +4,22 @@
 // window from here.
 import {app} from 'electron'
 
-import {register as registerProtocol} from './protocolClient'
+import logToFile from './logToFile'
+import {register as registerProtocol} from './protocolHandler'
 import {register as registerShortcuts} from './shortcuts'
+import makeSingleInstance from './makeSingleInstance'
+import initApp from './initApp'
 
-registerProtocol()
+function init() {
+  logToFile()
+  registerProtocol()
 
-app.once('ready', () => {
-  require('./initApp')
-  registerShortcuts()
-})
+  app.once('ready', () => {
+    initApp()
+    registerShortcuts()
+  })
+}
+
+const shouldQuit = makeSingleInstance()
+if (shouldQuit) app.quit()
+else init()
