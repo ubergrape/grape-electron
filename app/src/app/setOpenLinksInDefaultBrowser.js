@@ -2,9 +2,10 @@ import minimatch from 'minimatch'
 import state from './state'
 import {shell} from 'electron'
 
-const openInrternal = [
+const internals = [
   '**/chat/**',
   '**/chat',
+  '**/accounts/tokenauth',
   '**/accounts/logout',
   '**/accounts/login',
   '**/accounts/login/**',
@@ -21,7 +22,7 @@ function removeTrailingSlash(str) {
 }
 
 function shouldOpenedInternal(url) {
-  return openInrternal
+  return internals
     .some(internalUrl => minimatch(url, internalUrl))
 }
 

@@ -5,11 +5,13 @@ import {wrapWithIntlProvider} from '../i18n'
 import Domain from './domain'
 import Loading from './loading'
 import LostConnection from './lost-connection'
+import TokenAuth from './token-auth'
 
 const pages = {
   '?page=lostConnection': LostConnection,
   '?page=loading': Loading,
-  '?page=domain': Domain
+  '?page=domain': Domain,
+  '?page=tokenAuth': TokenAuth,
 }
 
 const Page = wrapWithIntlProvider(pages[location.search])

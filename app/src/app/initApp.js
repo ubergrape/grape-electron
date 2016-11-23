@@ -24,6 +24,7 @@ import loadApp from './loadApp'
 import loadURL from './loadURL'
 import {urls} from '../constants/pages'
 import * as imagePaths from '../constants/images'
+import {handle as handleProtocol} from './protocolHandler'
 
 const messages = defineMessages({
   saveImageTo: {
@@ -36,137 +37,146 @@ const messages = defineMessages({
   }
 })
 
-contextMenu({
-  append: params => [{
-    label: formatMessage(messages.saveImageTo),
-    visible: params.mediaType === 'image',
-    click: () => {
-      state.mainWindow.webContents.downloadURL(params.srcURL)
-    }
-  }]
-})
-
-// Preserver of the window size and position between app launches.
-state.dimensions = windowStateKeeper('main', {
-  width: 1075,
-  height: 1000
-})
-
-storage.get('lastUrl', (error, data) => {
-  state.prefs = Object.assign(
-    {},
-    state.dimensions,
-    {
-      webPreferences: {
-        allowDisplayingInsecureContent: true
+export default () => {
+  contextMenu({
+    append: params => [{
+      label: formatMessage(messages.saveImageTo),
+      visible: params.mediaType === 'image',
+      click: () => {
+        state.mainWindow.webContents.downloadURL(params.srcURL)
       }
-    }
-  )
-
-  // set global to be accessible from webpage
-  global.isNotificationSupported = isNotificationSupported()
-  global.host = state.host
-  global.grapeHost = env.host
-  global.chooseDomainDisabled = env.chooseDomainDisabled
-
-  state.mainWindow = new BrowserWindow(state.prefs)
-
-  let lastUrl
-  if (!error && data) {
-    if (data.host && data.host.domain === env.host.domain) {
-      global.host = state.host = data.host
-    }
-    if (data.url && data.url.includes(env.host.domain)) lastUrl = data.url
-  }
-  if (lastUrl) {
-    loadApp(lastUrl)
-  } else if (env.chooseDomainDisabled) {
-    loadApp()
-  } else {
-    global.host = clone(env.host)
-    state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
-  }
-
-  if (state.dimensions.isMaximized) {
-    state.mainWindow.maximize()
-  }
-
-  const Menu = state.Menu = require('electron').Menu
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
-})
-
-app.on('window-all-closed', () => {})
-app.on('before-quit', () => {
-  state.dontPreventClose = true
-})
-
-app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {
-  if (url.indexOf('staging.chatgrape.com') > -1) {
-    e.preventDefault()
-    callback(true)
-  } else {
-    callback(false)
-  }
-})
-
-if (isOSX()) {
-  systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
-    const icon = imagePaths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
-    state.trayIcon.setImage(icon)
+    }]
   })
-}
 
-ipcMain.on('addBadge', (e, badge) => {
-  if (isWindows()) {
-    state.mainWindow.setOverlayIcon(
-      imagePaths.statusBarOverlay,
-      formatMessage(
-        messages.windowsBadgeIconTitle,
-        {amount: parseInt(badge, 10)}
-      )
+  // Preserver of the window size and position between app launches.
+  state.dimensions = windowStateKeeper('main', {
+    width: 1075,
+    height: 1000
+  })
+
+  storage.get('lastUrl', (err, data) => {
+    state.prefs = Object.assign(
+      {},
+      state.dimensions,
+      {
+        webPreferences: {
+          allowDisplayingInsecureContent: true
+        }
+      }
     )
-  } else {
-    state.trayIcon.setImage(imagePaths.trayBlueIcon)
-    if (app.dock) app.dock.setBadge(String(badge))
-  }
-})
 
-ipcMain.on('removeBadge', () => {
-  const {trayIcon, mainWindow} = state
-  if (isWindows()) {
-    mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
-  }
+    // set global to be accessible from webpage
+    global.isNotificationSupported = isNotificationSupported()
+    global.host = state.host
+    global.grapeHost = env.host
+    global.chooseDomainDisabled = env.chooseDomainDisabled
+
+    state.mainWindow = new BrowserWindow(state.prefs)
+
+    if (state.dimensions.isMaximized) {
+      state.mainWindow.maximize()
+    }
+
+    const Menu = state.Menu = require('electron').Menu
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
+
+    const isProtocolHandled = handleProtocol()
+
+    if (err || isProtocolHandled) return
+
+    let lastUrl
+
+    if (data) {
+      if (data.host && data.host.domain === env.host.domain) {
+        global.host = state.host = data.host
+      }
+      if (data.url && data.url.includes(env.host.domain)) lastUrl = data.url
+    }
+
+    if (lastUrl) {
+      loadApp(lastUrl)
+    } else if (env.chooseDomainDisabled) {
+      loadApp()
+    } else {
+      global.host = clone(env.host)
+      state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
+    }
+  })
+
+  app.on('window-all-closed', () => {})
+  app.on('before-quit', () => {
+    state.dontPreventClose = true
+  })
+
+  app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {
+    if (url.indexOf('staging.chatgrape.com') > -1) {
+      e.preventDefault()
+      callback(true)
+    } else {
+      callback(false)
+    }
+  })
 
   if (isOSX()) {
-    const icon = imagePaths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
-    trayIcon.setImage(icon)
-    if (app.dock) app.dock.setBadge('')
+    systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
+      const icon = imagePaths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+      state.trayIcon.setImage(icon)
+    })
   }
-})
 
-ipcMain.on('showNotification', (e, notification) => {
-  const {trayIcon, mainWindow} = state
-  trayIcon.displayBalloon({
-    icon: imagePaths.icon,
-    title: notification.title,
-    content: notification.message
+  ipcMain.on('addBadge', (e, badge) => {
+    if (isWindows()) {
+      state.mainWindow.setOverlayIcon(
+        imagePaths.statusBarOverlay,
+        formatMessage(
+          messages.windowsBadgeIconTitle,
+          {amount: parseInt(badge, 10)}
+        )
+      )
+    } else {
+      state.trayIcon.setImage(imagePaths.trayBlueIcon)
+      if (app.dock) app.dock.setBadge(String(badge))
+    }
   })
-  trayIcon.once('balloon-click', () => {
-    e.sender.send(String(notification.event))
+
+  ipcMain.on('removeBadge', () => {
+    const {trayIcon, mainWindow} = state
+    if (isWindows()) {
+      mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
+    }
+
+    if (isOSX()) {
+      const icon = imagePaths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+      trayIcon.setImage(icon)
+      if (app.dock) app.dock.setBadge('')
+    }
   })
 
-  mainWindow.once('focus', () => {
-    mainWindow.flashFrame(false)
+  ipcMain.on('showNotification', (e, notification) => {
+    const {trayIcon, mainWindow} = state
+    trayIcon.displayBalloon({
+      icon: imagePaths.icon,
+      title: notification.title,
+      content: notification.message
+    })
+    trayIcon.once('balloon-click', () => {
+      e.sender.send(String(notification.event))
+    })
+
+    mainWindow.once('focus', () => {
+      mainWindow.flashFrame(false)
+    })
+    mainWindow.flashFrame(true)
   })
-  mainWindow.flashFrame(true)
-})
 
-ipcMain.on('domainChange', (e, domain) => {
-  state.host.domain = domain
-  global.host.domain = domain
-  loadApp()
-})
+  ipcMain.on('domainChange', (e, domain) => {
+    state.host.domain = domain
+    global.host.domain = domain
+    loadApp()
+  })
 
-ipcMain.on('loadChat', () => {
-  loadURL(state.getUrl())
-})
+  ipcMain.on('loadChat', () => {
+    loadURL(state.getUrl())
+  })
+
+}
