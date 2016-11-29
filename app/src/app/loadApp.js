@@ -8,7 +8,7 @@ import state from './state'
 import close from './close'
 import initTray from './initTray'
 import loadURL from './loadURL'
-import setOpenLinksInDefaultBrowser from './setOpenLinksInDefaultBrowser'
+import handleLocations from './handleLocations'
 import {urls} from '../constants/pages'
 
 export default function loadApp(url = state.getUrl()) {
@@ -42,6 +42,6 @@ export default function loadApp(url = state.getUrl()) {
     if (env.name !== 'production') state.mainWindow.openDevTools()
 
     initTray()
-    setOpenLinksInDefaultBrowser()
+    handleLocations()
   })
 }
