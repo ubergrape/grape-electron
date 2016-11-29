@@ -14,6 +14,10 @@ function chooseDomain() {
   state.mainWindow.loadURL(urls.domain)
 }
 
+function backToChat() {
+  loadApp()
+}
+
 const messages = defineMessages({
   application: {
     id: 'menuApplication',
@@ -74,7 +78,7 @@ export let main = [
     label: formatMessage(messages.application),
     submenu: [
       {label: formatMessage(messages.quit), accelerator: 'Cmd+Q', click: quit},
-      {label: formatMessage(messages.backToChat), click: loadApp},
+      {label: formatMessage(messages.backToChat), click: backToChat},
       {label: formatMessage(messages.chooseDomain), click: chooseDomain, enabled: !env.chooseDomainDisabled}
     ]
   },
