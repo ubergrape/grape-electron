@@ -1,4 +1,5 @@
 import {urls} from '../constants/pages'
+import state from './state'
 
 const responseTimeout = 10000
 
@@ -9,11 +10,9 @@ export default function handleOffline(url, win) {
   }
   let response = false
   const {webContents} = win
-  webContents.on('did-fail-load', offline)
-  webContents.on('did-get-response-details', function onDidResponse() {
+  webContents.once('did-fail-load', offline)
+  webContents.once('did-get-response-details', () => {
     response = true
-    webContents.removeListener('did-fail-load', offline)
-    webContents.removeListener('did-get-response-details', onDidResponse)
   })
 
   if (url) win.loadURL(url)

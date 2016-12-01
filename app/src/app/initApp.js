@@ -87,10 +87,8 @@ export default () => {
     let lastUrl
 
     if (data) {
-      if (data.host && data.host.domain === env.host.domain) {
-        global.host = state.host = data.host
-      }
-      if (data.url && data.url.includes(env.host.domain)) lastUrl = data.url
+      if (data.host) global.host = state.host = data.host
+      if (data.url) lastUrl = data.url
     }
 
     if (lastUrl) {
@@ -178,5 +176,4 @@ export default () => {
   ipcMain.on('loadChat', () => {
     loadURL(state.getUrl())
   })
-
 }
