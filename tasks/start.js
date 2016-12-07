@@ -4,13 +4,17 @@ var Q = require('q');
 var electron = require('electron-prebuilt');
 var pathUtil = require('path');
 var childProcess = require('child_process');
-var kill = require('tree-kill');
 var utils = require('./utils');
-var watch;
+var jetpack = require('fs-jetpack');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
 
 var gulpPath = pathUtil.resolve('./node_modules/.bin/gulp');
+var srcDir = jetpack.cwd('./app');
+var destDir = jetpack.cwd('./build');
+var watchDir = './lib/**'
 
-var runBuild = function () {
+function runBuildApp() {
     var deferred = Q.defer();
 
     var build = childProcess.spawn(utils.spawnablePath(gulpPath), [
@@ -22,25 +26,43 @@ var runBuild = function () {
     });
 
     build.on('close', function (code) {
-        deferred.resolve();
+        deferred.resolve(code);
     });
 
     return deferred.promise;
 };
 
-var runGulpWatch = function () {
-    watch = childProcess.spawn(utils.spawnablePath(gulpPath), [
-        'watch',
-        '--env=' + utils.getEnvName(),
-        '--color'
-    ], {
-        stdio: 'inherit'
+function runBuildSrc() {
+    var deferred = Q.defer();
+
+    var build = childProcess.spawn('npm run build:watch', {
+        stdio: 'inherit',
+        cwd: srcDir.path(),
+        shell: true
     });
 
-    watch.on('close', function (code) {
-        // Gulp watch exits when error occured during build.
-        // Just respawn it then.
-        runGulpWatch();
+    build.on('close', function (code) {
+        deferred.resolve(code);
+    });
+
+    return deferred.promise;
+};
+
+function watch(onChange) {
+    function copyFile(path) {
+        gutil.log(`Copy file ${path.substr(srcDir.path().length)}`);
+        const destPath = path.replace(srcDir.path(), destDir.path());
+        jetpack.copy(path, destPath, {overwrite: true});
+    }
+
+    gulp.watch(watchDir, {
+        cwd: 'app',
+        debounceDelay: 2000
+    })
+    .on('change', function(change) {
+        if (change.type !== 'changed') return;
+        copyFile(change.path);
+        onChange();
     });
 };
 
@@ -49,16 +71,28 @@ var runApp = function () {
         stdio: 'inherit'
     });
 
-    app.on('close', function (code) {
-        // User closed the app. Kill the host process.
-        kill(watch.pid, 'SIGKILL', function () {
+    app.once('close', (code) => {
+        if (code !== null) {
+            gutil.log('App died.');
             process.exit();
-        });
+        }
     });
+
+    return app;
 };
 
-runBuild()
-.then(function () {
-    runGulpWatch();
-    runApp();
-});
+function start() {
+    var app = runApp();
+
+    watch(() => {
+        app.kill('SIGUSR1');
+        app = runApp();
+    });
+}
+
+runBuildApp()
+    .then(runBuildSrc())
+    .then(start)
+    .catch((err) => {
+        console.log(err);
+    });

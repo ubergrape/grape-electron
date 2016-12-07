@@ -13,12 +13,22 @@ function escapePath(path) {
   return path.replace(/( |\(|\))/g, `${escapeChar}$1`)
 }
 
+function hookStream(stream1, callback) {
+  const {write} = stream1
+  stream1.write = function() {
+    callback.apply(this, arguments)
+    write.apply(stream1, arguments)
+  }
+}
+
 /**
- * Writes all stdout and stderr into console.log file in the root.
+ * Duplicates stdout and stderr streams into `console.log`.
+ * For the case when process is detached from the shell and we need to debug.
  */
 export default () => {
   const logFile = normalize(`${app.getPath('userData')}/console.log`)
   const log = fs.createWriteStream(logFile)
   console.log('Using log file', escapePath(logFile))
-  process.stderr.write = process.stdout.write = log.write.bind(log)
+  hookStream(process.stdout, log.write.bind(log))
 }
+
