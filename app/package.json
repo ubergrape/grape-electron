@@ -41,8 +41,9 @@
     "rimraf": "^2.5.4"
   },
   "scripts": {
-    "build": "npm run clear:lib && npm run build:js && npm run build:assets",
-    "build:js": "babel src --out-dir lib",
+    "build": "npm run clear:lib && npm run build:lib && npm run build:assets",
+    "build:watch": "npm run build:lib -- --watch src",
+    "build:lib": "babel src --out-dir lib",
     "build:assets": "cpy **/*.{png,gif,html} ../lib --cwd=./src --parents",
     "clear": "npm run clear:lib && npm run clear:i18n",
     "clear:lib": "rimraf ./lib/**",

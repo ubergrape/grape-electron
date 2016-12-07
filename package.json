@@ -1,15 +1,14 @@
 {
   "devDependencies": {
     "asar": "^0.10.0",
-    "electron-prebuilt": "1.2.5",
-    "fs-jetpack": "^0.7.0",
+    "electron-prebuilt": "^1.4.10",
+    "fs-jetpack": "^0.10.3",
     "gulp": "^3.9.0",
     "gulp-less": "^3.0.3",
     "gulp-util": "^3.0.6",
+    "node-uuid": "^1.4.7",
     "q": "^1.4.1",
-    "tree-kill": "^0.1.1",
-    "yargs": "^4.2.0",
-    "node-uuid": "^1.4.7"
+    "yargs": "^4.2.0"
   },
   "optionalDependencies": {
     "appdmg": "^0.3.2",
