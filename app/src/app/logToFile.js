@@ -13,11 +13,11 @@ function escapePath(path) {
   return path.replace(/( |\(|\))/g, `${escapeChar}$1`)
 }
 
-function hookStream(stream1, callback) {
-  const {write} = stream1
-  stream1.write = function() {
+function hookStream(stream, callback) {
+  const {write} = stream
+  stream.write = function() {
     callback.apply(this, arguments)
-    write.apply(stream1, arguments)
+    return write.apply(stream1, arguments)
   }
 }
 
