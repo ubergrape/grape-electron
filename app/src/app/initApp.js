@@ -101,7 +101,11 @@ export default () => {
     }
   })
 
-  app.on('window-all-closed', () => {})
+  app.on('window-all-closed', () => {
+    state.dontPreventClose = true
+    app.quit()
+  })
+
   app.on('before-quit', () => {
     state.dontPreventClose = true
   })
