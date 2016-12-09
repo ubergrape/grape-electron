@@ -21,9 +21,9 @@ export default function loadApp(url = state.getUrl()) {
     let hidden = true
 
     if (state.mainWindow) {
-      state.dontPreventClose = true
+      state.preventClose = false
       state.mainWindow.close()
-      state.dontPreventClose = false
+      state.preventClose = true
       hidden = false
     }
 
