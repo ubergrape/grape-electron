@@ -17,7 +17,7 @@ function hookStream(stream, callback) {
   const {write} = stream
   stream.write = function() {
     callback.apply(this, arguments)
-    return write.apply(stream1, arguments)
+    return write.apply(stream, arguments)
   }
 }
 
