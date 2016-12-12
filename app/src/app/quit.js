@@ -2,6 +2,6 @@ import {app} from 'electron'
 import state from './state'
 
 export default function() {
-  state.dontPreventClose = true
+  state.preventClose = false
   app.quit()
 }

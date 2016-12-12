@@ -103,7 +103,7 @@ export default () => {
 
   app.on('window-all-closed', () => {})
   app.on('before-quit', () => {
-    state.dontPreventClose = true
+    state.preventClose = false
   })
 
   app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {

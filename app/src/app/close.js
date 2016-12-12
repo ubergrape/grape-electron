@@ -20,7 +20,7 @@ const messages = defineMessages({
 })
 
 export default function(e) {
-  if (!state.dontPreventClose) {
+  if (state.preventClose) {
     e.preventDefault()
 
     if (isWindows()) {
