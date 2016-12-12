@@ -97,7 +97,7 @@ export default () => {
       loadApp()
     } else {
       global.host = clone(env.host)
-      state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
+      loadApp(urls[env.name === 'test' ? 'test' : 'domain'])
     }
   })
 
