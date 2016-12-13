@@ -96,14 +96,13 @@ export default () => {
     } else if (env.chooseDomainDisabled) {
       loadApp()
     } else {
-      global.host = clone(env.host)
-      state.mainWindow.loadURL(urls[env.name === 'test' ? 'test' : 'domain'])
+      loadApp(urls[env.name === 'test' ? 'test' : 'domain'])
     }
   })
 
   app.on('window-all-closed', () => {})
   app.on('before-quit', () => {
-    state.dontPreventClose = true
+    state.preventClose = false
   })
 
   app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {
