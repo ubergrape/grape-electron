@@ -96,7 +96,6 @@ export default () => {
     } else if (env.chooseDomainDisabled) {
       loadApp()
     } else {
-      global.host = clone(env.host)
       loadApp(urls[env.name === 'test' ? 'test' : 'domain'])
     }
   })
