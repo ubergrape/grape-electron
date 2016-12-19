@@ -61,7 +61,7 @@ export default function(e) {
   ) === chatPath
 
   storage.set('lastUrl', {
-    url: isLastUrlChat ? lastUrl : null,
+    url: isLastUrlChat ? lastUrl : false,
     host: state.host
   })
   state.dimensions.saveState(state.mainWindow)
