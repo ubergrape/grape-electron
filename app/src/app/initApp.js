@@ -87,8 +87,7 @@ export default () => {
     let lastUrl
 
     if (data) {
-      // use host from storage
-      // only if env.chooseDomainDisabled is false
+      // use host from storage only if env.chooseDomainDisabled is false
       // otherwise it overrides the one from graperc
       if (!env.chooseDomainDisabled && data.host) {
         global.host = state.host = data.host
