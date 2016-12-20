@@ -3,8 +3,9 @@ import storage from 'electron-json-storage'
 import {defineMessages} from 'react-intl'
 
 import state from './state'
-import {isWindows, isOSX} from './utils'
+import {isWindows, isOSX, isChatUrl} from './utils'
 
+import {chat as chatPath} from '../constants/paths'
 import * as imagePaths from '../constants/images'
 import {formatMessage} from '../i18n'
 
@@ -49,8 +50,16 @@ export default function(e) {
     }
     if (isOSX()) app.hide()
   }
+  const lastUrl = state.mainWindow.webContents.getURL()
+  const isLastUrlChat = isChatUrl(lastUrl)
+
   storage.set('lastUrl', {
-    url: state.mainWindow.webContents.getURL(),
+    // Setting `url` to `false` instead of `null`
+    // because otherwise electron-json-storage stores nothing on windows.
+    // If we use `null` we would get an error (empty file is not a valid json file)
+    // when later initApp tries to loads `lastUrl.json`
+    // and the app would returns a blank page.
+    url: isLastUrlChat ? lastUrl : false,
     host: state.host
   })
   state.dimensions.saveState(state.mainWindow)
