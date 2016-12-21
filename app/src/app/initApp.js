@@ -82,7 +82,7 @@ export default () => {
 
     const isProtocolHandled = handleProtocol()
 
-    if (err || isProtocolHandled) return
+    if (isProtocolHandled) return
 
     let lastUrl
 
