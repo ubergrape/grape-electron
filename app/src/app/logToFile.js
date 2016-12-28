@@ -13,11 +13,11 @@ function escapePath(path) {
   return path.replace(/( |\(|\))/g, `${escapeChar}$1`)
 }
 
-function hookStream(stream, callback) {
-  const {write} = stream
-  stream.write = function() {
+function wrap(src, method, callback) {
+  const target = src[method]
+  src[method] = function() {
     callback.apply(this, arguments)
-    return write.apply(stream, arguments)
+    return target.apply(src, arguments)
   }
 }
 
@@ -29,6 +29,10 @@ export default () => {
   const logFile = normalize(`${app.getPath('userData')}/console.log`)
   const log = fs.createWriteStream(logFile)
   console.log('Using log file', escapePath(logFile))
-  hookStream(process.stdout, log.write.bind(log))
+  if (isWindows()) {
+    wrap(console, 'log', log.write.bind(log))
+    return
+  }
+  wrap(process.stdout, 'write', log.write.bind(log))
 }
 
