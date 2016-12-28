@@ -17,10 +17,9 @@ export function osType() {
 }
 
 export function isNotificationSupported() {
-  return (
-      isWindows() &&
-        parseInt(os.release().split('.')[0], 10) < 10
-  ) ? false : true
+  // In windows we use trayIcon.displayBalloon and flashFrame
+  // instead of Native notifications.
+  return !isWindows()
 }
 
 function getHost(url) {
