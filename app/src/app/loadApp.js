@@ -41,7 +41,9 @@ export default function loadApp(url = state.getUrl()) {
 
     if (env.name !== 'production') state.mainWindow.openDevTools()
 
-    initTray()
+    if (!state.trayIcon) {
+      initTray()
+    }
     handleLocations()
   })
 }
