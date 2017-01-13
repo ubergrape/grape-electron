@@ -6,11 +6,17 @@ var jetpack = require('fs-jetpack');
 var asar = require('asar');
 var utils = require('../utils');
 var child_process = require('child_process');
-var sign = require('electron-osx-sign')
+var sign = require('electron-osx-sign');
+var download = require('electron-download');
+var extract = require('extract-zip');
+var fs = require('fs');
+var semver = require('semver');
+var path = require('path');
 
 var projectDir;
 var releasesDir;
 var tmpDir;
+var distDir;
 var finalAppDir;
 var manifest;
 var electronVersion;
@@ -18,16 +24,60 @@ var electronVersion;
 var init = function () {
     projectDir = jetpack;
     tmpDir = projectDir.dir('./tmp', { empty: true });
+    distDir = tmpDir.dir('./dist', { empty: true });
     releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
-    electronVersion = projectDir.read('package.json', 'json').devDependencies['electron-prebuilt'];
+    electronVersion = projectDir.read('package.json', 'json').devDependencies.electron;
+    electronVersion = semver.clean(electronVersion.replace(/\^/g, ''))
     finalAppDir = tmpDir.cwd(manifest.productName + '.app');
 
     return Q();
 };
 
+var downloadRuntime = function() {
+    var deferred = Q.defer();
+
+    // If it is not for mas, it has been already downloaded during installation.
+    if (!utils.isMas()) {
+        deferred.resolve();
+        return deferred.promise;
+    }
+
+    var platformPath = 'dist/Electron.app/Contents/MacOS/Electron';
+
+    gulpUtil.log('Downloading MAS build version', electronVersion, 'to', distDir.path());
+
+    download({
+      version: electronVersion,
+      platform: 'mas',
+      arch: process.env.npm_config_arch,
+      strictSSL: process.env.npm_config_strict_ssl === 'true',
+      quiet: ['info', 'verbose', 'silly', 'http'].indexOf(process.env.npm_config_loglevel) === -1
+    }, extractFile);
+
+    // unzips and makes path.txt point at the correct executable
+    function extractFile (err, zipPath) {
+      if (err) return deferred.reject(err);
+      gulpUtil.log('Extracting from', zipPath);
+      var options = {
+        dir: distDir.path()
+      };
+      extract(zipPath, options, function (err) {
+        if (err) return deferred.reject(err);
+        deferred.resolve();
+      });
+    }
+
+    return deferred.promise;
+};
+
 var copyRuntime = function () {
-    return projectDir.copyAsync('node_modules/electron-prebuilt/dist/Electron.app', finalAppDir.path());
+    var dist = 'node_modules/electron/dist';
+    if (utils.isMas()) dist = distDir.path();
+    var source = path.join(dist, 'Electron.app');
+    var dest = finalAppDir.path();
+    gulpUtil.log('Copy build from', source, 'to', dest);
+    return projectDir.copyAsync(source, dest);
 };
 
 var cleanupRuntime = function () {
@@ -99,10 +149,11 @@ var signApp = function () {
           'entitlements-inherit': projectDir.path('resources/osx/child.plist'),
           identity: identity,
           version: electronVersion,
-          platform: 'mas'
+          platform: 'mas',
+          'provisioning-profile': projectDir.path('Electron_Chat_Prod.provisionprofile')
         },
         function(err) {
-          if (err) console.log(err)
+          if (err) return deferred.reject(err)
           deferred.resolve()
         }
       )
@@ -167,6 +218,7 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
+        .then(downloadRuntime)
         .then(copyRuntime)
         .then(cleanupRuntime)
         .then(packageBuiltApp)

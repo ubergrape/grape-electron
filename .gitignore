@@ -8,3 +8,6 @@ Thumbs.db
 /releases/
 /tmp/
 *.DS_Store
+
+Electron_Chat_Dev.provisionprofile
+Electron_Chat_Prod.provisionprofile
