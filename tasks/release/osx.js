@@ -28,7 +28,7 @@ var init = function () {
     releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
     electronVersion = projectDir.read('package.json', 'json').devDependencies.electron;
-    electronVersion = semver.clean(electronVersion.replace(/\^/g, ''))
+    electronVersion = semver.clean(electronVersion.replace(/^[^0-9]+/, ''))
     finalAppDir = tmpDir.cwd(manifest.productName + '.app');
 
     return Q();
@@ -55,7 +55,6 @@ var downloadRuntime = function() {
       quiet: ['info', 'verbose', 'silly', 'http'].indexOf(process.env.npm_config_loglevel) === -1
     }, extractFile);
 
-    // unzips and makes path.txt point at the correct executable
     function extractFile (err, zipPath) {
       if (err) return deferred.reject(err);
       gulpUtil.log('Extracting from', zipPath);
@@ -139,28 +138,41 @@ var renameApp = function () {
 };
 
 var signApp = function () {
-    var identity = utils.getSigningId();
-    var deferred = Q.defer();
-    if (identity) {
-      sign(
-        {
-          app: releasesDir.path(finalAppDir.path().split('/').pop()),
-          entitlements: projectDir.path('resources/osx/parent.plist'),
-          'entitlements-inherit': projectDir.path('resources/osx/child.plist'),
-          identity: identity,
-          version: electronVersion,
-          platform: 'mas',
-          'provisioning-profile': projectDir.path('Electron_Chat_Prod.provisionprofile')
-        },
-        function(err) {
-          if (err) return deferred.reject(err)
-          deferred.resolve()
-        }
-      )
-      return deferred.promise
-    } else {
-        return Q();
+  var teamId = utils.getSigningId();
+
+  if (!teamId) return Q();
+
+  var identityPrefix;
+  var profile;
+
+  if (utils.isMas()) {
+    identityPrefix = '3rd Party Mac Developer Application';
+    profile = projectDir.path('Electron_Chat_Prod.provisionprofile');
+  } else {
+    identityPrefix = 'Developer ID Application';
+    profile = projectDir.path('Electron_Chat_Dev.provisionprofile');
+  }
+
+  var identity = identityPrefix + ': UberGrape GmbH (' + teamId + ')';
+  var deferred = Q.defer();
+
+  sign(
+    {
+      app: releasesDir.path(finalAppDir.path().split('/').pop()),
+      entitlements: projectDir.path('resources/osx/parent.plist'),
+      'entitlements-inherit': projectDir.path('resources/osx/child.plist'),
+      identity: identity,
+      version: electronVersion,
+      platform: utils.isMas() ? 'mas' : 'darwin',
+      'provisioning-profile': profile
+    },
+    function(err) {
+      if (err) return deferred.reject(err);
+      deferred.resolve();
     }
+  )
+
+  return deferred.promise;
 };
 
 var packToPkgFile = function() {
