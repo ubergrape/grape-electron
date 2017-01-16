@@ -23,7 +23,9 @@ You need to sign release:
   ![](./images/mac-certificates-screen.png)
 
   http://stackoverflow.com/questions/29039462/which-certificate-should-i-use-to-sign-my-mac-os-x-application
-
+- Download provision profiles and put them into root:
+  - Electron_Chat_Dev.provisionprofile
+  - Electron_Chat_Prod.provisionprofile
 - Increment [build number](https://github.com/ubergrape/grape-electron/blob/master/app/package.json#L7) for each review upload (you can upload same version multiple times if review failed, but build should be uniq all the time, don't reset this number ever, even for new version)
 
 - Signed store release `npm run release -- --sign {teamId} --mas`
