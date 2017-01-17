@@ -8,42 +8,45 @@ cd grape-electron
 npm install
 npm run release
 ```
-The result would be a installable (`dmg` and `app` or `msi` and `exe`) file in `./releases/` with version prefix that match version from `./app/package.json`
+The result will be an executable (`dmg`, `app`, `exe`) and installer (`msi`, `pkg`) file in `./releases` with version suffix from from `./app/package.json`.
+
+* Unsigned releaase is for development only. *
 
 ## App signing
 
 ### MacOS
 
-You need to sign release:
+You need to sign a release to:
 
-- to upload it to MacOS AppStore
-- to create a signed release for a distribution without store
+- upload it to MacOS AppStore
+- create a signed release for a distribution without store
 - create and install all certificates from developer.apple.com
 
   ![](./images/mac-certificates-screen.png)
 
   http://stackoverflow.com/questions/29039462/which-certificate-should-i-use-to-sign-my-mac-os-x-application
-- Download provision profiles and put them into root:
+- Download provision profiles and put them into the root:
   - Electron_Chat_Dev.provisionprofile
   - Electron_Chat_Prod.provisionprofile
-- Increment [build number](https://github.com/ubergrape/grape-electron/blob/master/app/package.json#L7) for each review upload (you can upload same version multiple times if review failed, but build should be uniq all the time, don't reset this number ever, even for new version)
+- Increment [build number](https://github.com/ubergrape/grape-electron/blob/master/app/package.json#L7) for each review upload (you can upload same version multiple times if the review failed, but the build number should be unique all the time, don't reset this number ever, even for new version)
 
 - Signed store release `npm run release -- --sign {teamId} --mas`
 - Signed distribution outside of store `npm run release -- --sign {teamId}`
 
-For signing you will need group of certificates in `Keychain Access`, described here: https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md#get-certificate
+To sign the app you first need to get a certificate from Apple as described here: https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md#get-certificate
 
 ### Windows
-You need to sign any release on Windows.
+
+In order to sign you need a certificate and a password.
 So you need to have certificate on your `win7` and password.
-It is already there on our pre-setup [Parallels Windows7 Image](https://github.com/ubergrape/chatgrape/wiki/Electron-Build-Instructions#windows-1) at `c:\grape_code_signing.p12`
+In order to sign you need a certificate and a password.
+We have a pre configured windows 7 image that you can find at [Parallels Windows7 Image](https://github.com/ubergrape/chatgrape/wiki/Electron-Build-Instructions#windows-1). The certificate will be in `c:\grape_code_signing.p12`.
+
 Or if you're building own environment, you need to get it with password from @sk7
 
 ```
 npm run release -- --sign PASSWORD --cert c:\path-to-cert.p12
 ```
-
-## macOS
 
 ## Windows
 
