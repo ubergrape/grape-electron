@@ -22,13 +22,29 @@ function wrap(src, method, callback) {
 }
 
 /**
+ * Ignore errors, we are not allowed to write to that location in
+ * apples sandbox env., used during the release to app store.
+ */
+function createWriteStream(path) {
+  try {
+    return fs.createWriteStream(path)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+/**
  * Duplicates stdout and stderr streams into `console.log`.
  * For the case when process is detached from the shell and we need to debug.
  */
 export default () => {
   const logFile = normalize(`${app.getPath('userData')}/console.log`)
-  const log = fs.createWriteStream(logFile)
+  const log = createWriteStream(logFile)
+
+  if (!log) return
+
   console.log('Using log file', escapePath(logFile))
+
   if (isWindows()) {
     wrap(console, 'log', log.write.bind(log))
     return
