@@ -33,7 +33,10 @@ You need to sign a release to:
 - Signed store release `npm run release -- --sign {teamId} --mas`
 - Signed distribution outside of store `npm run release -- --sign {teamId}`
 
-To sign the app you first need to get a certificate from Apple as described here: https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md#get-certificate
+  To sign the app you first need to get a certificate from Apple as described here: https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md#get-certificate
+
+- Use "Application Loader" app to upload the package to the store.
+- Go to https://itunesconnect.apple.com and publish it.
 
 ### Windows
 
