@@ -29,13 +29,19 @@ export default () => {
   const logFile = normalize(`${app.getPath('userData')}/console.log`)
   const log = fs.createWriteStream(logFile)
 
-  log.once('open', () => {
-    console.log('Using log file', escapePath(logFile))
+  log
+    .once('open', () => {
+      console.log('Using log file', escapePath(logFile))
 
-    if (isWindows()) {
-      wrap(console, 'log', log.write.bind(log))
-      return
-    }
-    wrap(process.stdout, 'write', log.write.bind(log))
-  })
+      if (isWindows()) {
+        wrap(console, 'log', log.write.bind(log))
+        return
+      }
+      wrap(process.stdout, 'write', log.write.bind(log))
+    })
+    // Handle error, otherwise it will throw into the face.
+    .on('error', (err) => {
+      // Ignore the error in this case.
+      console.log(err)
+    })
 }
