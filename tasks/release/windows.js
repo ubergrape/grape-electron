@@ -6,7 +6,8 @@ var childProcess = require('child_process');
 var jetpack = require('fs-jetpack');
 var asar = require('asar');
 var utils = require('../utils');
-var uuid = require('node-uuid');
+
+var upgradeCode = '0BAA1F0D-A23D-4092-A61A-E3284D8541CB';
 
 var projectDir;
 var tmpDir;
@@ -195,10 +196,10 @@ var runCandleForMsi = function() {
         ico32: projectDir.path('resources/windows/icon.ico'),
         ico16: projectDir.path('resources/windows/icon.ico'),
         license: tmpDir.path('LICENSE.rtf'),
-        productId: uuid.v4(),
-        upgradeCode: uuid.v4(),
-        manufacturer : manifest.name
+        upgradeCode: upgradeCode,
+        manufacturer : manifest.author
     });
+
 
     tmpDir.write('installer.wxl', wixFile);
 
@@ -286,8 +287,8 @@ var runCandleForBootstraper = function() {
         version: manifest.version,
         icon: readyAppDir.path('icon.ico'),
         license: tmpDir.path('LICENSE.rtf'),
-        upgradeCode: uuid.v4(),
-        manufacturer: manifest.name,
+        upgradeCode: upgradeCode,
+        manufacturer: manifest.author,
         msi: releasesDir.path(utils.finalPackageName(manifest, 'msi'))
     });
 

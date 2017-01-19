@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?define ProductVersion = "{{version}}"?>
-<?define ProductId = "{{productId}}"?>
 <?define ProductUpgradeCode = "{{upgradeCode}}"?>
 <?define ProductName = "{{productName}}"?>
 <?define exeName = "{{exeName}}"?>
@@ -15,7 +14,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
    xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
-  <Product Id="$(var.ProductId)" UpgradeCode="$(var.ProductUpgradeCode)" Name="$(var.ProductName)" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" Language="1033" >
+  <Product Id="*" UpgradeCode="$(var.ProductUpgradeCode)" Name="$(var.ProductName)" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" Language="1033" >
 
     <Package InstallerVersion="200" Compressed="yes" InstallScope = "perMachine"/>
 
