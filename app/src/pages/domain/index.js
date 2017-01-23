@@ -30,9 +30,9 @@ export default class Domain extends Component {
     }
   }
 
-  onSelectOnPremise = () => {
+  onSelectonPremises = () => {
     this.input.focus()
-    this.setState({tab: 'onPremise'})
+    this.setState({tab: 'onPremises'})
   }
 
   onSelectGrape = () => {
@@ -79,14 +79,14 @@ export default class Domain extends Component {
                 description="Grape tab title in domain picker." />
             </label>
             <label
-              onClick={this.onSelectOnPremise}
-              className={`tab tab_right ${tab === 'onPremise' ? 'tab_selected' : ''}`}>
+              onClick={this.onSelectonPremises}
+              className={`tab tab_right ${tab === 'onPremises' ? 'tab_selected' : ''}`}>
               <FormattedMessage
-                id="onPremiseTab"
-                defaultMessage="On-Premise"
-                description="On-Premise tab title in domain picker." />
+                id="onPremisesTab"
+                defaultMessage="On-Premises"
+                description="On-Premises tab title in domain picker." />
             </label>
-            <div className={`host ${tab === 'onPremise' ? 'host_expanded' : ''}`}>
+            <div className={`host ${tab === 'onPremises' ? 'host_expanded' : ''}`}>
               <label className="host__label" htmlFor="host">Server URL</label>
               <input
                 className="input"
