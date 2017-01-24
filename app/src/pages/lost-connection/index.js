@@ -57,11 +57,25 @@ export default class LostConnection extends Component {
 
     return (
       <button
-        className={isLoading ? 'loading' : ''}
         onClick={this.onReload}
         disabled={isLoading}>
         {text}
       </button>
+    )
+  }
+
+  renderReloadMessage() {
+    if (this.state.isLoading) {
+      return this.renderButton()
+    }
+
+    return (
+      <FormattedMessage
+        id="tryToReload"
+        defaultMessage="Try to {button} again."
+        values={{
+          button: this.renderButton()
+        }} />
     )
   }
 
@@ -83,12 +97,7 @@ export default class LostConnection extends Component {
               defaultMessage="Please check if your internet connection is working properly." />
           </h2>
           <p>
-            <FormattedMessage
-              id="tryToReload"
-              defaultMessage="Try to {button} again."
-              values={{
-                button: this.renderButton()
-              }} />
+            {this.renderReloadMessage()}
           </p>
           {domain !== grapeDomain && !chooseDomainDisabled &&
             <p>
@@ -99,8 +108,8 @@ export default class LostConnection extends Component {
                   button: (
                     <a href={urls.domain}>
                       <FormattedMessage
-                        id="changeDomain"
-                        defaultMessage="change On Premise domain" />
+                        id="changeOnPremisesDomain"
+                        defaultMessage="change the on-premises domain" />
                     </a>
                   )
                 }} />
