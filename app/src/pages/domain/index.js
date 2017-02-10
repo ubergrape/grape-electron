@@ -5,6 +5,7 @@ import {
   defineMessages,
   injectIntl
 } from 'react-intl'
+import {parse} from 'url'
 
 import styles from './styles'
 
@@ -41,7 +42,7 @@ export default class Domain extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const value = this.state.tab === 'grape' ? grapeDomain : this.state.value
+    const value = this.state.tab === 'grape' ? grapeDomain : parse(this.state.value).host || this.state.value
     ipcRenderer.send('domainChange', value)
   }
 
@@ -87,7 +88,7 @@ export default class Domain extends Component {
                 description="On-Premises tab title in domain picker." />
             </label>
             <div className={`host ${tab === 'onPremises' ? 'host_expanded' : ''}`}>
-              <label className="host__label" htmlFor="host">Server URL</label>
+              <label className="host__label" htmlFor="host">Server Domain</label>
               <input
                 className="input"
                 id="host"
