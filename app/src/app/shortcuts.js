@@ -2,7 +2,8 @@ import {globalShortcut, BrowserWindow} from 'electron'
 
 const shortcuts = {
   'Alt+CmdOrCtrl+I': () => {
-    BrowserWindow.getFocusedWindow().toggleDevTools()
+    const win = BrowserWindow.getFocusedWindow()
+    if (win) win.toggleDevTools()
   }
 }
 
