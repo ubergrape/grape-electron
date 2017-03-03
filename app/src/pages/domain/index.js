@@ -42,7 +42,20 @@ export default class Domain extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const value = this.state.tab === 'grape' ? grapeDomain : parse(this.state.value).host || this.state.value
+    let value = grapeDomain
+    if (this.state.tab !== 'grape') {
+      // Valid input can be an URL or a domain with optional custom port.
+      // We try to parse the input as URL first.
+      let parsed = parse(this.state.value)
+      // Invalid urls don't have double slashes after the protocol.
+      if (!parsed.slashes) {
+        // Because of that we strip out any potential leading `:` and `/` character
+        // and re parse as url. This is to fix things like `//foo.com`, `://foo.com` and so on.
+        parsed = parse(`http://${this.state.value.replace(/^[\:\/]*/g, '')}`)
+      }
+      // host contains hostname and optionally the port.
+      value = parsed.host
+    }
     ipcRenderer.send('domainChange', value)
   }
 
