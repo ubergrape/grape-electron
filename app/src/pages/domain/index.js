@@ -42,7 +42,11 @@ export default class Domain extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const value = this.state.tab === 'grape' ? grapeDomain : parse(this.state.value).host || this.state.value
+    let value = grapeDomain
+    if (this.state.tab !== 'grape') {
+      const parsed = parse(this.state.value)
+      value = parsed.slashes ? parsed.host : this.state.value
+    }
     ipcRenderer.send('domainChange', value)
   }
 
