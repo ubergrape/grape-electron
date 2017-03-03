@@ -44,8 +44,14 @@ export default class Domain extends Component {
     e.preventDefault()
     let value = grapeDomain
     if (this.state.tab !== 'grape') {
-      const parsed = parse(this.state.value)
-      value = parsed.slashes ? parsed.host : this.state.value
+      let parsed = parse(this.state.value)
+      // Invalid urls don't have double slashes after the protocol.
+      if (!parsed.slashes) {
+        // Strip out any leading `:` and `/` and re parse as url
+        parsed = parse(`http://${this.state.value.replace(/^[\:\/]*/g, '')}`)
+      }
+      // host contains hostname and optionally the port
+      value = parsed.host
     }
     ipcRenderer.send('domainChange', value)
   }
