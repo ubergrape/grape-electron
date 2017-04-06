@@ -40,6 +40,6 @@ export default `
 
   h2
   {
-    margin-top: 10px;
+    margin: 20px 0;
   }
 `

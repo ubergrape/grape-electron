@@ -1,23 +1,25 @@
 import React from 'react'
 import {render} from 'react-dom'
+import qs from 'querystring'
 
 import {wrapWithIntlProvider} from '../i18n'
 import Domain from './domain'
 import Loading from './loading'
-import LostConnection from './lost-connection'
+import ConnectionError from './connection-error'
 import TokenAuth from './token-auth'
 
-const pages = {
-  '?page=lostConnection': LostConnection,
-  '?page=loading': Loading,
-  '?page=domain': Domain,
-  '?page=tokenAuth': TokenAuth,
+const pageComponentMap = {
+  connectionError: ConnectionError,
+  loading: Loading,
+  domain: Domain,
+  tokenAuth: TokenAuth
 }
 
-const Page = wrapWithIntlProvider(pages[location.search])
+const {page, ...props} = qs.parse(location.search.substr(1))
 
-if (Page) {
+if (pageComponentMap[page]) {
+  const Page = wrapWithIntlProvider(pageComponentMap[page])
   const container = document.body.appendChild(document.createElement('div'))
   container.style.height = '100%'
-  render(<Page />, container)
+  render(<Page {...props} />, container)
 }

@@ -14,12 +14,12 @@ const locale = (app ? app.getLocale() : navigator.language).substr(0, 2)
 
 const messages = translations[locale]
 
-export function wrapWithIntlProvider(WrappedComponent) {
+export function wrapWithIntlProvider(ChildComponent) {
   return class extends Component {
     render() {
       return (
         <IntlProvider locale={locale} messages={messages}>
-          <WrappedComponent />
+          <ChildComponent {...this.props} />
         </IntlProvider>
       )
     }

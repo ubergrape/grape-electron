@@ -11,6 +11,7 @@ const pages = format({
 export const urls = {
   domain: `${pages}?page=domain`,
   loading: `${pages}?page=loading`,
-  lostConnection: `${pages}?page=lostConnection`,
-  tokenAuth: `${pages}?page=tokenAuth`
+  connectionError: `${pages}?page=connectionError`,
+  certificateError: `${pages}?page=connectionError&type=badSslCert`,
+  tokenAuth: `${pages}?page=tokenAuth`,
 }
