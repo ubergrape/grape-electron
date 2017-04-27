@@ -2,8 +2,8 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
+import '../electron/setDataDirs'
 import {app} from 'electron'
-
 import logToFile from './logToFile'
 import {register as registerProtocol} from './protocolHandler'
 import {register as registerShortcuts} from './shortcuts'
