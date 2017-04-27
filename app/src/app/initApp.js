@@ -22,6 +22,7 @@ import windowStateKeeper from '../electron/windowStateKeeper'
 import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
+import quit from './quit'
 import {urls} from '../constants/pages'
 import * as imagePaths from '../constants/images'
 import {handle as handleProtocol} from './protocolHandler'
@@ -104,7 +105,8 @@ export default () => {
     }
   })
 
-  app.on('window-all-closed', () => {})
+  app.on('window-all-closed', quit)
+
   app.on('before-quit', () => {
     state.preventClose = false
   })
