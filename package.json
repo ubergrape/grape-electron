@@ -24,5 +24,6 @@
     "start": "node ./tasks/start",
     "test": "node ./tasks/start --env=test",
     "install-native": "node ./tasks/install_native_module"
-  }
+  },
+  "version": "2.12.0"
 }
