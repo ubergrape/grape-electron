@@ -21,13 +21,13 @@ const Body = div({
 })
 
 const Logo = styled('img')({
-  width: '30%'
+  width: '20%',
+  marginBottom: 20
 })
 
 const Product = styled('h1')({
   extend: biggest,
-  fontWeight: 'bold',
-  margin: 20
+  fontWeight: 'bold'
 })
 
 const Row = div({
