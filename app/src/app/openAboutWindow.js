@@ -16,6 +16,7 @@ export default () => {
     minimizable: false,
     maximizable: false
   })
+  win.setMenu(null)
   win.loadURL(urls.about)
   win.once('ready-to-show', () => {
     win.show()
