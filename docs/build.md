@@ -10,7 +10,7 @@ npm run release
 ```
 The result will be an executable (`dmg`, `app`, `exe`) and installer (`msi`, `pkg`) file in `./releases` with version suffix from from `./app/package.json`.
 
-* Unsigned releaase is for development only. *
+* Unsigned release is for development only. *
 
 ## App signing
 

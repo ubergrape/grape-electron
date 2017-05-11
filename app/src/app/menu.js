@@ -5,6 +5,7 @@ import showMainWindow from './showMainWindow'
 import env from './env'
 import state from './state'
 import quit from './quit'
+import openAboutWindow from './openAboutWindow'
 import {isOSX} from './utils'
 import loadApp from './loadApp'
 import {urls} from '../constants/pages'
@@ -79,7 +80,9 @@ export let main = [
     submenu: [
       {label: formatMessage(messages.quit), accelerator: 'Cmd+Q', click: quit},
       {label: formatMessage(messages.backToChat), click: backToChat},
-      {label: formatMessage(messages.chooseDomain), click: chooseDomain, enabled: !env.chooseDomainDisabled}
+      {label: formatMessage(messages.chooseDomain), click: chooseDomain, enabled: !env.chooseDomainDisabled},
+      {type: 'separator'},
+      {label: formatMessage(messages.about), click: openAboutWindow}
     ]
   },
   {
@@ -95,13 +98,6 @@ export let main = [
     ]
   }
 ]
-
-if (isOSX()) {
-  main[0].submenu.push(
-    {type: 'separator'},
-    {label: formatMessage(messages.about), role: 'about'}
-  )
-}
 
 if (env.name !== 'production') {
   main = main.concat(devMenu)

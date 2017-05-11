@@ -7,12 +7,14 @@ import Domain from './domain'
 import Loading from './loading'
 import ConnectionError from './connection-error'
 import TokenAuth from './token-auth'
+import About from './about'
 
 const pageComponentMap = {
   connectionError: ConnectionError,
   loading: Loading,
   domain: Domain,
-  tokenAuth: TokenAuth
+  tokenAuth: TokenAuth,
+  about: About
 }
 
 const {page, ...props} = qs.parse(location.search.substr(1))
