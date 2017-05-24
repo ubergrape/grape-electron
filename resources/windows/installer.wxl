@@ -219,8 +219,7 @@
         <Condition>GRAPE_AUTORUN</Condition>
         <RegistryKey Root="HKMU"
                      Key="Software\Microsoft\Windows\CurrentVersion\Run"
-                     ForceCreateOnInstall="yes"
-                     ForceDeleteOnUninstall="yes">
+                     ForceCreateOnInstall="yes">
           <RegistryValue Type="string" Name="Grape" Value="[INSTALLDIR]$(var.exeName)"/>
         </RegistryKey>
       </Component>
