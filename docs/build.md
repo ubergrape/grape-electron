@@ -8,7 +8,7 @@ cd grape-electron
 npm install
 npm run release
 ```
-The result will be an executable (`dmg`, `app`, `exe`) and installer (`msi`, `pkg`) file in `./releases` with version suffix from from `./app/package.json`.
+The result will be an executable (`dmg`, `app`, `exe`) and installer (`msi`, `pkg`) file in `./releases` with version suffix from from `/app/package.json`. Version from `/package.json` is not used anywhere.
 
 * Unsigned release is for development only. *
 
