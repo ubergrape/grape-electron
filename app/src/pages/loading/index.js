@@ -4,26 +4,18 @@ import {
   defineMessages,
   injectIntl
 } from 'react-intl'
-
-const styles = `
-  html, body {
-    height: 100%
-  }
-  body {
-    background: #fff url("../images/loading.gif") 50% 50% no-repeat;
-  }
-`
+import Spinner from 'grape-web/lib/components/spinner'
 
 const messages = defineMessages({
   title: {
     id: 'loadingGrapeTitle',
     defaultMessage: 'Grape: Loading…',
-    description: "Window title."
+    description: 'Window title.'
   }
 })
 
 export default injectIntl(({intl: {formatMessage}}) => (
   <DocumentTitle title={formatMessage(messages.title)}>
-    <style dangerouslySetInnerHTML={{__html: styles}} />
+    <Spinner />
   </DocumentTitle>
 ))
