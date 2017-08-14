@@ -61,9 +61,9 @@ _To build 64bit app you need to use 64bit Windows._
 Otherwise you need to:
  * install 32bit node (last safe version is `6.3.0`)
  * install git or download source
- * install latest [WiX] (http://wixtoolset.org/)
+ * install latest [WiX](http://wixtoolset.org/)
    * add path to `bin` folder (usually it will be `C:\Program Files\WiX Toolset v3.9\bin\`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
- * install [microsoft windows sdk for win7] (https://www.microsoft.com/en-us/download/details.aspx?id=8279)
+ * install [microsoft windows sdk for win7](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
    * add path to `bin` folder (usually it will be `C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
  * fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows)
 
