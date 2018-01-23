@@ -1,12 +1,12 @@
 import {env} from '../../package.json'
 import rc from './rc'
 
-if (Object.prototype.hasOwnProperty.call(rc, 'domain')) {
+if (rc.domain) {
   env.host.domain = rc.domain
   env.chooseDomainDisabled = true
 }
 
-if (Object.prototype.hasOwnProperty.call(rc, 'startInBackgroundWhenAutostarted')) {
+if (rc.startInBackgroundWhenAutostarted != null) {
   env.startInBackgroundWhenAutostarted = rc.startInBackgroundWhenAutostarted
 }
 
