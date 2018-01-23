@@ -55,7 +55,7 @@ export default () => {
   })
 
   // figure out if we start in background
-  const autostart = (process.argv || []).indexOf('--autostart') !== -1
+  const autostart = process.argv.indexOf('--autostart') !== -1
   const startInBackground = autostart && env.startInBackgroundWhenAutostarted
   console.log(`autostart: ${autostart}`)
   console.log(`startInBackground: ${startInBackground}`)
