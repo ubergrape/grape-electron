@@ -41,11 +41,11 @@ You need to sign a release to:
 ### Windows
 
 In order to sign you need a certificate and a password.
-So you need to have certificate on your `win7` and password.
-In order to sign you need a certificate and a password.
-We have a pre configured windows 7 image that you can find at [Parallels Windows7 Image](https://github.com/ubergrape/chatgrape/wiki/Electron-Build-Instructions#windows-1). The certificate will be in `c:\grape_code_signing.p12`.
+So you need to have a certificate on your `win7` and password.
 
-Or if you're building own environment, you need to get it with password from @sk7
+We have a pre configured windows 7 image that you can [find in our internal wiki](https://github.com/ubergrape/chatgrape/wiki/Electron-Passwords) (only accessble to Grape developers). The certificate will be in `c:\grape_code_signing.p12`.
+
+Or if you're building own environment, you need to get the certificate and the password from @sk7
 
 ```
 npm run release -- --sign PASSWORD --cert c:\path-to-cert.p12
@@ -66,6 +66,17 @@ Otherwise you need to:
  * install [microsoft windows sdk for win7](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
    * add path to `bin` folder (usually it will be `C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
  * fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows)
+ 
+steps with [`choco`](https://chocolatey.org/) (**WIP**)
+
+* open cmd (right click) with admin permissions and install chocolatey first.
+
+```
+choco install git
+choco install nodejs.install
+choco install wixtoolset # doesn't work or at least PATH entry is missing
+choco install windows-sdk-10.1 
+```
 
 -----
 
