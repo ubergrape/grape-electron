@@ -220,7 +220,7 @@
         <RegistryKey Root="HKMU"
                      Key="Software\Microsoft\Windows\CurrentVersion\Run"
                      ForceCreateOnInstall="yes">
-          <RegistryValue Type="string" Name="Grape" Value="[INSTALLDIR]$(var.exeName)"/>
+          <RegistryValue Type="string" Name="Grape" Value="[INSTALLDIR]$(var.exeName) --autostart"/>
         </RegistryKey>
       </Component>
     </DirectoryRef>

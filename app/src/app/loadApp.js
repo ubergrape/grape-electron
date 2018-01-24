@@ -27,10 +27,14 @@ export default function loadApp(url = state.getUrl()) {
       hidden = false
     }
 
-    if (hidden) {
-      app.once('activate', () => newMain.show())
+    if (state.prefs.show) {
+      if (hidden) {
+        app.once('activate', () => newMain.show())
+      } else {
+        newMain.show()
+      }
     } else {
-      newMain.show()
+      newMain.minimize()
     }
 
     state.mainWindow = newMain

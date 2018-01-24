@@ -1,5 +1,6 @@
 {
   "name": "test",
   "description": "Add here any environment specific stuff you like.",
-  "host": {}
+  "host": {},
+  "startInBackgroundWhenAutostarted": true
 }

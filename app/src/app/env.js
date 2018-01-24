@@ -6,4 +6,8 @@ if (rc.domain) {
   env.chooseDomainDisabled = true
 }
 
+if (rc.startInBackgroundWhenAutostarted != null) {
+  env.startInBackgroundWhenAutostarted = rc.startInBackgroundWhenAutostarted
+}
+
 export default env

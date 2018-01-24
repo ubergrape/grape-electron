@@ -54,6 +54,12 @@ export default () => {
     height: 1000
   })
 
+  // figure out if we start in background
+  const autostart = process.argv.indexOf('--autostart') !== -1
+  const startInBackground = autostart && env.startInBackgroundWhenAutostarted
+  console.log(`autostart: ${autostart}`)
+  console.log(`startInBackground: ${startInBackground}`)
+
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign(
       {},
@@ -61,7 +67,8 @@ export default () => {
       {
         webPreferences: {
           allowDisplayingInsecureContent: true
-        }
+        },
+        show: !startInBackground
       }
     )
 
@@ -72,9 +79,11 @@ export default () => {
     global.chooseDomainDisabled = env.chooseDomainDisabled
 
     state.mainWindow = new BrowserWindow(state.prefs)
-
-    if (state.dimensions.isMaximized) {
+    if (state.dimensions.isMaximized && state.prefs.show) {
       state.mainWindow.maximize()
+    } else {
+      console.log('start in background')
+      state.mainWindow.hide()
     }
 
     const Menu = state.Menu = require('electron').Menu
