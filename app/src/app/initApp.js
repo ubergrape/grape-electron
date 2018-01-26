@@ -91,9 +91,9 @@ export default () => {
     global.chooseDomainDisabled = env.chooseDomainDisabled
 
     state.mainWindow = new BrowserWindow(state.prefs)
-    /* if (state.dimensions.isMaximized && state.prefs.show) {
+    if (state.dimensions.isMaximized && state.prefs.show) {
       state.mainWindow.maximize()
-    }*/
+    }
 
     const Menu = state.Menu = require('electron').Menu
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
