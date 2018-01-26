@@ -73,6 +73,15 @@ export default () => {
       }
     )
 
+    // workaround to solve invisible app problem when windows was closed on
+    // another monitor previously but Grape starts without the monitor now
+    if (state.dimensions.x < 0 || state.dimensions.x < 0) {
+      state.prefs = Object.assign(
+        state.prefs,
+        {x: 0, y: 0}
+      )
+    }
+
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
     global.host = state.host
