@@ -1,8 +1,8 @@
 {
-  "version": "2.12.0",
+  "version": "2.14.0",
   "devDependencies": {
     "asar": "^0.10.0",
-    "electron": "^1.7.10",
+    "electron": "^1.7.11",
     "electron-download": "^3.2.0",
     "electron-osx-sign": "^0.4.2",
     "extract-zip": "^1.6.0",
