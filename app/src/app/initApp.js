@@ -73,13 +73,15 @@ export default () => {
       }
     )
 
-    // workaround to solve invisible app problem when windows was closed on
-    // another monitor previously but Grape starts without the monitor now
-    if (state.dimensions.x < 0 || state.dimensions.x < 0) {
-      state.prefs = Object.assign(
-        state.prefs,
-        {x: 0, y: 0}
-      )
+    // workaround to solve problem:
+    // 1. move grape window to second screen
+    // 2. quit grape -> x or y might be negative now in windw-state.json
+    // 3. unplug monitor
+    // 4. start Grape again
+    // see GRAPE-14546
+    if (state.dimensions.x < 0 || state.dimensions.y < 0) {
+      state.prefs.x = 0;
+      state.prefs.y = 0;
     }
 
     // set global to be accessible from webpage
