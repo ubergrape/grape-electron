@@ -89,12 +89,9 @@ export default () => {
     global.chooseDomainDisabled = env.chooseDomainDisabled
 
     state.mainWindow = new BrowserWindow(state.prefs)
-    if (state.dimensions.isMaximized && state.prefs.show) {
+    /* if (state.dimensions.isMaximized && state.prefs.show) {
       state.mainWindow.maximize()
-    } else {
-      console.log('start in background')
-      state.mainWindow.hide()
-    }
+    }*/
 
     const Menu = state.Menu = require('electron').Menu
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
