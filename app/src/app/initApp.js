@@ -18,7 +18,7 @@ import {
 } from './utils'
 import env from './env'
 import state from './state'
-import windowStateKeeper from '../electron/windowStateKeeper'
+import windowStateKeeper from 'electron-window-state'
 import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
@@ -49,10 +49,11 @@ export default () => {
   })
 
   // Preserver of the window size and position between app launches.
-  state.dimensions = windowStateKeeper('main', {
-    width: 1075,
-    height: 1000
+  state.dimensions = windowStateKeeper({
+    defaultWidth: 1075,
+    defaultHeight: 1000
   })
+
 
   // figure out if we start in background
   const autostart = process.argv.indexOf('--autostart') !== -1
@@ -72,6 +73,17 @@ export default () => {
       }
     )
 
+    // workaround to solve problem:
+    // 1. move grape window to second screen
+    // 2. quit grape -> x or y might be negative now in windw-state.json
+    // 3. unplug monitor
+    // 4. start Grape again
+    // see GRAPE-14546
+    if (state.dimensions.x < 0 || state.dimensions.y < 0) {
+      state.prefs.x = 0
+      state.prefs.y = 0
+    }
+
     // set global to be accessible from webpage
     global.isNotificationSupported = isNotificationSupported()
     global.host = state.host
@@ -81,9 +93,6 @@ export default () => {
     state.mainWindow = new BrowserWindow(state.prefs)
     if (state.dimensions.isMaximized && state.prefs.show) {
       state.mainWindow.maximize()
-    } else {
-      console.log('start in background')
-      state.mainWindow.hide()
     }
 
     const Menu = state.Menu = require('electron').Menu
