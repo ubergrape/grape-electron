@@ -18,7 +18,7 @@ import {
 } from './utils'
 import env from './env'
 import state from './state'
-import windowStateKeeper from '../electron/windowStateKeeper'
+import windowStateKeeper from 'electron-window-state'
 import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
@@ -49,10 +49,11 @@ export default () => {
   })
 
   // Preserver of the window size and position between app launches.
-  state.dimensions = windowStateKeeper('main', {
-    width: 1075,
-    height: 1000
+  state.dimensions = windowStateKeeper({
+    defaultWidth: 1075,
+    defaultHeight: 1000
   })
+
 
   // figure out if we start in background
   const autostart = process.argv.indexOf('--autostart') !== -1
