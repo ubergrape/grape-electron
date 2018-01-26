@@ -80,8 +80,8 @@ export default () => {
     // 4. start Grape again
     // see GRAPE-14546
     if (state.dimensions.x < 0 || state.dimensions.y < 0) {
-      state.prefs.x = 0;
-      state.prefs.y = 0;
+      state.prefs.x = 0
+      state.prefs.y = 0
     }
 
     // set global to be accessible from webpage
