@@ -5,8 +5,8 @@
 ```bash
 git clone git@github.com:ubergrape/grape-electron.git
 cd grape-electron
-npm install
-npm run release
+yarn
+yarn release
 ```
 The result will be an executable (`dmg`, `app`, `exe`) and installer (`msi`, `pkg`) file in `./releases` with version suffix from from `/app/package.json`. Version from `/package.json` is not used anywhere.
 
@@ -30,8 +30,8 @@ You need to sign a release to:
   - Electron_Chat_Prod.provisionprofile
 - Increment [build number](https://github.com/ubergrape/grape-electron/blob/master/app/package.json#L7) for each review upload (you can upload same version multiple times if the review failed, but the build number should be unique all the time, don't reset this number ever, even for new version)
 
-- Signed store release `npm run release -- --sign {teamId} --mas`
-- Signed distribution outside of store `npm run release -- --sign {teamId}`
+- Signed store release `yarn release -- --sign {teamId} --mas`
+- Signed distribution outside of store `yarn release -- --sign {teamId}`
 
   To sign the app you first need to get a certificate from Apple as described here: https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md#get-certificate
 
@@ -48,7 +48,7 @@ We have a pre configured windows 7 image that you can [find in our internal wiki
 Or if you're building own environment, you need to get the certificate and the password from @sk7
 
 ```
-npm run release -- --sign PASSWORD --cert c:\path-to-cert.p12
+yarn release -- --sign PASSWORD --cert c:\path-to-cert.p12
 ```
 
 ## Windows
@@ -66,7 +66,7 @@ Otherwise you need to:
  * install [microsoft windows sdk for win7](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
    * add path to `bin` folder (usually it will be `C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
  * fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows)
- 
+
 steps with [`choco`](https://chocolatey.org/) (**WIP**)
 
 * open cmd (right click) with admin permissions and install chocolatey first.
@@ -75,7 +75,7 @@ steps with [`choco`](https://chocolatey.org/) (**WIP**)
 choco install git
 choco install nodejs.install
 choco install wixtoolset # doesn't work or at least PATH entry is missing
-choco install windows-sdk-10.1 
+choco install windows-sdk-10.1
 ```
 
 -----
