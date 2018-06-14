@@ -1,7 +1,7 @@
 import minimatch from 'minimatch'
-import {parse} from 'url'
+import { parse } from 'url'
 
-var os = require('os')
+const os = require('os')
 
 export function isWindows() {
   return os.type() === 'Windows_NT'
@@ -40,14 +40,13 @@ export function isExternalUrl(url, current) {
 export function isChatUrl(url) {
   return (
     parse(url)
-      .pathname
-      .split('/')
+      .pathname.split('/')
       // remove empty array elements:
       //
       // '/some/path'.split('/')
       // > ["", "some", "path"]
       // '//some/path'.split('/')
       // > ["", "", "some", "path"]
-      .filter(p => p !== '')[0]
-  ) === 'chat'
+      .filter(p => p !== '')[0] === 'chat'
+  )
 }

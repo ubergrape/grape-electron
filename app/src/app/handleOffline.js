@@ -1,4 +1,4 @@
-import {urls} from '../constants/pages'
+import { urls } from '../constants/pages'
 import state from './state'
 
 const responseTimeout = 10000
@@ -9,12 +9,12 @@ export default function handleOffline(url, win) {
     win.loadURL(urls.connectionError)
   }
   let response = false
-  const {webContents} = win
+  const { webContents } = win
   webContents.once('did-fail-load', offline)
   webContents.once('did-get-response-details', () => {
     response = true
   })
-  webContents.once('certificate-error', function() {
+  webContents.once('certificate-error', () => {
     win.loadURL(`${urls.certificateError}&url=${url}`)
   })
 

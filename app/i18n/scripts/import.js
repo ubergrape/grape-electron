@@ -1,12 +1,17 @@
 import * as fs from 'fs'
-import {sync} from 'glob'
+import { sync } from 'glob'
 
 const messagesPattern = './i18n/translations/*.json'
 const outputDir = './src/i18n/'
 const commentRegExp = /\.comment$/
 
-sync(messagesPattern).map((file) => {
-  const filename = file.split('/').pop().split('.').slice(0, -1).join('.')
+sync(messagesPattern).map(file => {
+  const filename = file
+    .split('/')
+    .pop()
+    .split('.')
+    .slice(0, -1)
+    .join('.')
   const parsed = JSON.parse(fs.readFileSync(file, 'utf8'))
   const messages = Object.keys(parsed).reduce((result, key) => {
     if (commentRegExp.test(key)) return result
@@ -15,8 +20,7 @@ sync(messagesPattern).map((file) => {
     return result
   }, {})
 
-  const output =
-`/* eslint-disable */
+  const output = `/* eslint-disable */
 /**
  * This is auto-generated file by 'i18n/scripts/import.js'.
  * Details at https://github.com/ubergrape/chatgrape/wiki/Web-client-i18n

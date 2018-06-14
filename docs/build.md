@@ -8,9 +8,10 @@ cd grape-electron
 yarn
 yarn release
 ```
+
 The result will be an executable (`dmg`, `app`, `exe`) and installer (`msi`, `pkg`) file in `./releases` with version suffix from from `/app/package.json`. Version from `/package.json` is not used anywhere.
 
-* Unsigned release is for development only. *
+- Unsigned release is for development only. \*
 
 ## App signing
 
@@ -25,6 +26,7 @@ You need to sign a release to:
   ![](./images/mac-certificates-screen.png)
 
   http://stackoverflow.com/questions/29039462/which-certificate-should-i-use-to-sign-my-mac-os-x-application
+
 - Download provision profiles and put them into the root:
   - Electron_Chat_Dev.provisionprofile
   - Electron_Chat_Prod.provisionprofile
@@ -56,20 +58,21 @@ yarn release -- --sign PASSWORD --cert c:\path-to-cert.p12
 _We're building only 32bit application._
 _To build 64bit app you need to use 64bit Windows._
 
------
+---
 
 Otherwise you need to:
- * install 32bit node (last safe version is `6.3.0`)
- * install git or download source
- * install latest [WiX](http://wixtoolset.org/)
-   * add path to `bin` folder (usually it will be `C:\Program Files\WiX Toolset v3.9\bin\`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
- * install [microsoft windows sdk for win7](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
-   * add path to `bin` folder (usually it will be `C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
- * fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows)
+
+- install 32bit node (last safe version is `6.3.0`)
+- install git or download source
+- install latest [WiX](http://wixtoolset.org/)
+  - add path to `bin` folder (usually it will be `C:\Program Files\WiX Toolset v3.9\bin\`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
+- install [microsoft windows sdk for win7](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
+  - add path to `bin` folder (usually it will be `C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
+- fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows)
 
 steps with [`choco`](https://chocolatey.org/) (**WIP**)
 
-* open cmd (right click) with admin permissions and install chocolatey first.
+- open cmd (right click) with admin permissions and install chocolatey first.
 
 ```
 choco install git
@@ -78,6 +81,6 @@ choco install wixtoolset # doesn't work or at least PATH entry is missing
 choco install windows-sdk-10.1
 ```
 
------
+---
 
 When your env is ready or VM is up, use **Common** instructions above.

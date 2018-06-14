@@ -1,4 +1,4 @@
-import {shell, BrowserWindow} from 'electron'
+import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 
 import state from './state'
@@ -13,7 +13,7 @@ const mainWindowBlobs = [
   '**/accounts/logout*',
   '**/accounts/login*',
   '**/accounts.google.com/**',
-  '**/github.com/login**'
+  '**/github.com/login**',
 ]
 
 const secondaryWindowBlobs = [
@@ -21,7 +21,7 @@ const secondaryWindowBlobs = [
   '**/accounts/settings*',
   '**/accounts/organization/settings/members*',
   '**/accounts/settings*',
-  '**/accounts/settings/notifications*'
+  '**/accounts/settings/notifications*',
 ]
 
 let secondaryWindow
@@ -58,7 +58,7 @@ function handle(e, url) {
 }
 
 export default () => {
-  const {webContents} = state.mainWindow
+  const { webContents } = state.mainWindow
   webContents.on('new-window', handle)
   webContents.on('will-navigate', handle)
 }

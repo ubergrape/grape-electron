@@ -1,23 +1,24 @@
-import {app} from 'electron'
+import { app } from 'electron'
 import storage from 'electron-json-storage'
-import {defineMessages} from 'react-intl'
+import { defineMessages } from 'react-intl'
 
 import state from './state'
-import {isWindows, isOSX, isChatUrl} from './utils'
+import { isWindows, isOSX, isChatUrl } from './utils'
 
-import {chat as chatPath} from '../constants/paths'
+import { chat as chatPath } from '../constants/paths'
 import * as imagePaths from '../constants/images'
-import {formatMessage} from '../i18n'
+import { formatMessage } from '../i18n'
 
 const messages = defineMessages({
   balloonTitle: {
     id: 'windowsBalloonOnCloseTitle',
-    defaultMessage: 'Notifications for Grape'
+    defaultMessage: 'Notifications for Grape',
   },
   balloonContent: {
     id: 'windowsBalloonOnCloseContent',
-    defaultMessage: 'You\'ll see notifications for new private messages and mentions here.'
-  }
+    defaultMessage:
+      "You'll see notifications for new private messages and mentions here.",
+  },
 })
 
 export default function(e) {
@@ -35,16 +36,12 @@ export default function(e) {
           state.trayIcon.displayBalloon({
             icon: imagePaths.icon,
             title: formatMessage(messages.balloonTitle),
-            content: formatMessage(messages.balloonContent)
+            content: formatMessage(messages.balloonContent),
           })
 
-          storage.set(
-            'closeBalloonShown',
-            {shown: true},
-            setErr => {
-              if (setErr) throw setErr
-            }
-          )
+          storage.set('closeBalloonShown', { shown: true }, setErr => {
+            if (setErr) throw setErr
+          })
         }
       })
     }
@@ -60,7 +57,7 @@ export default function(e) {
     // when later initApp tries to loads `lastUrl.json`
     // and the app would returns a blank page.
     url: isLastUrlChat ? lastUrl : false,
-    host: state.host
+    host: state.host,
   })
   state.dimensions.saveState(state.mainWindow)
 }

@@ -1,7 +1,4 @@
-import {
-  app,
-  BrowserWindow
-} from 'electron'
+import { app, BrowserWindow } from 'electron'
 
 import env from './env'
 import state from './state'
@@ -9,13 +6,15 @@ import close from './close'
 import initTray from './initTray'
 import loadURL from './loadURL'
 import handleLocations from './handleLocations'
-import {urls} from '../constants/pages'
+import { urls } from '../constants/pages'
 
 export default function loadApp(url = state.getUrl()) {
   state.mainWindow.loadURL(urls.loading)
-  state.mainWindow.once('close', () => state.mainWindow = null)
+  state.mainWindow.once('close', () => (state.mainWindow = null))
 
-  const newMain = new BrowserWindow(Object.assign({}, state.prefs, {show: false}))
+  const newMain = new BrowserWindow(
+    Object.assign({}, state.prefs, { show: false }),
+  )
   loadURL(url, newMain)
   newMain.webContents.once('did-finish-load', () => {
     let hidden = true

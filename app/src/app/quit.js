@@ -1,4 +1,4 @@
-import {app} from 'electron'
+import { app } from 'electron'
 import state from './state'
 
 export default function() {

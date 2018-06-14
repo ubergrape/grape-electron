@@ -1,11 +1,11 @@
-import {normalize, join} from 'path'
-import {format} from 'url'
+import { normalize, join } from 'path'
+import { format } from 'url'
 
 const pathname = normalize(join(__dirname, '../pages/index.html'))
 const pages = format({
   protocol: 'file:',
   slashes: true,
-  pathname
+  pathname,
 })
 
 export const urls = {
@@ -14,5 +14,5 @@ export const urls = {
   connectionError: `${pages}?page=connectionError`,
   certificateError: `${pages}?page=connectionError&type=badSslCert`,
   tokenAuth: `${pages}?page=tokenAuth`,
-  about: `${pages}?page=about`
+  about: `${pages}?page=about`,
 }

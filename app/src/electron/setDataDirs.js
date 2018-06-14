@@ -1,4 +1,4 @@
-import {app} from 'electron'
+import { app } from 'electron'
 import path from 'path'
 
 if (process.platform == 'win32') {

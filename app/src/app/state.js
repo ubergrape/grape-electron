@@ -6,7 +6,7 @@ function getUrl() {
 }
 
 const state = {
-  host: clone(env.host)
+  host: clone(env.host),
 }
 
 state.getUrl = getUrl.bind(state)

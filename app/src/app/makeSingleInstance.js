@@ -1,16 +1,16 @@
-import {app} from 'electron'
+import { app } from 'electron'
 import url from 'url'
 
 import state from './state'
-import {isWindows} from './utils'
-import {protocol} from './protocolHandler'
+import { isWindows } from './utils'
+import { protocol } from './protocolHandler'
 import ensureFocus from './ensureFocus'
 
 const matchesProtocol = str => url.parse(str).protocol === `${protocol}:`
 
 const event = {
   isFake: true,
-  preventDefault: () => null
+  preventDefault: () => null,
 }
 
 /**
@@ -30,7 +30,7 @@ const event = {
 export default function makeSingleInstance() {
   if (process.mas) return false
 
-  return app.makeSingleInstance((argv) => {
+  return app.makeSingleInstance(argv => {
     const isFocused = ensureFocus()
 
     if (!isFocused) return
