@@ -37,7 +37,7 @@
     "start": "node ./tasks/start",
     "test": "node ./tasks/start --env=test",
     "install-native": "node ./tasks/install_native_module",
-    "lint": "cd app && npm run lint",
+    "lint": "cd app && yarn lint",
     "precommit": "lint-staged"
   },
   "lint-staged": {

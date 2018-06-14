@@ -33,7 +33,7 @@ function runBuildApp() {
 function runBuildSrc() {
   const deferred = Q.defer()
 
-  const build = childProcess.spawn('npm run build:watch', {
+  const build = childProcess.spawn('yarn build:watch', {
     stdio: 'inherit',
     cwd: srcDir.path(),
     shell: true,

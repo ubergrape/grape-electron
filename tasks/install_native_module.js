@@ -1,5 +1,5 @@
 // Install native module from npm and compile it for Electron.
-// Usage: npm run install-native -- name_of_native_module
+// Usage: yarn install-native -- name_of_native_module
 
 const childProcess = require('child_process')
 const Q = require('q')
@@ -60,7 +60,7 @@ const installNativeModule = function() {
 
   if (!moduleName) {
     deferred.reject(
-      'Module name not specified! Correct usage is "npm run install-native -- name_of_native_module" (remember about space after "--").',
+      'Module name not specified! Correct usage is "yarn install-native -- name_of_native_module" (remember about space after "--").',
     )
   } else {
     childProcess
