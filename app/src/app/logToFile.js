@@ -1,8 +1,8 @@
-import {app} from 'electron'
+import { app } from 'electron'
 import fs from 'fs'
-import {normalize} from 'path'
+import { normalize } from 'path'
 
-import {isWindows} from './utils'
+import { isWindows } from './utils'
 
 /**
  * Escapes a path so that it can be printed to console on windows and mac in
@@ -40,7 +40,7 @@ export default () => {
       wrap(process.stdout, 'write', log.write.bind(log))
     })
     // Handle error, otherwise it will throw into the face.
-    .on('error', (err) => {
+    .on('error', err => {
       // Ignore the error in this case.
       console.log(err)
     })

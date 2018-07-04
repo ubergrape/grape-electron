@@ -1,9 +1,9 @@
-import {app} from 'electron'
+import { app } from 'electron'
 import url from 'url'
 
 import state from './state'
-import {urls} from '../constants/pages'
-import {isWindows} from './utils'
+import { urls } from '../constants/pages'
+import { isWindows } from './utils'
 import ensureFocus from './ensureFocus'
 
 export const protocol = 'chatgrape'
@@ -11,19 +11,19 @@ export const protocol = 'chatgrape'
 let lastUrl
 
 const actions = {
-  login: (urlObj) => {
-    const {mainWindow: win} = state
+  login: urlObj => {
+    const { mainWindow: win } = state
     win.webContents.once('dom-ready', () => {
       const token = urlObj.path.substr(1)
       const postUrl = url.format({
         protocol: state.host.protocol,
         host: state.host.domain,
-        pathname: '/accounts/tokenauth/'
+        pathname: '/accounts/tokenauth/',
       })
-      win.webContents.send('submitAuthToken', {token, url: postUrl})
+      win.webContents.send('submitAuthToken', { token, url: postUrl })
     })
     win.loadURL(urls.tokenAuth)
-  }
+  },
 }
 
 export function handle() {

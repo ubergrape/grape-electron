@@ -175,7 +175,7 @@
     <!--
       HOW TO GET `Value=[#XXX]`
       1. comment `cleanClutter` function in tasks/release/windows.js
-      2. `npm run release` on Windows
+      2. `yarn release` on Windows
       3. go to ./tmp/files.wxl
       4. find `Grape.exe` and take it's `id` value.
     -->

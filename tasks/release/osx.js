@@ -1,244 +1,281 @@
-'use strict';
+const Q = require('q')
+const gulpUtil = require('gulp-util')
+const jetpack = require('fs-jetpack')
+const asar = require('asar')
+const utils = require('../utils')
+const child_process = require('child_process')
+const sign = require('electron-osx-sign')
+const download = require('electron-download')
+const extract = require('extract-zip')
+const fs = require('fs')
+const semver = require('semver')
+const path = require('path')
 
-var Q = require('q');
-var gulpUtil = require('gulp-util');
-var jetpack = require('fs-jetpack');
-var asar = require('asar');
-var utils = require('../utils');
-var child_process = require('child_process');
-var sign = require('electron-osx-sign');
-var download = require('electron-download');
-var extract = require('extract-zip');
-var fs = require('fs');
-var semver = require('semver');
-var path = require('path');
+let projectDir
+let releasesDir
+let tmpDir
+let distDir
+let finalAppDir
+let manifest
+let electronVersion
 
-var projectDir;
-var releasesDir;
-var tmpDir;
-var distDir;
-var finalAppDir;
-var manifest;
-var electronVersion;
+const init = function() {
+  projectDir = jetpack
+  tmpDir = projectDir.dir('./tmp', { empty: true })
+  distDir = tmpDir.dir('./dist', { empty: true })
+  releasesDir = projectDir.dir('./releases')
+  manifest = projectDir.read('app/package.json', 'json')
+  electronVersion = projectDir.read('package.json', 'json').devDependencies
+    .electron
+  electronVersion = semver.clean(electronVersion.replace(/^[^0-9]+/, ''))
+  finalAppDir = tmpDir.cwd(`${manifest.productName}.app`)
 
-var init = function () {
-    projectDir = jetpack;
-    tmpDir = projectDir.dir('./tmp', { empty: true });
-    distDir = tmpDir.dir('./dist', { empty: true });
-    releasesDir = projectDir.dir('./releases');
-    manifest = projectDir.read('app/package.json', 'json');
-    electronVersion = projectDir.read('package.json', 'json').devDependencies.electron;
-    electronVersion = semver.clean(electronVersion.replace(/^[^0-9]+/, ''))
-    finalAppDir = tmpDir.cwd(manifest.productName + '.app');
+  return Q()
+}
 
-    return Q();
-};
+const downloadRuntime = function() {
+  const deferred = Q.defer()
 
-var downloadRuntime = function() {
-    var deferred = Q.defer();
+  // If it is not for mas, it has been already downloaded during installation.
+  if (!utils.isMas()) {
+    deferred.resolve()
+    return deferred.promise
+  }
 
-    // If it is not for mas, it has been already downloaded during installation.
-    if (!utils.isMas()) {
-        deferred.resolve();
-        return deferred.promise;
-    }
+  const platformPath = 'dist/Electron.app/Contents/MacOS/Electron'
 
-    var platformPath = 'dist/Electron.app/Contents/MacOS/Electron';
+  gulpUtil.log(
+    'Downloading MAS build version',
+    electronVersion,
+    'to',
+    distDir.path(),
+  )
 
-    gulpUtil.log('Downloading MAS build version', electronVersion, 'to', distDir.path());
-
-    download({
+  download(
+    {
       version: electronVersion,
       platform: 'mas',
       arch: process.env.npm_config_arch,
       strictSSL: process.env.npm_config_strict_ssl === 'true',
-      quiet: ['info', 'verbose', 'silly', 'http'].indexOf(process.env.npm_config_loglevel) === -1
-    }, extractFile);
+      quiet:
+        ['info', 'verbose', 'silly', 'http'].indexOf(
+          process.env.npm_config_loglevel,
+        ) === -1,
+    },
+    extractFile,
+  )
 
-    function extractFile (err, zipPath) {
-      if (err) return deferred.reject(err);
-      gulpUtil.log('Extracting from', zipPath);
-      var options = {
-        dir: distDir.path()
-      };
-      extract(zipPath, options, function (err) {
-        if (err) return deferred.reject(err);
-        deferred.resolve();
-      });
+  function extractFile(err, zipPath) {
+    if (err) return deferred.reject(err)
+    gulpUtil.log('Extracting from', zipPath)
+    const options = {
+      dir: distDir.path(),
     }
-
-    return deferred.promise;
-};
-
-var copyRuntime = function () {
-    var dist = 'node_modules/electron/dist';
-    if (utils.isMas()) dist = distDir.path();
-    var source = path.join(dist, 'Electron.app');
-    var dest = finalAppDir.path();
-    gulpUtil.log('Copy build from', source, 'to', dest);
-    return projectDir.copyAsync(source, dest);
-};
-
-var cleanupRuntime = function () {
-    finalAppDir.remove('Contents/Resources/default_app');
-    finalAppDir.remove('Contents/Resources/atom.icns');
-    return Q();
-};
-
-var packageBuiltApp = function () {
-    var deferred = Q.defer();
-
-    asar.createPackage(projectDir.path('build'), finalAppDir.path('Contents/Resources/app.asar'), function () {
-        deferred.resolve();
-    });
-
-    return deferred.promise;
-};
-
-var finalize = function () {
-    // Prepare main Info.plist
-    var info = projectDir.read('resources/osx/Info.plist');
-    info = utils.replace(info, {
-        productName: manifest.productName,
-        identifier: manifest.identifier,
-        version: manifest.version,
-        build: manifest.build,
-        copyright: manifest.copyright
-    });
-    finalAppDir.write('Contents/Info.plist', info);
-
-    // Prepare Info.plist of Helper apps
-    [' EH', ' NP', ''].forEach(function (helper_suffix) {
-        info = projectDir.read('resources/osx/helper_apps/Info' + helper_suffix + '.plist');
-        info = utils.replace(info, {
-            productName: manifest.productName,
-            identifier: manifest.identifier
-        });
-        finalAppDir.write('Contents/Frameworks/Electron Helper' + helper_suffix + '.app/Contents/Info.plist', info);
-    });
-
-    // Copy icon
-    projectDir.copy('resources/osx/icon.icns', finalAppDir.path('Contents/Resources/icon.icns'));
-
-    return Q();
-};
-
-var renameApp = function () {
-    // Rename helpers
-    [' Helper EH', ' Helper NP', ' Helper'].forEach(function (helper_suffix) {
-        finalAppDir.rename('Contents/Frameworks/Electron' + helper_suffix + '.app/Contents/MacOS/Electron' + helper_suffix, manifest.productName + helper_suffix );
-        finalAppDir.rename('Contents/Frameworks/Electron' + helper_suffix + '.app', manifest.productName + helper_suffix + '.app');
-    });
-    // Rename application
-    finalAppDir.rename('Contents/MacOS/Electron', manifest.productName);
-    var appPath = releasesDir.path(finalAppDir.path().split('/').pop())
-    releasesDir.remove(appPath)
-    releasesDir.copy(finalAppDir.path(), appPath)
-    return Q();
-};
-
-var signApp = function () {
-  var teamId = utils.getSigningId();
-
-  if (!teamId) return Q();
-
-  var identityPrefix;
-  var profile;
-
-  if (utils.isMas()) {
-    identityPrefix = '3rd Party Mac Developer Application';
-    profile = projectDir.path('Electron_Chat_Prod.provisionprofile');
-  } else {
-    identityPrefix = 'Developer ID Application';
-    profile = projectDir.path('Electron_Chat_Dev.provisionprofile');
+    extract(zipPath, options, err => {
+      if (err) return deferred.reject(err)
+      deferred.resolve()
+    })
   }
 
-  var identity = identityPrefix + ': UberGrape GmbH (' + teamId + ')';
-  var deferred = Q.defer();
+  return deferred.promise
+}
+
+const copyRuntime = function() {
+  let dist = 'node_modules/electron/dist'
+  if (utils.isMas()) dist = distDir.path()
+  const source = path.join(dist, 'Electron.app')
+  const dest = finalAppDir.path()
+  gulpUtil.log('Copy build from', source, 'to', dest)
+  return projectDir.copyAsync(source, dest)
+}
+
+const cleanupRuntime = function() {
+  finalAppDir.remove('Contents/Resources/default_app')
+  finalAppDir.remove('Contents/Resources/atom.icns')
+  return Q()
+}
+
+const packageBuiltApp = function() {
+  const deferred = Q.defer()
+
+  asar.createPackage(
+    projectDir.path('build'),
+    finalAppDir.path('Contents/Resources/app.asar'),
+    () => {
+      deferred.resolve()
+    },
+  )
+
+  return deferred.promise
+}
+
+const finalize = function() {
+  // Prepare main Info.plist
+  let info = projectDir.read('resources/osx/Info.plist')
+  info = utils.replace(info, {
+    productName: manifest.productName,
+    identifier: manifest.identifier,
+    version: manifest.version,
+    build: manifest.build,
+    copyright: manifest.copyright,
+  })
+  finalAppDir.write('Contents/Info.plist', info)
+
+  // Prepare Info.plist of Helper apps
+  ;[' EH', ' NP', ''].forEach(helper_suffix => {
+    info = projectDir.read(
+      `resources/osx/helper_apps/Info${helper_suffix}.plist`,
+    )
+    info = utils.replace(info, {
+      productName: manifest.productName,
+      identifier: manifest.identifier,
+    })
+    finalAppDir.write(
+      `Contents/Frameworks/Electron Helper${helper_suffix}.app/Contents/Info.plist`,
+      info,
+    )
+  })
+
+  // Copy icon
+  projectDir.copy(
+    'resources/osx/icon.icns',
+    finalAppDir.path('Contents/Resources/icon.icns'),
+  )
+
+  return Q()
+}
+
+const renameApp = function() {
+  // Rename helpers
+  ;[' Helper EH', ' Helper NP', ' Helper'].forEach(helper_suffix => {
+    finalAppDir.rename(
+      `Contents/Frameworks/Electron${helper_suffix}.app/Contents/MacOS/Electron${helper_suffix}`,
+      manifest.productName + helper_suffix,
+    )
+    finalAppDir.rename(
+      `Contents/Frameworks/Electron${helper_suffix}.app`,
+      `${manifest.productName + helper_suffix}.app`,
+    )
+  })
+  // Rename application
+  finalAppDir.rename('Contents/MacOS/Electron', manifest.productName)
+  const appPath = releasesDir.path(
+    finalAppDir
+      .path()
+      .split('/')
+      .pop(),
+  )
+  releasesDir.remove(appPath)
+  releasesDir.copy(finalAppDir.path(), appPath)
+  return Q()
+}
+
+const signApp = function() {
+  const teamId = utils.getSigningId()
+
+  if (!teamId) return Q()
+
+  let identityPrefix
+  let profile
+
+  if (utils.isMas()) {
+    identityPrefix = '3rd Party Mac Developer Application'
+    profile = projectDir.path('Electron_Chat_Prod.provisionprofile')
+  } else {
+    identityPrefix = 'Developer ID Application'
+    profile = projectDir.path('Electron_Chat_Dev.provisionprofile')
+  }
+
+  const identity = `${identityPrefix}: UberGrape GmbH (${teamId})`
+  const deferred = Q.defer()
 
   sign(
     {
-      app: releasesDir.path(finalAppDir.path().split('/').pop()),
+      app: releasesDir.path(
+        finalAppDir
+          .path()
+          .split('/')
+          .pop(),
+      ),
       entitlements: projectDir.path('resources/osx/parent.plist'),
       'entitlements-inherit': projectDir.path('resources/osx/child.plist'),
-      identity: identity,
+      identity,
       version: electronVersion,
       platform: utils.isMas() ? 'mas' : 'darwin',
-      'provisioning-profile': profile
+      'provisioning-profile': profile,
     },
-    function(err) {
-      if (err) return deferred.reject(err);
-      deferred.resolve();
-    }
+    err => {
+      if (err) return deferred.reject(err)
+      deferred.resolve()
+    },
   )
 
-  return deferred.promise;
-};
-
-var packToPkgFile = function() {
-  var identity = utils.getSigningId();
-  if (identity) {
-    var pack = projectDir.path('resources/osx/pack.sh')
-    var cmd = pack + ' ' + releasesDir.path() + ' ' + identity;
-    gulpUtil.log('Packing with:', cmd);
-    return Q.nfcall(child_process.exec, cmd);
-    return Q();
-  } else {
-    return Q();
-  }
+  return deferred.promise
 }
 
-var packToDmgFile = function () {
-    var deferred = Q.defer();
-    var appdmg = require('appdmg');
-    var dmgName = manifest.name + '-' + manifest.version + '.dmg';
+const packToPkgFile = function() {
+  const identity = utils.getSigningId()
+  if (identity) {
+    const pack = projectDir.path('resources/osx/pack.sh')
+    const cmd = `${pack} ${releasesDir.path()} ${identity}`
+    gulpUtil.log('Packing with:', cmd)
+    return Q.nfcall(child_process.exec, cmd)
+    return Q()
+  }
+  return Q()
+}
 
-    // Prepare appdmg config
-    var dmgManifest = projectDir.read('resources/osx/appdmg.json');
-    dmgManifest = utils.replace(dmgManifest, {
-        productName: manifest.productName,
-        appPath: finalAppDir.path(),
-        dmgIcon: projectDir.path("resources/osx/dmg-icon.icns"),
-        dmgBackground: projectDir.path("resources/osx/dmg-background.png")
-    });
-    tmpDir.write('appdmg.json', dmgManifest);
+const packToDmgFile = function() {
+  const deferred = Q.defer()
+  const appdmg = require('appdmg')
+  const dmgName = `${manifest.name}-${manifest.version}.dmg`
 
-    // Delete DMG file with this name if already exists
-    releasesDir.remove(dmgName);
+  // Prepare appdmg config
+  let dmgManifest = projectDir.read('resources/osx/appdmg.json')
+  dmgManifest = utils.replace(dmgManifest, {
+    productName: manifest.productName,
+    appPath: finalAppDir.path(),
+    dmgIcon: projectDir.path('resources/osx/dmg-icon.icns'),
+    dmgBackground: projectDir.path('resources/osx/dmg-background.png'),
+  })
+  tmpDir.write('appdmg.json', dmgManifest)
 
-    gulpUtil.log('Packaging to DMG file...');
+  // Delete DMG file with this name if already exists
+  releasesDir.remove(dmgName)
 
-    var readyDmgPath = releasesDir.path(dmgName);
-    appdmg({
-        source: tmpDir.path('appdmg.json'),
-        target: readyDmgPath
+  gulpUtil.log('Packaging to DMG file...')
+
+  const readyDmgPath = releasesDir.path(dmgName)
+  appdmg({
+    source: tmpDir.path('appdmg.json'),
+    target: readyDmgPath,
+  })
+    .on('error', err => {
+      console.error(err)
     })
-    .on('error', function (err) {
-        console.error(err);
+    .on('finish', () => {
+      gulpUtil.log('DMG file ready!', readyDmgPath)
+      deferred.resolve()
     })
-    .on('finish', function () {
-        gulpUtil.log('DMG file ready!', readyDmgPath);
-        deferred.resolve();
-    });
 
-    return deferred.promise;
-};
+  return deferred.promise
+}
 
-var cleanClutter = function () {
-    return tmpDir.removeAsync('.');
-};
+const cleanClutter = function() {
+  return tmpDir.removeAsync('.')
+}
 
-module.exports = function () {
-    return init()
-        .then(downloadRuntime)
-        .then(copyRuntime)
-        .then(cleanupRuntime)
-        .then(packageBuiltApp)
-        .then(finalize)
-        .then(renameApp)
-        .then(signApp)
-        .then(packToPkgFile)
-        .then(packToDmgFile)
-        .then(cleanClutter)
-        .catch(console.error);
-};
+module.exports = function() {
+  return init()
+    .then(downloadRuntime)
+    .then(copyRuntime)
+    .then(cleanupRuntime)
+    .then(packageBuiltApp)
+    .then(finalize)
+    .then(renameApp)
+    .then(signApp)
+    .then(packToPkgFile)
+    .then(packToDmgFile)
+    .then(cleanClutter)
+    .catch(console.error)
+}

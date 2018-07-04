@@ -1,5 +1,5 @@
 import path from 'path'
-import {lib} from './paths'
+import { lib } from './paths'
 
 export const images = path.join(lib, 'images')
 export const icon = path.join(images, 'icon.png')

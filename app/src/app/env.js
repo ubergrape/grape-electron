@@ -1,4 +1,4 @@
-import {env} from '../../package.json'
+import { env } from '../../package.json'
 import rc from './rc'
 
 if (rc.domain) {

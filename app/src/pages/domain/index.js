@@ -1,46 +1,43 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import DocumentTitle from 'react-document-title'
-import {
-  FormattedMessage,
-  defineMessages,
-  injectIntl
-} from 'react-intl'
-import {parse} from 'url'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
+import { parse } from 'url'
 
 import styles from './styles'
 
-const {ipcRenderer, remote} = require('electron')
-const {domain} = remote.getGlobal('host')
-const {domain: grapeDomain} = remote.getGlobal('grapeHost')
+const { ipcRenderer, remote } = require('electron')
+
+const { domain } = remote.getGlobal('host')
+const { domain: grapeDomain } = remote.getGlobal('grapeHost')
 
 const messages = defineMessages({
   title: {
     id: 'chooseDomainTitle',
     defaultMessage: 'Grape: Choose Domain',
-    description: "Window title."
-  }
+    description: 'Window title.',
+  },
 })
 
 @injectIntl
 export default class Domain extends Component {
-  constructor(props) {
+  constructor(props) {
     super(props)
     this.state = {
       tab: 'grape',
-      value: domain === grapeDomain ? '' : domain
+      value: domain === grapeDomain ? '' : domain,
     }
   }
 
-  onSelectonPremises = () => {
+  onSelectonPremises = () => {
     this.input.focus()
-    this.setState({tab: 'onPremises'})
+    this.setState({ tab: 'onPremises' })
   }
 
-  onSelectGrape = () => {
-    this.setState({tab: 'grape'})
+  onSelectGrape = () => {
+    this.setState({ tab: 'grape' })
   }
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault()
     let value = grapeDomain
     if (this.state.tab !== 'grape') {
@@ -59,22 +56,24 @@ export default class Domain extends Component {
     ipcRenderer.send('domainChange', value)
   }
 
-  onRefInput = (ref) => {
+  onRefInput = ref => {
     this.input = ref
   }
 
   onChangeDomain = () => {
-    this.setState({value: this.input.value})
+    this.setState({ value: this.input.value })
   }
 
   render() {
-    const {tab, value} = this.state
-    const {intl: {formatMessage}} = this.props
+    const { tab, value } = this.state
+    const {
+      intl: { formatMessage },
+    } = this.props
 
     return (
       <DocumentTitle title={formatMessage(messages.title)}>
         <div className="container">
-          <style dangerouslySetInnerHTML={{__html: styles}} />
+          <style dangerouslySetInnerHTML={{ __html: styles }} />
           <header>
             <img className="logo" src="../images/grape-logo.png" alt="Grape" />
           </header>
@@ -82,39 +81,51 @@ export default class Domain extends Component {
             <h1 className="title">
               <FormattedMessage
                 id="whereToConnectTitle"
-                defaultMessage="Where do you want to connect?" />
+                defaultMessage="Where do you want to connect?"
+              />
             </h1>
             <label
               onClick={this.onSelectGrape}
-              className={`tab tab_left ${tab === 'grape' ? 'tab_selected' : ''}`}>
+              className={`tab tab_left ${
+                tab === 'grape' ? 'tab_selected' : ''
+              }`}
+            >
               <FormattedMessage
                 id="grapeTab"
                 defaultMessage="Grape Cloud"
-                description="Grape tab title in domain picker." />
+                description="Grape tab title in domain picker."
+              />
             </label>
             <label
               onClick={this.onSelectonPremises}
-              className={`tab tab_right ${tab === 'onPremises' ? 'tab_selected' : ''}`}>
+              className={`tab tab_right ${
+                tab === 'onPremises' ? 'tab_selected' : ''
+              }`}
+            >
               <FormattedMessage
                 id="onPremisesTab"
                 defaultMessage="On-Premises"
-                description="On-Premises tab title in domain picker." />
+                description="On-Premises tab title in domain picker."
+              />
             </label>
-            <div className={`host ${tab === 'onPremises' ? 'host_expanded' : ''}`}>
-              <label className="host__label" htmlFor="host">Server Domain</label>
+            <div
+              className={`host ${tab === 'onPremises' ? 'host_expanded' : ''}`}
+            >
+              <label className="host__label" htmlFor="host">
+                Server Domain
+              </label>
               <input
                 className="input"
                 id="host"
                 placeholder="example.com"
                 value={value}
                 ref={this.onRefInput}
-                onChange={this.onChangeDomain} />
+                onChange={this.onChangeDomain}
+              />
             </div>
             <div className="submit">
               <button className="submit-btn" type="submit">
-                <FormattedMessage
-                  id="continue"
-                  defaultMessage="Continue" />
+                <FormattedMessage id="continue" defaultMessage="Continue" />
               </button>
             </div>
           </form>

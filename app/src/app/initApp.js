@@ -3,57 +3,55 @@ import {
   BrowserWindow,
   ipcMain,
   nativeImage,
-  systemPreferences
+  systemPreferences,
 } from 'electron'
 import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
 import clone from 'lodash.clone'
-import {defineMessages} from 'react-intl'
+import { defineMessages } from 'react-intl'
 
-import {formatMessage} from '../i18n'
-import {
-  isNotificationSupported,
-  isWindows,
-  isOSX
-} from './utils'
+import { formatMessage } from '../i18n'
+import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
 import state from './state'
 import windowStateKeeper from 'electron-window-state'
 import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
-import {urls} from '../constants/pages'
+import { urls } from '../constants/pages'
 import * as imagePaths from '../constants/images'
-import {handle as handleProtocol} from './protocolHandler'
+import { handle as handleProtocol } from './protocolHandler'
 
 const messages = defineMessages({
   saveImageTo: {
     id: 'saveImageTo',
-    defaultMessage: 'Save Image to…'
+    defaultMessage: 'Save Image to…',
   },
   windowsBadgeIconTitle: {
     id: 'windowsBadgeIconTitle',
-    defaultMessage: '{amount} unread {amount, plural, one {channel} other {channels}}'
-  }
+    defaultMessage:
+      '{amount} unread {amount, plural, one {channel} other {channels}}',
+  },
 })
 
 export default () => {
   contextMenu({
-    append: params => [{
-      label: formatMessage(messages.saveImageTo),
-      visible: params.mediaType === 'image',
-      click: () => {
-        state.mainWindow.webContents.downloadURL(params.srcURL)
-      }
-    }]
+    append: params => [
+      {
+        label: formatMessage(messages.saveImageTo),
+        visible: params.mediaType === 'image',
+        click: () => {
+          state.mainWindow.webContents.downloadURL(params.srcURL)
+        },
+      },
+    ],
   })
 
   // Preserver of the window size and position between app launches.
   state.dimensions = windowStateKeeper({
     defaultWidth: 1075,
-    defaultHeight: 1000
+    defaultHeight: 1000,
   })
-
 
   // figure out if we start in background
   const autostart = process.argv.indexOf('--autostart') !== -1
@@ -62,16 +60,12 @@ export default () => {
   console.log(`startInBackground: ${startInBackground}`)
 
   storage.get('lastUrl', (err, data) => {
-    state.prefs = Object.assign(
-      {},
-      state.dimensions,
-      {
-        webPreferences: {
-          allowDisplayingInsecureContent: true
-        },
-        show: !startInBackground
-      }
-    )
+    state.prefs = Object.assign({}, state.dimensions, {
+      webPreferences: {
+        allowDisplayingInsecureContent: true,
+      },
+      show: !startInBackground,
+    })
 
     // workaround to solve problem:
     // 1. move grape window to second screen
@@ -95,7 +89,7 @@ export default () => {
       state.mainWindow.maximize()
     }
 
-    const Menu = state.Menu = require('electron').Menu
+    const Menu = (state.Menu = require('electron').Menu)
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
 
     const isProtocolHandled = handleProtocol()
@@ -127,30 +121,38 @@ export default () => {
     state.preventClose = false
   })
 
-  app.on('certificate-error', (e, webContents, url, error, certificate, callback) => {
-    if (url.indexOf('staging.chatgrape.com') > -1) {
-      e.preventDefault()
-      callback(true)
-    } else {
-      callback(false)
-    }
-  })
+  app.on(
+    'certificate-error',
+    (e, webContents, url, error, certificate, callback) => {
+      if (url.indexOf('staging.chatgrape.com') > -1) {
+        e.preventDefault()
+        callback(true)
+      } else {
+        callback(false)
+      }
+    },
+  )
 
   if (isOSX()) {
-    systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {
-      const icon = imagePaths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
-      state.trayIcon.setImage(icon)
-    })
+    systemPreferences.subscribeNotification(
+      'AppleInterfaceThemeChangedNotification',
+      () => {
+        const icon =
+          imagePaths[
+            systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon'
+          ]
+        state.trayIcon.setImage(icon)
+      },
+    )
   }
 
   ipcMain.on('addBadge', (e, badge) => {
     if (isWindows()) {
       state.mainWindow.setOverlayIcon(
         imagePaths.statusBarOverlay,
-        formatMessage(
-          messages.windowsBadgeIconTitle,
-          {amount: parseInt(badge, 10)}
-        )
+        formatMessage(messages.windowsBadgeIconTitle, {
+          amount: parseInt(badge, 10),
+        }),
       )
     } else {
       state.trayIcon.setImage(imagePaths.trayBlueIcon)
@@ -159,24 +161,27 @@ export default () => {
   })
 
   ipcMain.on('removeBadge', () => {
-    const {trayIcon, mainWindow} = state
+    const { trayIcon, mainWindow } = state
     if (isWindows()) {
       mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
     }
 
     if (isOSX()) {
-      const icon = imagePaths[systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon']
+      const icon =
+        imagePaths[
+          systemPreferences.isDarkMode() ? 'trayWhiteIcon' : 'trayIcon'
+        ]
       trayIcon.setImage(icon)
       if (app.dock) app.dock.setBadge('')
     }
   })
 
   ipcMain.on('showNotification', (e, notification) => {
-    const {trayIcon, mainWindow} = state
+    const { trayIcon, mainWindow } = state
     trayIcon.displayBalloon({
       icon: imagePaths.icon,
       title: notification.title,
-      content: notification.message
+      content: notification.message,
     })
     trayIcon.once('balloon-click', () => {
       e.sender.send(String(notification.event))

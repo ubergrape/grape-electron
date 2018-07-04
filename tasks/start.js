@@ -1,98 +1,97 @@
-'use strict';
+const Q = require('q')
+const electron = require('electron')
+const pathUtil = require('path')
+const childProcess = require('child_process')
+const utils = require('./utils')
+const jetpack = require('fs-jetpack')
+const gulp = require('gulp')
+const gutil = require('gulp-util')
 
-var Q = require('q');
-var electron = require('electron');
-var pathUtil = require('path');
-var childProcess = require('child_process');
-var utils = require('./utils');
-var jetpack = require('fs-jetpack');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-
-var gulpPath = pathUtil.resolve('./node_modules/.bin/gulp');
-var srcDir = jetpack.cwd('./app');
-var destDir = jetpack.cwd('./build');
-var watchDir = './lib/**'
+const gulpPath = pathUtil.resolve('./node_modules/.bin/gulp')
+const srcDir = jetpack.cwd('./app')
+const destDir = jetpack.cwd('./build')
+const watchDir = './lib/**'
 
 function runBuildApp() {
-    var deferred = Q.defer();
+  const deferred = Q.defer()
 
-    var build = childProcess.spawn(utils.spawnablePath(gulpPath), [
-        'build',
-        '--env=' + utils.getEnvName(),
-        '--color'
-    ], {
-        stdio: 'inherit'
-    });
+  const build = childProcess.spawn(
+    utils.spawnablePath(gulpPath),
+    ['build', `--env=${utils.getEnvName()}`, '--color'],
+    {
+      stdio: 'inherit',
+    },
+  )
 
-    build.on('close', function (code) {
-        deferred.resolve(code);
-    });
+  build.on('close', code => {
+    deferred.resolve(code)
+  })
 
-    return deferred.promise;
-};
+  return deferred.promise
+}
 
 function runBuildSrc() {
-    var deferred = Q.defer();
+  const deferred = Q.defer()
 
-    var build = childProcess.spawn('npm run build:watch', {
-        stdio: 'inherit',
-        cwd: srcDir.path(),
-        shell: true
-    });
+  const build = childProcess.spawn('yarn build:watch', {
+    stdio: 'inherit',
+    cwd: srcDir.path(),
+    shell: true,
+  })
 
-    build.on('close', function (code) {
-        deferred.resolve(code);
-    });
+  build.on('close', code => {
+    deferred.resolve(code)
+  })
 
-    return deferred.promise;
-};
+  return deferred.promise
+}
 
 function watch(onChange) {
-    function copyFile(path) {
-        gutil.log(`Copy file ${path.substr(srcDir.path().length)}`);
-        const destPath = path.replace(srcDir.path(), destDir.path());
-        jetpack.copy(path, destPath, {overwrite: true});
-    }
+  function copyFile(path) {
+    gutil.log(`Copy file ${path.substr(srcDir.path().length)}`)
+    const destPath = path.replace(srcDir.path(), destDir.path())
+    jetpack.copy(path, destPath, { overwrite: true })
+  }
 
-    gulp.watch(watchDir, {
-        cwd: 'app',
-        debounceDelay: 2000
+  gulp
+    .watch(watchDir, {
+      cwd: 'app',
+      debounceDelay: 2000,
     })
-    .on('change', function(change) {
-        if (change.type !== 'changed') return;
-        copyFile(change.path);
-        onChange();
-    });
-};
+    .on('change', change => {
+      if (change.type !== 'changed') return
+      copyFile(change.path)
+      onChange()
+    })
+}
 
-var runApp = function () {
-    var app = childProcess.spawn(electron, ['./build'], {
-        stdio: 'inherit'
-    });
+const runApp = function() {
+  const app = childProcess.spawn(electron, ['./build'], {
+    stdio: 'inherit',
+  })
 
-    app.once('close', (code) => {
-        if (code !== null) {
-            gutil.log('App died.');
-            process.exit();
-        }
-    });
+  app.once('close', code => {
+    if (code !== null) {
+      gutil.log('App died.')
+      process.exit()
+    }
+  })
 
-    return app;
-};
+  return app
+}
 
 function start() {
-    var app = runApp();
+  let app = runApp()
 
-    watch(() => {
-        app.kill('SIGUSR1');
-        app = runApp();
-    });
+  watch(() => {
+    app.kill('SIGUSR1')
+    app = runApp()
+  })
 }
 
 runBuildApp()
-    .then(runBuildSrc())
-    .then(start)
-    .catch((err) => {
-        console.log(err);
-    });
+  .then(runBuildSrc())
+  .then(start)
+  .catch(err => {
+    console.log(err)
+  })

@@ -1,8 +1,10 @@
 {
   "windowsBalloonOnCloseTitle": "Benachrichtigungen für Grape",
-  "windowsBalloonOnCloseContent": "Sie bekommen hier Benachrichtigungen für private  Nachrichten und Erwähnungen.",
+  "windowsBalloonOnCloseContent":
+    "Sie bekommen hier Benachrichtigungen für private  Nachrichten und Erwähnungen.",
   "saveImageTo": "Bild speichern unter…",
-  "windowsBadgeIconTitle": "{amount} ungelesene {amount, plural, one {Konversation} other {Konersationen}}",
+  "windowsBadgeIconTitle":
+    "{amount} ungelesene {amount, plural, one {Konversation} other {Konersationen}}",
   "menuApplication": "Anwendung",
   "menuQuit": "Beenden",
   "menuBackToChat": "Zurück zum Chat",
@@ -34,7 +36,8 @@
   "_reloadGrape.comment": "Text for button which will reload the page.",
   "tryToReload": "Versuchen Sie, {button}.",
   "couldNotConnect": "Verbindung zum Grape Server gescheitert.",
-  "checkInternetConnection": "Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind.",
+  "checkInternetConnection":
+    "Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind.",
   "tryTochangeDomain": "Oder versuchen Sie {button}.",
   "changeOnPremisesDomain": "On-Premises Domain ändern",
   "ssoLoginTitle": "Grape: SSO Login",

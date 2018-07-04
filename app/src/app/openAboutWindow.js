@@ -1,9 +1,6 @@
-import {logo} from '../constants/images'
-import {
-  app,
-  BrowserWindow
-} from 'electron'
-import {urls} from '../constants/pages'
+import { logo } from '../constants/images'
+import { app, BrowserWindow } from 'electron'
+import { urls } from '../constants/pages'
 import state from './state'
 
 export default () => {
@@ -14,7 +11,7 @@ export default () => {
     show: false,
     useContentSize: true,
     minimizable: false,
-    maximizable: false
+    maximizable: false,
   })
   win.setMenu(null)
   win.loadURL(urls.about)

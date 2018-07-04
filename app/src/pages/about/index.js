@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import DocumentTitle from 'react-document-title'
-import {styled} from 'grape-web/lib/jss'
-import {smaller, biggest} from 'grape-theme/dist/fonts'
-import {grayLighter} from 'grape-theme/dist/base-colors'
+import { styled } from 'grape-web/lib/jss'
+import { smaller, biggest } from 'grape-theme/dist/fonts'
+import { grayLighter } from 'grape-theme/dist/base-colors'
 
-import {icon} from '../../constants/images'
+import { icon } from '../../constants/images'
 import pkg from '../../../package.json'
 
 const div = styled('div')
@@ -17,33 +17,33 @@ const Body = div({
   position: 'absolute',
   height: '100%',
   width: '100%',
-  justifyContent: 'center'
+  justifyContent: 'center',
 })
 
 const Logo = styled('img')({
   width: '20%',
-  marginBottom: 20
+  marginBottom: 20,
 })
 
 const Product = styled('h1')({
   extend: biggest,
-  fontWeight: 'bold'
+  fontWeight: 'bold',
 })
 
 const Row = div({
   extend: smaller,
-  marginBottom: 10
+  marginBottom: 10,
 })
 
 const ColumnLeft = div({
   extend: smaller,
   float: 'left',
-  marginRight: 10
+  marginRight: 10,
 })
 const ColumnRight = styled(ColumnLeft)({
   extend: smaller,
   float: 'left',
-  marginRight: 0
+  marginRight: 0,
 })
 
 export default class About extends Component {
@@ -53,7 +53,9 @@ export default class About extends Component {
         <Body>
           <Logo src={icon} />
           <Product>{pkg.productName}</Product>
-          <Row>Version {pkg.version} ({pkg.build})</Row>
+          <Row>
+            Version {pkg.version} ({pkg.build})
+          </Row>
           <Row>
             <ColumnLeft>
               Electron:<br />
@@ -62,9 +64,12 @@ export default class About extends Component {
               V8:
             </ColumnLeft>
             <ColumnRight>
-              {process.versions.electron}<br />
-              {process.versions.chrome}<br />
-              {process.versions.node}<br />
+              {process.versions.electron}
+              <br />
+              {process.versions.chrome}
+              <br />
+              {process.versions.node}
+              <br />
               {process.versions.v8}
             </ColumnRight>
           </Row>
