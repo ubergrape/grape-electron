@@ -1,20 +1,21 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   app,
   BrowserWindow,
   ipcMain,
   nativeImage,
   systemPreferences,
+  Menu as ElectronMenu,
 } from 'electron'
 import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
-import clone from 'lodash.clone'
+import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 
 import { formatMessage } from '../i18n'
 import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
 import state from './state'
-import windowStateKeeper from 'electron-window-state'
 import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
@@ -56,8 +57,8 @@ export default () => {
   // figure out if we start in background
   const autostart = process.argv.indexOf('--autostart') !== -1
   const startInBackground = autostart && env.startInBackgroundWhenAutostarted
-  console.log(`autostart: ${autostart}`)
-  console.log(`startInBackground: ${startInBackground}`)
+  console.log(`autostart: ${autostart}`) // eslint-disable-line no-console
+  console.log(`startInBackground: ${startInBackground}`) // eslint-disable-line no-console
 
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign({}, state.dimensions, {
@@ -65,6 +66,7 @@ export default () => {
         allowDisplayingInsecureContent: true,
       },
       show: !startInBackground,
+      icon: imagePaths.icon,
     })
 
     // workaround to solve problem:
@@ -89,7 +91,8 @@ export default () => {
       state.mainWindow.maximize()
     }
 
-    const Menu = (state.Menu = require('electron').Menu)
+    const Menu = ElectronMenu
+    state.Menu = ElectronMenu
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu.main))
 
     const isProtocolHandled = handleProtocol()
@@ -102,7 +105,8 @@ export default () => {
       // use host from storage only if env.chooseDomainDisabled is false
       // otherwise it overrides the one from graperc
       if (!env.chooseDomainDisabled && data.host) {
-        global.host = state.host = data.host
+        state.host = data.host
+        global.host = data.host
       }
       if (data.url) lastUrl = data.url
     }
