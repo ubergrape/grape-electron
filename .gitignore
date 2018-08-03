@@ -10,5 +10,5 @@ Thumbs.db
 *.DS_Store
 
 Electron_Chat_Dev.provisionprofile
-Electron_Chat_Prod.provisionprofile
-grape_code_signing.p12
+Electron_Production_App.provisionprofile
+code_signing.p12

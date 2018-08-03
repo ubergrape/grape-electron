@@ -1,15 +1,16 @@
-const Q = require('q')
-const gulpUtil = require('gulp-util')
-const jetpack = require('fs-jetpack')
-const asar = require('asar')
-const utils = require('../utils')
-const child_process = require('child_process')
-const sign = require('electron-osx-sign')
-const download = require('electron-download')
-const extract = require('extract-zip')
-const fs = require('fs')
-const semver = require('semver')
+const Q = require('q') // eslint-disable-line import/no-extraneous-dependencies
+const gulpUtil = require('gulp-util') // eslint-disable-line import/no-extraneous-dependencies
+const jetpack = require('fs-jetpack') // eslint-disable-line import/no-extraneous-dependencies
+const asar = require('asar') // eslint-disable-line import/no-extraneous-dependencies
+const childProcess = require('child_process') // eslint-disable-line import/no-extraneous-dependencies
+const sign = require('electron-osx-sign') // eslint-disable-line import/no-extraneous-dependencies
+const download = require('electron-download') // eslint-disable-line import/no-extraneous-dependencies
+const extract = require('extract-zip') // eslint-disable-line import/no-extraneous-dependencies
+const semver = require('semver') // eslint-disable-line import/no-extraneous-dependencies
 const path = require('path')
+const appdmg = require('appdmg')
+
+const utils = require('../utils')
 
 let projectDir
 let releasesDir
@@ -19,7 +20,7 @@ let finalAppDir
 let manifest
 let electronVersion
 
-const init = function() {
+const init = () => {
   projectDir = jetpack
   tmpDir = projectDir.dir('./tmp', { empty: true })
   distDir = tmpDir.dir('./dist', { empty: true })
@@ -33,7 +34,7 @@ const init = function() {
   return Q()
 }
 
-const downloadRuntime = function() {
+const downloadRuntime = () => {
   const deferred = Q.defer()
 
   // If it is not for mas, it has been already downloaded during installation.
@@ -42,14 +43,26 @@ const downloadRuntime = function() {
     return deferred.promise
   }
 
-  const platformPath = 'dist/Electron.app/Contents/MacOS/Electron'
-
   gulpUtil.log(
     'Downloading MAS build version',
     electronVersion,
     'to',
     distDir.path(),
   )
+
+  function extractFile(err, zipPath) {
+    if (err) return deferred.reject(err)
+    gulpUtil.log('Extracting from', zipPath)
+    const options = {
+      dir: distDir.path(),
+    }
+    extract(zipPath, options, error => {
+      if (error) return deferred.reject(error)
+      deferred.resolve()
+      return false
+    })
+    return false
+  }
 
   download(
     {
@@ -65,22 +78,10 @@ const downloadRuntime = function() {
     extractFile,
   )
 
-  function extractFile(err, zipPath) {
-    if (err) return deferred.reject(err)
-    gulpUtil.log('Extracting from', zipPath)
-    const options = {
-      dir: distDir.path(),
-    }
-    extract(zipPath, options, err => {
-      if (err) return deferred.reject(err)
-      deferred.resolve()
-    })
-  }
-
   return deferred.promise
 }
 
-const copyRuntime = function() {
+const copyRuntime = () => {
   let dist = 'node_modules/electron/dist'
   if (utils.isMas()) dist = distDir.path()
   const source = path.join(dist, 'Electron.app')
@@ -89,13 +90,13 @@ const copyRuntime = function() {
   return projectDir.copyAsync(source, dest)
 }
 
-const cleanupRuntime = function() {
+const cleanupRuntime = () => {
   finalAppDir.remove('Contents/Resources/default_app')
   finalAppDir.remove('Contents/Resources/atom.icns')
   return Q()
 }
 
-const packageBuiltApp = function() {
+const packageBuiltApp = () => {
   const deferred = Q.defer()
 
   asar.createPackage(
@@ -109,7 +110,7 @@ const packageBuiltApp = function() {
   return deferred.promise
 }
 
-const finalize = function() {
+const finalize = () => {
   // Prepare main Info.plist
   let info = projectDir.read('resources/osx/Info.plist')
   info = utils.replace(info, {
@@ -122,16 +123,16 @@ const finalize = function() {
   finalAppDir.write('Contents/Info.plist', info)
 
   // Prepare Info.plist of Helper apps
-  ;[' EH', ' NP', ''].forEach(helper_suffix => {
+  ;[' EH', ' NP', ''].forEach(helperSuffix => {
     info = projectDir.read(
-      `resources/osx/helper_apps/Info${helper_suffix}.plist`,
+      `resources/osx/helper_apps/Info${helperSuffix}.plist`,
     )
     info = utils.replace(info, {
       productName: manifest.productName,
       identifier: manifest.identifier,
     })
     finalAppDir.write(
-      `Contents/Frameworks/Electron Helper${helper_suffix}.app/Contents/Info.plist`,
+      `Contents/Frameworks/Electron Helper${helperSuffix}.app/Contents/Info.plist`,
       info,
     )
   })
@@ -145,16 +146,16 @@ const finalize = function() {
   return Q()
 }
 
-const renameApp = function() {
+const renameApp = () => {
   // Rename helpers
-  ;[' Helper EH', ' Helper NP', ' Helper'].forEach(helper_suffix => {
+  ;[' Helper EH', ' Helper NP', ' Helper'].forEach(helperSuffix => {
     finalAppDir.rename(
-      `Contents/Frameworks/Electron${helper_suffix}.app/Contents/MacOS/Electron${helper_suffix}`,
-      manifest.productName + helper_suffix,
+      `Contents/Frameworks/Electron${helperSuffix}.app/Contents/MacOS/Electron${helperSuffix}`,
+      manifest.productName + helperSuffix,
     )
     finalAppDir.rename(
-      `Contents/Frameworks/Electron${helper_suffix}.app`,
-      `${manifest.productName + helper_suffix}.app`,
+      `Contents/Frameworks/Electron${helperSuffix}.app`,
+      `${manifest.productName + helperSuffix}.app`,
     )
   })
   // Rename application
@@ -170,7 +171,7 @@ const renameApp = function() {
   return Q()
 }
 
-const signApp = function() {
+const signApp = () => {
   const teamId = utils.getSigningId()
 
   if (!teamId) return Q()
@@ -180,7 +181,7 @@ const signApp = function() {
 
   if (utils.isMas()) {
     identityPrefix = '3rd Party Mac Developer Application'
-    profile = projectDir.path('Electron_Chat_Prod.provisionprofile')
+    profile = projectDir.path('Electron_Production_App.provisionprofile')
   } else {
     identityPrefix = 'Developer ID Application'
     profile = projectDir.path('Electron_Chat_Dev.provisionprofile')
@@ -207,27 +208,26 @@ const signApp = function() {
     err => {
       if (err) return deferred.reject(err)
       deferred.resolve()
+      return false
     },
   )
 
   return deferred.promise
 }
 
-const packToPkgFile = function() {
+const packToPkgFile = () => {
   const identity = utils.getSigningId()
   if (identity) {
     const pack = projectDir.path('resources/osx/pack.sh')
     const cmd = `${pack} ${releasesDir.path()} ${identity}`
     gulpUtil.log('Packing with:', cmd)
-    return Q.nfcall(child_process.exec, cmd)
-    return Q()
+    return Q.nfcall(childProcess.exec, cmd)
   }
   return Q()
 }
 
-const packToDmgFile = function() {
+const packToDmgFile = () => {
   const deferred = Q.defer()
-  const appdmg = require('appdmg')
   const dmgName = `${manifest.name}-${manifest.version}.dmg`
 
   // Prepare appdmg config
@@ -251,7 +251,7 @@ const packToDmgFile = function() {
     target: readyDmgPath,
   })
     .on('error', err => {
-      console.error(err)
+      console.error(err) // eslint-disable-line no-console
     })
     .on('finish', () => {
       gulpUtil.log('DMG file ready!', readyDmgPath)
@@ -261,12 +261,10 @@ const packToDmgFile = function() {
   return deferred.promise
 }
 
-const cleanClutter = function() {
-  return tmpDir.removeAsync('.')
-}
+const cleanClutter = () => tmpDir.removeAsync('.')
 
-module.exports = function() {
-  return init()
+module.exports = () =>
+  init()
     .then(downloadRuntime)
     .then(copyRuntime)
     .then(cleanupRuntime)
@@ -277,5 +275,4 @@ module.exports = function() {
     .then(packToPkgFile)
     .then(packToDmgFile)
     .then(cleanClutter)
-    .catch(console.error)
-}
+    .catch(console.error) // eslint-disable-line no-console
