@@ -8,7 +8,6 @@ const download = require('electron-download') // eslint-disable-line import/no-e
 const extract = require('extract-zip') // eslint-disable-line import/no-extraneous-dependencies
 const semver = require('semver') // eslint-disable-line import/no-extraneous-dependencies
 const path = require('path')
-const appdmg = require('appdmg')
 
 const utils = require('../utils')
 
@@ -228,6 +227,8 @@ const packToPkgFile = () => {
 
 const packToDmgFile = () => {
   const deferred = Q.defer()
+  // Require appdmg here, because on Win machines this packages not installing
+  const appdmg = require('appdmg') // eslint-disable-line global-require
   const dmgName = `${manifest.name}-${manifest.version}.dmg`
 
   // Prepare appdmg config
