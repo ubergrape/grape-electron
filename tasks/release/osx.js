@@ -180,10 +180,10 @@ const signApp = () => {
 
   if (utils.isMas()) {
     identityPrefix = '3rd Party Mac Developer Application'
-    profile = projectDir.path('Electron_Production_App.provisionprofile')
+    profile = projectDir.path('mac_appstore_distribution.provisionprofile')
   } else {
     identityPrefix = 'Developer ID Application'
-    profile = projectDir.path('Electron_Chat_Dev.provisionprofile')
+    profile = projectDir.path('mac_developerID.provisionprofile')
   }
 
   const identity = `${identityPrefix}: UberGrape GmbH (${teamId})`
