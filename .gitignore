@@ -9,6 +9,6 @@ Thumbs.db
 /tmp/
 *.DS_Store
 
-Electron_Chat_Dev.provisionprofile
-Electron_Production_App.provisionprofile
+mac_developerID.provisionprofile
+mac_appstore_distribution.provisionprofile
 code_signing.p12
