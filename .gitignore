@@ -9,6 +9,6 @@ Thumbs.db
 /tmp/
 *.DS_Store
 
-mac_developerID.provisionprofile
-mac_appstore_distribution.provisionprofile
+AppStore_Distribution.provisionprofile
+Developer_Distribution.provisionprofile
 code_signing.p12
