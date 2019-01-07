@@ -1,7 +1,6 @@
-import { logo } from '../constants/images'
-import { app, BrowserWindow } from 'electron'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { BrowserWindow } from 'electron'
 import { urls } from '../constants/pages'
-import state from './state'
 
 export default () => {
   const win = new BrowserWindow({
@@ -12,6 +11,9 @@ export default () => {
     useContentSize: true,
     minimizable: false,
     maximizable: false,
+    webPreferences: {
+      nodeIntegration: false,
+    },
   })
   win.setMenu(null)
   win.loadURL(urls.about)

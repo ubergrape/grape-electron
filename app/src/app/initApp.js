@@ -64,6 +64,7 @@ export default () => {
     state.prefs = Object.assign({}, state.dimensions, {
       webPreferences: {
         allowDisplayingInsecureContent: true,
+        nodeIntegration: false,
       },
       show: !startInBackground,
       icon: imagePaths.icon,
