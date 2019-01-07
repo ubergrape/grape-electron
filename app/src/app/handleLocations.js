@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 
@@ -5,7 +6,6 @@ import state from './state'
 import ensureFocus from './ensureFocus'
 
 const mainWindowBlobs = [
-  'file://**',
   '**/accounts/organization/dashboard*',
   '**/chat',
   '**/chat/**',
