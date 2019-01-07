@@ -1,5 +1,11 @@
 ## Setup
 
+Switch to node 8
+
+```
+nvm use 8
+```
+
 Install dependencies
 
 ```
