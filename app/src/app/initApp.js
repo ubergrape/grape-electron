@@ -65,6 +65,7 @@ export default () => {
       webPreferences: {
         allowDisplayingInsecureContent: true,
         nodeIntegration: false,
+        contextIsolation: true,
       },
       show: !startInBackground,
       icon: imagePaths.icon,

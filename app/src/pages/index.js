@@ -17,7 +17,7 @@ const pageComponentMap = {
   about: About,
 }
 
-const { page, ...props } = qs.parse(location.search.substr(1))
+const { page, ...props } = qs.parse(window.location.search.substr(1))
 
 if (pageComponentMap[page]) {
   const Page = wrapWithIntlProvider(pageComponentMap[page])

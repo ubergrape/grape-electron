@@ -19,7 +19,8 @@ export default function loadApp(url = state.getUrl()) {
     Object.assign({}, state.prefs, {
       show: false,
       webPreferences: {
-        nodeIntegration: false,
+        nodeIntegration: url.startsWith('file:'),
+        contextIsolation: !url.startsWith('file:'),
       },
     }),
   )

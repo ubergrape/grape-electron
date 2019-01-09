@@ -36,6 +36,7 @@ function openWindow(url) {
   secondaryWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: false,
+      contextIsolation: true,
     },
   })
   secondaryWindow.once('closed', () => {

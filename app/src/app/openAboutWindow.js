@@ -13,6 +13,7 @@ export default () => {
     maximizable: false,
     webPreferences: {
       nodeIntegration: false,
+      contextIsolation: true,
     },
   })
   win.setMenu(null)
