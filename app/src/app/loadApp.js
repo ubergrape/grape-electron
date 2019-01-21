@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow } from 'electron'
 
 import env from './env'
@@ -10,10 +11,18 @@ import { urls } from '../constants/pages'
 
 export default function loadApp(url = state.getUrl()) {
   state.mainWindow.loadURL(urls.loading)
-  state.mainWindow.once('close', () => (state.mainWindow = null))
+  state.mainWindow.once('close', () => {
+    state.mainWindow = null
+  })
 
   const newMain = new BrowserWindow(
-    Object.assign({}, state.prefs, { show: false }),
+    Object.assign({}, state.prefs, {
+      show: false,
+      webPreferences: {
+        nodeIntegration: url.startsWith('file:'),
+        contextIsolation: !url.startsWith('file:'),
+      },
+    }),
   )
   loadURL(url, newMain)
   newMain.webContents.once('did-finish-load', () => {
