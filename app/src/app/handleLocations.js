@@ -22,6 +22,7 @@ const secondaryWindowBlobs = [
   '**/accounts/organization/settings/members*',
   '**/accounts/settings*',
   '**/accounts/settings/notifications*',
+  '**/call/jitsire/*',
 ]
 
 let secondaryWindow
