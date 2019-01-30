@@ -28,8 +28,8 @@ You need to sign a release to:
   http://stackoverflow.com/questions/29039462/which-certificate-should-i-use-to-sign-my-mac-os-x-application
 
 - Download provision profiles and put them into the root:
-  - Electron_Chat_Dev.provisionprofile
-  - Electron_Chat_Prod.provisionprofile
+  - Developer_Distribution.provisionprofile
+  - AppStore_Distribution.provisionprofile
 - Increment [build number](https://github.com/ubergrape/grape-electron/blob/master/app/package.json#L7) for each review upload (you can upload same version multiple times if the review failed, but the build number should be unique all the time, don't reset this number ever, even for new version)
 
 - Signed store release `yarn release -- --sign {teamId} --mas`
