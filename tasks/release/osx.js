@@ -136,6 +136,15 @@ const finalize = () => {
     )
   })
 
+  info = projectDir.read(`resources/osx/helper_apps/Login.plist`)
+  info = utils.replace(info, {
+    identifier: manifest.identifier,
+  })
+  finalAppDir.write(
+    `Contents/Library/LoginItems/Electron Login Helper.app/Contents/Info.plist`,
+    info,
+  )
+
   // Copy icon
   projectDir.copy(
     'resources/osx/icon.icns',
