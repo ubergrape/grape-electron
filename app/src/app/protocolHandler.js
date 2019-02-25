@@ -1,10 +1,10 @@
-import { app } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import url from 'url'
 
 import state from './state'
 import { urls } from '../constants/pages'
-import { isWindows } from './utils'
 import ensureFocus from './ensureFocus'
+import { openWindow } from './handleLocations'
 
 export const protocol = 'chatgrape'
 
@@ -24,13 +24,24 @@ const actions = {
     })
     win.loadURL(urls.tokenAuth)
   },
+  grapecall: urlObj => {
+    openWindow(`https://${urlObj.hostname}${urlObj.path}`)
+  },
 }
 
 export function handle() {
   if (!lastUrl || !state.mainWindow) return false
 
   const urlObj = url.parse(lastUrl)
-  const action = actions[urlObj.host]
+
+  let actionName = urlObj.host
+  // This needs to handle all of links which contain grapecall in host name,
+  // because grapecall can be located in different domains.
+  if (actionName.includes('grapecall')) {
+    actionName = 'grapecall'
+  }
+
+  const action = actions[actionName]
 
   if (!action) return false
 

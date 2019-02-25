@@ -1,4 +1,4 @@
-import { shell, BrowserWindow } from 'electron'
+import { shell } from 'electron'
 import minimatch from 'minimatch'
 
 import state from './state'
@@ -27,7 +27,7 @@ const secondaryWindowBlobs = [
 
 let secondaryWindow
 
-function openWindow(url) {
+export function openWindow(url) {
   if (secondaryWindow) {
     ensureFocus(secondaryWindow)
     secondaryWindow.loadURL(url)
