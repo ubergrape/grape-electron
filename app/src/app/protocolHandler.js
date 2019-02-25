@@ -36,8 +36,6 @@ export function handle() {
   const urlObj = url.parse(lastUrl)
 
   let actionName = urlObj.host
-  // This needs to handle all of links which contain grapecall in host name,
-  // because grapecall can be located in different domains.
   if (minimatch(lastUrl, '**/call/jitsire/*')) {
     actionName = 'grapecall'
   }
