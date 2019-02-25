@@ -1,4 +1,5 @@
-import { app, BrowserWindow } from 'electron'
+import { app } from 'electron'
+import minimatch from 'minimatch'
 import url from 'url'
 
 import state from './state'
@@ -37,7 +38,7 @@ export function handle() {
   let actionName = urlObj.host
   // This needs to handle all of links which contain grapecall in host name,
   // because grapecall can be located in different domains.
-  if (actionName.includes('grapecall')) {
+  if (minimatch(lastUrl, '**/call/jitsire/*')) {
     actionName = 'grapecall'
   }
 

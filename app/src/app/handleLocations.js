@@ -1,4 +1,4 @@
-import { shell } from 'electron'
+import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 
 import state from './state'
