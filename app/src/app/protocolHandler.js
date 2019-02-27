@@ -1,10 +1,11 @@
 import { app } from 'electron'
+import minimatch from 'minimatch'
 import url from 'url'
 
 import state from './state'
 import { urls } from '../constants/pages'
-import { isWindows } from './utils'
 import ensureFocus from './ensureFocus'
+import { openWindow } from './handleLocations'
 
 export const protocol = 'chatgrape'
 
@@ -24,13 +25,22 @@ const actions = {
     })
     win.loadURL(urls.tokenAuth)
   },
+  grapecall: urlObj => {
+    openWindow(`https://${urlObj.hostname}${urlObj.path}`)
+  },
 }
 
 export function handle() {
   if (!lastUrl || !state.mainWindow) return false
 
   const urlObj = url.parse(lastUrl)
-  const action = actions[urlObj.host]
+
+  let actionName = urlObj.host
+  if (minimatch(lastUrl, '**/call/jitsire/*')) {
+    actionName = 'grapecall'
+  }
+
+  const action = actions[actionName]
 
   if (!action) return false
 
