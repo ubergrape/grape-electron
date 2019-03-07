@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 import storage from 'electron-json-storage'
 import { defineMessages } from 'react-intl'
@@ -6,7 +7,6 @@ import state from './state'
 import { isWindows, isOSX, isChatUrl } from './utils'
 
 import * as imagePaths from '../constants/images'
-import { formatMessage } from '../i18n'
 
 const messages = defineMessages({
   balloonTitle: {
@@ -30,6 +30,9 @@ export default function(e) {
 
       storage.has('closeBalloonShown', (err, hasKey) => {
         if (err) throw err
+
+        // eslint-disable-next-line global-require
+        const { formatMessage } = require('../i18n')
 
         if (!hasKey) {
           state.trayIcon.displayBalloon({

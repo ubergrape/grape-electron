@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 import { defineMessages } from 'react-intl'
 
@@ -10,7 +11,8 @@ import showMainWindow from './actions/showMainWindow'
 import chooseDomain from './actions/chooseDomain'
 import openSupport from './actions/openSupport'
 import openWebSite from './actions/openWebSite'
-import { formatMessage } from '../../i18n'
+
+const { formatMessage } = require('../../i18n')
 
 const messages = defineMessages({
   application: {

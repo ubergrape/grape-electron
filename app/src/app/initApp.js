@@ -12,11 +12,9 @@ import contextMenu from 'electron-context-menu'
 import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 
-import { formatMessage } from '../i18n'
 import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
 import state from './state'
-import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
 import { urls } from '../constants/pages'
@@ -36,6 +34,8 @@ const messages = defineMessages({
 })
 
 export default () => {
+  // eslint-disable-next-line global-require
+  const { formatMessage } = require('../i18n')
   contextMenu({
     append: params => [
       {
@@ -90,6 +90,9 @@ export default () => {
     if (state.dimensions.isMaximized && state.prefs.show) {
       state.mainWindow.maximize()
     }
+
+    // eslint-disable-next-line global-require
+    const menu = require('./menu')
 
     const Menu = ElectronMenu
     state.Menu = ElectronMenu
