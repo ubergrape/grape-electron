@@ -5,7 +5,6 @@ import { defineMessages } from 'react-intl'
 import state from './state'
 import { isWindows, isOSX, isChatUrl } from './utils'
 
-import { chat as chatPath } from '../constants/paths'
 import * as imagePaths from '../constants/images'
 import { formatMessage } from '../i18n'
 

@@ -1,5 +1,5 @@
-import state from './state'
-import { isWindows } from './utils'
+import state from '../../state'
+import { isWindows } from '../../utils'
 
 export default function showMainWindow() {
   const { mainWindow } = state

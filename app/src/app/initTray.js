@@ -1,9 +1,9 @@
-import { app, Tray, systemPreferences } from 'electron'
-import showMainWindow from './showMainWindow'
+import { Tray, systemPreferences } from 'electron'
+import showMainWindow from './tabs/actions/showMainWindow'
 import state from './state'
-import { isWindows, osType } from './utils'
+import { osType } from './utils'
 import * as imagePaths from '../constants/images'
-import * as menu from './menu'
+import * as menu from './tabs'
 
 export default function() {
   const { Menu } = state

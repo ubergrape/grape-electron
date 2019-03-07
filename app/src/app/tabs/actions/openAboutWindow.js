@@ -1,7 +1,5 @@
-import { logo } from '../constants/images'
-import { app, BrowserWindow } from 'electron'
-import { urls } from '../constants/pages'
-import state from './state'
+import { BrowserWindow } from 'electron'
+import { urls } from '../../../constants/pages'
 
 export default () => {
   const win = new BrowserWindow({

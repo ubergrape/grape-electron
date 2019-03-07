@@ -1,5 +1,5 @@
 import { app } from 'electron'
-import state from './state'
+import state from '../../state'
 
 export default function() {
   state.preventClose = false
