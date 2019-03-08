@@ -1,5 +1,5 @@
-import env from './env'
 import clone from 'lodash.clone'
+import env from './env'
 
 function getUrl() {
   return `${this.host.protocol}://${this.host.domain}/${this.host.path}`

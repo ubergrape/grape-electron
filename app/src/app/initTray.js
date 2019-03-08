@@ -1,9 +1,9 @@
-import { app, Tray, systemPreferences } from 'electron'
-import showMainWindow from './showMainWindow'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Tray, systemPreferences } from 'electron'
+import showMainWindow from './menu/actions/showMainWindow'
 import state from './state'
-import { isWindows, osType } from './utils'
+import { osType } from './utils'
 import * as imagePaths from '../constants/images'
-import * as menu from './menu'
 
 export default function() {
   const { Menu } = state
@@ -24,6 +24,9 @@ export default function() {
     default:
       state.trayIcon = new Tray(imagePaths.trayIcon)
   }
+
+  // eslint-disable-next-line global-require
+  const menu = require('./menu')
 
   state.trayIcon.setToolTip('Grape')
   state.trayIcon.setContextMenu(Menu.buildFromTemplate(menu.tray))

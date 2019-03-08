@@ -1,5 +1,4 @@
 import { urls } from '../constants/pages'
-import state from './state'
 
 const responseTimeout = 10000
 
