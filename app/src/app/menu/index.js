@@ -317,7 +317,7 @@ if (process.platform === 'darwin') {
     ],
   })
 
-  menu[2].submenu.push(
+  menu[1].submenu.push(
     { type: 'separator' },
     {
       label: formatMessage(messages.speech),
@@ -334,7 +334,7 @@ if (process.platform === 'darwin') {
     },
   )
 
-  menu[4].submenu = [
+  menu[3].submenu = [
     {
       label: formatMessage(messages.close),
       role: 'close',
