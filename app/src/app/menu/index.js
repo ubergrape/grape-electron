@@ -23,6 +23,26 @@ const messages = defineMessages({
     id: 'menuAbout',
     defaultMessage: 'About Grape',
   },
+  services: {
+    id: 'menuServices',
+    defaultMessage: 'Services',
+  },
+  hide: {
+    id: 'menuHide',
+    defaultMessage: 'Hide Grape',
+  },
+  hideOthers: {
+    id: 'menuHideOthers',
+    defaultMessage: 'Hide Others',
+  },
+  unhide: {
+    id: 'menuUnhide',
+    defaultMessage: 'Show All',
+  },
+  quitGrape: {
+    id: 'menuQuitGrape',
+    defaultMessage: 'Quit Grape',
+  },
   backToChat: {
     id: 'menuBackToChat',
     defaultMessage: 'Back to chat',
@@ -35,13 +55,93 @@ const messages = defineMessages({
     id: 'menuEdit',
     defaultMessage: 'Edit',
   },
+  undo: {
+    id: 'menuUndo',
+    defaultMessage: 'Undo',
+  },
+  redo: {
+    id: 'menuRedo',
+    defaultMessage: 'Redo',
+  },
+  cut: {
+    id: 'menuCut',
+    defaultMessage: 'Cut',
+  },
+  copy: {
+    id: 'menuCopy',
+    defaultMessage: 'Copy',
+  },
+  paste: {
+    id: 'menuPaste',
+    defaultMessage: 'Paste',
+  },
+  selectAll: {
+    id: 'menuSelectAll',
+    defaultMessage: 'Select All',
+  },
   speech: {
     id: 'menuSpeech',
     defaultMessage: 'Speech',
   },
+  startSpeaking: {
+    id: 'menuStartSpeaking',
+    defaultMessage: 'Start Speaking',
+  },
+  stopSpeaking: {
+    id: 'menuStopSpeaking',
+    defaultMessage: 'Stop Speaking',
+  },
+  close: {
+    id: 'menuClose',
+    defaultMessage: 'Close Window',
+  },
+  minimize: {
+    id: 'menuMinimize',
+    defaultMessage: 'Minimize',
+  },
+  zoom: {
+    id: 'menuZoom',
+    defaultMessage: 'Zoom',
+  },
+  front: {
+    id: 'menuFront',
+    defaultMessage: 'Bring All to Front',
+  },
   view: {
     id: 'menuView',
     defaultMessage: 'View',
+  },
+  reload: {
+    id: 'menuReload',
+    defaultMessage: 'Reload',
+  },
+  forceReload: {
+    id: 'menuForceReload',
+    defaultMessage: 'Force Reload',
+  },
+  resetZoom: {
+    id: 'menuResetZoom',
+    defaultMessage: 'Actual Size',
+  },
+  zoomIn: {
+    id: 'menuZoomIn',
+    defaultMessage: 'Zoom In',
+  },
+  zoomOut: {
+    id: 'menuZoomOut',
+    defaultMessage: 'Zoom Out',
+  },
+  toggleFullScreen: {
+    id: 'menuToggleFullScreen',
+    defaultMessage: 'Toggle Full Screen',
+  },
+  window: {
+    id: 'menuWindow',
+    defaultMessage: 'Window',
+  },
+  help: {
+    id: 'menuHelp',
+    defaultMessage: 'Help',
   },
   learnMore: {
     id: 'menuLearnMore',
@@ -63,47 +163,83 @@ const messages = defineMessages({
 
 let menu = [
   {
-    label: formatMessage(messages.application),
-    submenu: [
-      { label: formatMessage(messages.backToChat), click: backToChat },
-      {
-        label: formatMessage(messages.chooseDomain),
-        click: chooseDomain,
-        enabled: !env.chooseDomainDisabled,
-      },
-    ],
-  },
-  {
     label: formatMessage(messages.edit),
     submenu: [
-      { role: 'undo' },
-      { role: 'redo' },
+      {
+        label: formatMessage(messages.undo),
+        role: 'undo',
+      },
+      {
+        label: formatMessage(messages.redo),
+        role: 'redo',
+      },
       { type: 'separator' },
-      { role: 'cut' },
-      { role: 'copy' },
-      { role: 'paste' },
-      { role: 'selectall' },
+      {
+        label: formatMessage(messages.cut),
+        role: 'cut',
+      },
+      {
+        label: formatMessage(messages.copy),
+        role: 'copy',
+      },
+      {
+        label: formatMessage(messages.paste),
+        role: 'paste',
+      },
+      {
+        label: formatMessage(messages.selectAll),
+        role: 'selectall',
+      },
     ],
   },
   {
     label: formatMessage(messages.view),
     submenu: [
-      { role: 'reload' },
-      { role: 'forcereload' },
+      {
+        label: formatMessage(messages.reload),
+        role: 'reload',
+      },
+      {
+        label: formatMessage(messages.forceReload),
+        role: 'forcereload',
+      },
       { type: 'separator' },
-      { role: 'resetzoom' },
-      { role: 'zoomin' },
-      { role: 'zoomout' },
+      {
+        label: formatMessage(messages.resetZoom),
+        role: 'resetzoom',
+      },
+      {
+        label: formatMessage(messages.zoomIn),
+        role: 'zoomin',
+      },
+      {
+        label: formatMessage(messages.zoomOut),
+        role: 'zoomout',
+      },
       { type: 'separator' },
-      { role: 'togglefullscreen' },
+      {
+        label: formatMessage(messages.toggleFullScreen),
+        role: 'togglefullscreen',
+      },
     ],
   },
   {
     role: 'window',
-    submenu: [{ role: 'minimize' }, { role: 'close' }],
+    label: formatMessage(messages.window),
+    submenu: [
+      {
+        label: formatMessage(messages.minimize),
+        role: 'minimize',
+      },
+      {
+        label: formatMessage(messages.close),
+        role: 'close',
+      },
+    ],
   },
   {
     role: 'help',
+    label: formatMessage(messages.help),
     submenu: [
       {
         label: formatMessage(messages.learnMore),
@@ -117,6 +253,29 @@ let menu = [
   },
 ]
 
+// Windows and Linux
+if (process.platform !== 'darwin') {
+  menu.unshift({
+    label: formatMessage(messages.application),
+    submenu: [
+      {
+        label: formatMessage(messages.quit),
+        accelerator: 'Cmd+Q',
+        click: quit,
+      },
+      { label: formatMessage(messages.backToChat), click: backToChat },
+      {
+        label: formatMessage(messages.chooseDomain),
+        click: chooseDomain,
+        enabled: !env.chooseDomainDisabled,
+      },
+      { type: 'separator' },
+      { label: formatMessage(messages.about), click: openAboutWindow },
+    ],
+  })
+}
+
+// Mac
 if (process.platform === 'darwin') {
   menu.unshift({
     label: app.getName(),
@@ -126,13 +285,35 @@ if (process.platform === 'darwin') {
         click: openAboutWindow,
       },
       { type: 'separator' },
-      { role: 'services' },
+      { label: formatMessage(messages.backToChat), click: backToChat },
+      {
+        label: formatMessage(messages.chooseDomain),
+        click: chooseDomain,
+        enabled: !env.chooseDomainDisabled,
+      },
       { type: 'separator' },
-      { role: 'hide' },
-      { role: 'hideothers' },
-      { role: 'unhide' },
+      {
+        label: formatMessage(messages.services),
+        role: 'services',
+      },
       { type: 'separator' },
-      { role: 'quit' },
+      {
+        label: formatMessage(messages.hide),
+        role: 'hide',
+      },
+      {
+        label: formatMessage(messages.hideOthers),
+        role: 'hideothers',
+      },
+      {
+        label: formatMessage(messages.unhide),
+        role: 'unhide',
+      },
+      { type: 'separator' },
+      {
+        label: formatMessage(messages.quitGrape),
+        role: 'quit',
+      },
     ],
   })
 
@@ -140,16 +321,37 @@ if (process.platform === 'darwin') {
     { type: 'separator' },
     {
       label: formatMessage(messages.speech),
-      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+      submenu: [
+        {
+          label: formatMessage(messages.startSpeaking),
+          role: 'startspeaking',
+        },
+        {
+          label: formatMessage(messages.stopSpeaking),
+          role: 'stopspeaking',
+        },
+      ],
     },
   )
 
   menu[4].submenu = [
-    { role: 'close' },
-    { role: 'minimize' },
-    { role: 'zoom' },
+    {
+      label: formatMessage(messages.close),
+      role: 'close',
+    },
+    {
+      label: formatMessage(messages.minimize),
+      role: 'minimize',
+    },
+    {
+      label: formatMessage(messages.zoom),
+      role: 'zoom',
+    },
     { type: 'separator' },
-    { role: 'front' },
+    {
+      label: formatMessage(messages.front),
+      role: 'front',
+    },
   ]
 }
 
