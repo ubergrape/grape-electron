@@ -10,7 +10,7 @@ export default function handleOffline(url, win) {
   let response = false
   const { webContents } = win
   webContents.once('did-fail-load', offline)
-  webContents.once('did-get-response-details', () => {
+  webContents.once('did-finish-load', () => {
     response = true
   })
   webContents.once('certificate-error', () => {
