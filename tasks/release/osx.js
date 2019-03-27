@@ -156,7 +156,7 @@ const finalize = () => {
 
 const renameApp = () => {
   // Rename helpers
-  ;[' Helper EH', ' Helper NP', ' Helper'].forEach(helperSuffix => {
+  ;[' Helper'].forEach(helperSuffix => {
     finalAppDir.rename(
       `Contents/Frameworks/Electron${helperSuffix}.app/Contents/MacOS/Electron${helperSuffix}`,
       manifest.productName + helperSuffix,

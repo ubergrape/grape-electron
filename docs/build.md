@@ -2,6 +2,12 @@
 
 ## Common
 
+Use Node 8
+
+```
+nvm use 8
+```
+
 ```bash
 git clone git@github.com:ubergrape/grape-electron.git
 cd grape-electron
