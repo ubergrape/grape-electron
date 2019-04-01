@@ -122,7 +122,7 @@ const finalize = () => {
   finalAppDir.write('Contents/Info.plist', info)
 
   // Prepare Info.plist of Helper apps
-  ;[' EH', ' NP', ''].forEach(helperSuffix => {
+  ;[''].forEach(helperSuffix => {
     info = projectDir.read(
       `resources/osx/helper_apps/Info${helperSuffix}.plist`,
     )
