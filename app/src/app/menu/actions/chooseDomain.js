@@ -1,6 +1,6 @@
-import state from '../../state'
+import loadApp from '../../loadApp'
 import { urls } from '../../../constants/pages'
 
 export default () => {
-  state.mainWindow.loadURL(urls.domain)
+  loadApp(urls.domain)
 }

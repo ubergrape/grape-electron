@@ -5,6 +5,7 @@ import url from 'url'
 import state from './state'
 import { urls } from '../constants/pages'
 import ensureFocus from './ensureFocus'
+import loadApp from './loadApp'
 import { openWindow } from './handleLocations'
 
 export const protocol = 'chatgrape'
@@ -23,7 +24,7 @@ const actions = {
       })
       win.webContents.send('submitAuthToken', { token, url: postUrl })
     })
-    win.loadURL(urls.tokenAuth)
+    loadApp(urls.tokenAuth)
   },
   grapecall: urlObj => {
     openWindow(`https://${urlObj.hostname}${urlObj.path}`)
