@@ -34,8 +34,7 @@ const errorMessages = defineMessages({
   },
 })
 
-@injectIntl
-export default class ConnectionError extends Component {
+class ConnectionError extends Component {
   static defaultProps = {
     type: 'default',
   }
@@ -139,3 +138,5 @@ export default class ConnectionError extends Component {
     )
   }
 }
+
+export default injectIntl(ConnectionError)

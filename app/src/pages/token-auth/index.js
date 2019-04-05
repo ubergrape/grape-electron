@@ -11,8 +11,7 @@ const messages = defineMessages({
   },
 })
 
-@injectIntl
-export default class TokenAuth extends Component {
+class TokenAuth extends Component {
   constructor(props) {
     super(props)
 
@@ -49,3 +48,5 @@ export default class TokenAuth extends Component {
     )
   }
 }
+
+export default injectIntl(TokenAuth)

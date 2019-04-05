@@ -18,8 +18,7 @@ const messages = defineMessages({
   },
 })
 
-@injectIntl
-export default class Domain extends Component {
+class Domain extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -134,3 +133,5 @@ export default class Domain extends Component {
     )
   }
 }
+
+export default injectIntl(Domain)
