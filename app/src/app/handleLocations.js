@@ -34,7 +34,13 @@ export function openWindow(url) {
     return
   }
 
-  secondaryWindow = new BrowserWindow()
+  secondaryWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: url.startsWith('file:'),
+      nodeIntegrationInWorker: url.startsWith('file:'),
+      contextIsolation: !url.startsWith('file:'),
+    },
+  })
   secondaryWindow.once('closed', () => {
     secondaryWindow = null
   })

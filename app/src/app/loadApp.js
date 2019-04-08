@@ -13,7 +13,14 @@ export default function loadApp(url = state.getUrl()) {
   state.mainWindow.once('close', () => (state.mainWindow = null))
 
   const newMain = new BrowserWindow(
-    Object.assign({}, state.prefs, { show: false }),
+    Object.assign({}, state.prefs, {
+      show: false,
+      webPreferences: {
+        nodeIntegration: url.startsWith('file:'),
+        nodeIntegrationInWorker: url.startsWith('file:'),
+        contextIsolation: !url.startsWith('file:'),
+      },
+    }),
   )
   loadURL(url, newMain)
   newMain.webContents.once('did-finish-load', () => {

@@ -63,6 +63,9 @@ export default () => {
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign({}, state.dimensions, {
       webPreferences: {
+        nodeIntegration: false,
+        nodeIntegrationInWorker: false,
+        contextIsolation: true,
         allowDisplayingInsecureContent: true,
       },
       show: !startInBackground,
