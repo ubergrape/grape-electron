@@ -11,6 +11,7 @@ import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
 import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
+import log from 'electron-log'
 
 import { isWindows, isOSX } from './utils'
 import env from './env'
@@ -126,74 +127,60 @@ export default () => {
   })
 
   app.on('will-finish-launching', () => {
-    // eslint-disable-next-line no-console
-    console.log('will-finish-launching')
+    log.info('will-finish-launching')
   })
 
   app.on('window-all-closed', () => {
-    // eslint-disable-next-line no-console
-    console.log('window-all-closed')
+    log.info('window-all-closed')
   })
 
   app.on('before-quit', () => {
-    // eslint-disable-next-line no-console
-    console.log('before-quit')
+    log.info('before-quit')
     state.preventClose = false
   })
 
   app.on('quit', (e, exitCode) => {
-    // eslint-disable-next-line no-console
-    console.log('quit', exitCode)
+    log.info('quit', exitCode)
   })
 
   app.on('open-file', (e, path) => {
-    // eslint-disable-next-line no-console
-    console.log('open-file', path)
+    log.info('open-file', path)
   })
 
   app.on('continue-activity', (e, type, userInfo) => {
-    // eslint-disable-next-line no-console
-    console.log('continue-activity', type, userInfo)
+    log.info('continue-activity', type, userInfo)
   })
 
   app.on('will-continue-activity', (e, type) => {
-    // eslint-disable-next-line no-console
-    console.log('will-continue-activity', type)
+    log.info('will-continue-activity', type)
   })
 
   app.on('continue-activity-error', (e, type, error) => {
-    // eslint-disable-next-line no-console
-    console.log('continue-activity-error', type, error)
+    log.info('continue-activity-error', type, error)
   })
 
   app.on('activity-was-continued', (e, type, userInfo) => {
-    // eslint-disable-next-line no-console
-    console.log('activity-was-continued', type, userInfo)
+    log.info('activity-was-continued', type, userInfo)
   })
 
   app.on('update-activity-state', (e, type, userInfo) => {
-    // eslint-disable-next-line no-console
-    console.log('update-activity-state', type, userInfo)
+    log.info('update-activity-state', type, userInfo)
   })
 
   app.on('new-window-for-tab', () => {
-    // eslint-disable-next-line no-console
-    console.log('new-window-for-tab')
+    log.info('new-window-for-tab')
   })
 
   app.on('browser-window-created', () => {
-    // eslint-disable-next-line no-console
-    console.log('browser-window-created')
+    log.info('browser-window-created')
   })
 
   app.on('web-contents-created', () => {
-    // eslint-disable-next-line no-console
-    console.log('web-contents-created')
+    log.info('web-contents-created')
   })
 
   app.on('certificate-error', (e, webContents, url, error, callback) => {
-    // eslint-disable-next-line no-console
-    console.log('certificate-error', url, error)
+    log.info('certificate-error', url, error)
     if (url.indexOf('staging.chatgrape.com') > -1) {
       e.preventDefault()
       callback(true)
@@ -205,59 +192,48 @@ export default () => {
   app.on(
     'select-client-certificate',
     (e, webContents, url, certificateList, callback) => {
-      // eslint-disable-next-line no-console
-      console.log('select-client-certificate', url, certificateList, callback)
+      log.info('select-client-certificate', url, certificateList, callback)
     },
   )
 
   app.on('login', (e, webContents, request, authInfo, callback) => {
-    // eslint-disable-next-line no-console
-    console.log('login', request, authInfo, callback)
+    log.info('login', request, authInfo, callback)
   })
 
   app.on('gpu-process-crashed', (e, killed) => {
-    // eslint-disable-next-line no-console
-    console.log('gpu-process-crashed', killed)
+    log.info('gpu-process-crashed', killed)
   })
 
   app.on('accessibility-support-changed', (e, accessibilitySupportEnabled) => {
-    // eslint-disable-next-line no-console
-    console.log('accessibility-support-changed', accessibilitySupportEnabled)
+    log.info('accessibility-support-changed', accessibilitySupportEnabled)
   })
 
   app.on('session-created', session => {
-    // eslint-disable-next-line no-console
-    console.log('session-created', session)
+    log.info('session-created', session)
   })
 
   app.on('remote-require', (e, webContents, moduleName) => {
-    // eslint-disable-next-line no-console
-    console.log('remote-require', moduleName)
+    log.info('remote-require', moduleName)
   })
 
   app.on('remote-get-global', (e, webContents, globalName) => {
-    // eslint-disable-next-line no-console
-    console.log('remote-get-global', globalName)
+    log.info('remote-get-global', globalName)
   })
 
   app.on('remote-get-builtin', (e, webContents, moduleName) => {
-    // eslint-disable-next-line no-console
-    console.log('remote-get-global', moduleName)
+    log.info('remote-get-global', moduleName)
   })
 
   app.on('remote-get-current-window', () => {
-    // eslint-disable-next-line no-console
-    console.log('remote-get-current-window')
+    log.info('remote-get-current-window')
   })
 
   app.on('remote-get-current-web-contents', () => {
-    // eslint-disable-next-line no-console
-    console.log('remote-get-current-web-contents')
+    log.info('remote-get-current-web-contents')
   })
 
   app.on('remote-get-guest-web-contents', () => {
-    // eslint-disable-next-line no-console
-    console.log('remote-get-guest-web-contents')
+    log.info('remote-get-guest-web-contents')
   })
 
   if (isOSX()) {
@@ -273,9 +249,8 @@ export default () => {
     )
   }
 
-  ipcMain.on('onConnectionEvent', (e, name, log) => {
-    // eslint-disable-next-line no-console
-    console.log('on-connection-event', name, log || '')
+  ipcMain.on('onConnectionEvent', (e, name, text) => {
+    log.warn('on-connection-event', name, text || '')
   })
 
   ipcMain.on('addBadge', (e, badge) => {

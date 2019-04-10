@@ -1,3 +1,5 @@
+import log from 'electron-log'
+
 import { urls } from '../constants/pages'
 
 const responseTimeout = 10000
@@ -11,14 +13,12 @@ export default function handleOffline(url, win) {
   const { webContents } = win
 
   webContents.once('did-fail-load', (e, code) => {
-    // eslint-disable-next-line no-console
-    console.log('did-fail-load', e, code)
+    log.info('did-fail-load', e, code)
     offline(e, code)
   })
 
   webContents.once('did-finish-load', () => {
-    // eslint-disable-next-line no-console
-    console.log('did-finish-load')
+    log.info('did-finish-load')
     response = true
   })
 
@@ -30,8 +30,7 @@ export default function handleOffline(url, win) {
 
   setTimeout(() => {
     if (!response) {
-      // eslint-disable-next-line no-console
-      console.log('setTimeout 10000 offline')
+      log.warn('setTimeout 10000 offline')
       offline()
     }
     response = false

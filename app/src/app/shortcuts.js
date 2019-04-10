@@ -1,4 +1,5 @@
 import { globalShortcut, BrowserWindow, app } from 'electron'
+import log from 'electron-log'
 
 const shortcuts = {
   'Alt+CmdOrCtrl+I': () => {
@@ -21,20 +22,17 @@ function reg() {
 
 export function register() {
   app.on('browser-window-focus', () => {
-    // eslint-disable-next-line no-console
-    console.log('browser-window-focus')
+    log.info('browser-window-focus')
     reg()
   })
 
   app.on('browser-window-blur', () => {
-    // eslint-disable-next-line no-console
-    console.log('browser-window-blur')
+    log.info('browser-window-blur')
     unreg()
   })
 
   app.on('will-quit', () => {
-    // eslint-disable-next-line no-console
-    console.log('will-quit')
+    log.info('will-quit')
     unreg()
   })
 }

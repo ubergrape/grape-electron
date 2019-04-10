@@ -5,20 +5,18 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
+import log from 'electron-log'
 import '../electron/setDataDirs'
-import logToFile from './logToFile'
 import state from './state'
 import { register as registerProtocol } from './protocolHandler'
 import { register as registerShortcuts } from './shortcuts'
 import initApp from './initApp'
 
 function init() {
-  logToFile()
   registerProtocol()
 
   app.once('ready', launchInfo => {
-    // eslint-disable-next-line no-console
-    console.log('ready', JSON.stringify(launchInfo))
+    log.info('ready', JSON.stringify(launchInfo))
     initApp()
     registerShortcuts()
   })
@@ -30,8 +28,7 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('second-instance', (e, argv, workingDirectory) => {
-    // eslint-disable-next-line no-console
-    console.log('second-instance', argv, workingDirectory)
+    log.info('second-instance', argv, workingDirectory)
     // Someone tried to run a second instance, we should focus our window.
     if (state.myWindow) {
       if (state.myWindow.isMinimized()) state.myWindow.restore()

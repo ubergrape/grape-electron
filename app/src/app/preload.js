@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron')
+import { ipcRenderer } from 'electron'
 
 const addBadge = text => {
   ipcRenderer.send('addBadge', text)
@@ -8,8 +8,8 @@ const removeBadge = () => {
   ipcRenderer.send('removeBadge')
 }
 
-const onConnectionEvent = (name, log) => {
-  ipcRenderer.send('onConnectionEvent', name, log)
+const onConnectionEvent = (name, text) => {
+  ipcRenderer.send('onConnectionEvent', name, text)
 }
 
 window.GrapeAppBridge = {
