@@ -12,7 +12,7 @@ import contextMenu from 'electron-context-menu'
 import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 
-import { isNotificationSupported, isWindows, isOSX } from './utils'
+import { isWindows, isOSX } from './utils'
 import env from './env'
 import state from './state'
 import loadApp from './loadApp'
@@ -65,7 +65,7 @@ export default () => {
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        contextIsolation: true,
+        contextIsolation: false,
         allowDisplayingInsecureContent: true,
       },
       show: !startInBackground,
@@ -84,7 +84,6 @@ export default () => {
     }
 
     // set global to be accessible from webpage
-    global.isNotificationSupported = isNotificationSupported()
     global.host = state.host
     global.grapeHost = env.host
     global.chooseDomainDisabled = env.chooseDomainDisabled
@@ -126,22 +125,115 @@ export default () => {
     }
   })
 
-  app.on('window-all-closed', () => {})
+  app.on('will-finish-launching', () => {
+    console.log('will-finish-launching')
+  })
+
+  app.on('window-all-closed', () => {
+    console.log('window-all-closed')
+  })
+
   app.on('before-quit', () => {
+    console.log('before-quit')
     state.preventClose = false
   })
 
+  app.on('quit', (e, exitCode) => {
+    console.log('quit', exitCode)
+  })
+
+  app.on('open-file', (e, path) => {
+    console.log('open-file', path)
+  })
+
+  app.on('continue-activity', (e, type, userInfo) => {
+    console.log('continue-activity', type, userInfo)
+  })
+
+  app.on('will-continue-activity', (e, type) => {
+    console.log('will-continue-activity', type)
+  })
+
+  app.on('continue-activity-error', (e, type, error) => {
+    console.log('continue-activity-error', type, error)
+  })
+
+  app.on('activity-was-continued', (e, type, userInfo) => {
+    console.log('activity-was-continued', type, userInfo)
+  })
+
+  app.on('update-activity-state', (e, type, userInfo) => {
+    console.log('update-activity-state', type, userInfo)
+  })
+
+  app.on('new-window-for-tab', () => {
+    console.log('new-window-for-tab')
+  })
+
+  app.on('browser-window-created', () => {
+    console.log('browser-window-created')
+  })
+
+  app.on('web-contents-created', () => {
+    console.log('web-contents-created')
+  })
+
+  app.on('certificate-error', (e, webContents, url, error, callback) => {
+    console.log('certificate-error', url, error)
+    if (url.indexOf('staging.chatgrape.com') > -1) {
+      e.preventDefault()
+      callback(true)
+    } else {
+      callback(false)
+    }
+  })
+
   app.on(
-    'certificate-error',
-    (e, webContents, url, error, certificate, callback) => {
-      if (url.indexOf('staging.chatgrape.com') > -1) {
-        e.preventDefault()
-        callback(true)
-      } else {
-        callback(false)
-      }
+    'select-client-certificate',
+    (e, webContents, url, certificateList, callback) => {
+      console.log('select-client-certificate', url, certificateList, callback)
     },
   )
+
+  app.on('login', (e, webContents, request, authInfo, callback) => {
+    console.log('login', request, authInfo, callback)
+  })
+
+  app.on('gpu-process-crashed', (e, killed) => {
+    console.log('gpu-process-crashed', killed)
+  })
+
+  app.on('accessibility-support-changed', (e, accessibilitySupportEnabled) => {
+    console.log('accessibility-support-changed', accessibilitySupportEnabled)
+  })
+
+  app.on('session-created', session => {
+    console.log('session-created', session)
+  })
+
+  app.on('remote-require', (e, webContents, moduleName) => {
+    console.log('remote-require', moduleName)
+  })
+
+  app.on('remote-get-global', (e, webContents, globalName) => {
+    console.log('remote-get-global', globalName)
+  })
+
+  app.on('remote-get-builtin', (e, webContents, moduleName) => {
+    console.log('remote-get-global', moduleName)
+  })
+
+  app.on('remote-get-current-window', () => {
+    console.log('remote-get-current-window')
+  })
+
+  app.on('remote-get-current-web-contents', () => {
+    console.log('remote-get-current-web-contents')
+  })
+
+  app.on('remote-get-guest-web-contents', () => {
+    console.log('remote-get-guest-web-contents')
+  })
 
   if (isOSX()) {
     systemPreferences.subscribeNotification(
@@ -155,6 +247,10 @@ export default () => {
       },
     )
   }
+
+  ipcMain.on('onConnectionEvent', (e, name, log) => {
+    console.log('on-connection-event', name, log || '')
+  })
 
   ipcMain.on('addBadge', (e, badge) => {
     if (isWindows()) {

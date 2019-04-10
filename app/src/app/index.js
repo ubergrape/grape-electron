@@ -16,7 +16,8 @@ function init() {
   logToFile()
   registerProtocol()
 
-  app.once('ready', () => {
+  app.once('ready', launchInfo => {
+    console.log('ready', JSON.stringify(launchInfo))
     initApp()
     registerShortcuts()
   })
@@ -27,7 +28,8 @@ const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
 } else {
-  app.on('second-instance', () => {
+  app.on('second-instance', (e, argv, workingDirectory) => {
+    console.log('second-instance', argv, workingDirectory)
     // Someone tried to run a second instance, we should focus our window.
     if (state.myWindow) {
       if (state.myWindow.isMinimized()) state.myWindow.restore()

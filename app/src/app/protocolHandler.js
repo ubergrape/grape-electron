@@ -55,6 +55,7 @@ export function register() {
   app.setAsDefaultProtocolClient(protocol)
 
   app.on('open-url', (e, url) => {
+    console.log('open-url', e, url)
     e.preventDefault()
     lastUrl = url
     handle()

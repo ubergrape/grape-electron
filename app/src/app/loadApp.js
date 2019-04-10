@@ -8,6 +8,8 @@ import loadURL from './loadURL'
 import handleLocations from './handleLocations'
 import { urls } from '../constants/pages'
 
+const path = require('path')
+
 export default function loadApp(url = state.getUrl()) {
   state.mainWindow.loadURL(urls.loading)
   state.mainWindow.once('close', () => (state.mainWindow = null))
@@ -18,7 +20,8 @@ export default function loadApp(url = state.getUrl()) {
       webPreferences: {
         nodeIntegration: url.startsWith('file:'),
         nodeIntegrationInWorker: url.startsWith('file:'),
-        contextIsolation: !url.startsWith('file:'),
+        contextIsolation: url.startsWith('file:'),
+        preload: path.join(__dirname, 'preload.js'),
       },
     }),
   )
@@ -35,7 +38,10 @@ export default function loadApp(url = state.getUrl()) {
 
     if (state.prefs.show) {
       if (hidden) {
-        app.once('activate', () => newMain.show())
+        app.once('activate', (e, hasVisibleWindows) => {
+          console.log('activate', hasVisibleWindows)
+          newMain.show()
+        })
       } else {
         newMain.show()
       }

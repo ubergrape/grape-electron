@@ -20,7 +20,18 @@ function reg() {
 }
 
 export function register() {
-  app.on('browser-window-focus', reg)
-  app.on('browser-window-blur', unreg)
-  app.on('will-quit', unreg)
+  app.on('browser-window-focus', () => {
+    console.log('browser-window-focus')
+    reg()
+  })
+
+  app.on('browser-window-blur', () => {
+    console.log('browser-window-blur')
+    unreg()
+  })
+
+  app.on('will-quit', () => {
+    console.log('will-quit')
+    unreg()
+  })
 }

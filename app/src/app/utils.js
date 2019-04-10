@@ -16,12 +16,6 @@ export function osType() {
   if (isOSX()) return 'osx'
 }
 
-export function isNotificationSupported() {
-  // In windows we use trayIcon.displayBalloon and flashFrame
-  // instead of Native notifications.
-  return !isWindows()
-}
-
 function getHost(url) {
   const withoutProtocol = url.split('//')[1]
   if (withoutProtocol) return withoutProtocol.split('/')[0]

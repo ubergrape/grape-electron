@@ -9,8 +9,12 @@ export default function handleOffline(url, win) {
   }
   let response = false
   const { webContents } = win
-  webContents.once('did-fail-load', offline)
+  webContents.once('did-fail-load', (e, code) => {
+    console.log('did-fail-load', e, code)
+    offline(e, code)
+  })
   webContents.once('did-finish-load', () => {
+    console.log('did-finish-load')
     response = true
   })
   webContents.once('certificate-error', () => {
@@ -20,7 +24,10 @@ export default function handleOffline(url, win) {
   if (url) win.loadURL(url)
 
   setTimeout(() => {
-    if (!response) offline()
+    if (!response) {
+      console.log('setTimeout 10000 offline')
+      offline()
+    }
     response = false
   }, responseTimeout)
 }
