@@ -13,7 +13,7 @@ import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 import log from 'electron-log'
 
-import { isWindows, isOSX } from './utils'
+import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
 import state from './state'
 import loadApp from './loadApp'
@@ -85,6 +85,7 @@ export default () => {
     }
 
     // set global to be accessible from webpage
+    global.isNotificationSupported = isNotificationSupported()
     global.host = state.host
     global.grapeHost = env.host
     global.chooseDomainDisabled = env.chooseDomainDisabled
