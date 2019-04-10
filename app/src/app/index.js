@@ -17,6 +17,7 @@ function init() {
   registerProtocol()
 
   app.once('ready', launchInfo => {
+    // eslint-disable-next-line no-console
     console.log('ready', JSON.stringify(launchInfo))
     initApp()
     registerShortcuts()
@@ -29,6 +30,7 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('second-instance', (e, argv, workingDirectory) => {
+    // eslint-disable-next-line no-console
     console.log('second-instance', argv, workingDirectory)
     // Someone tried to run a second instance, we should focus our window.
     if (state.myWindow) {

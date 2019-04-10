@@ -31,6 +31,7 @@ export default () => {
 
   log
     .once('open', () => {
+      // eslint-disable-next-line no-console
       console.log('Using log file', escapePath(logFile))
 
       if (isWindows()) {
@@ -42,6 +43,7 @@ export default () => {
     // Handle error, otherwise it will throw into the face.
     .on('error', err => {
       // Ignore the error in this case.
+      // eslint-disable-next-line no-console
       console.log(err)
     })
 }

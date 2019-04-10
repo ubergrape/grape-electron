@@ -21,16 +21,19 @@ function reg() {
 
 export function register() {
   app.on('browser-window-focus', () => {
+    // eslint-disable-next-line no-console
     console.log('browser-window-focus')
     reg()
   })
 
   app.on('browser-window-blur', () => {
+    // eslint-disable-next-line no-console
     console.log('browser-window-blur')
     unreg()
   })
 
   app.on('will-quit', () => {
+    // eslint-disable-next-line no-console
     console.log('will-quit')
     unreg()
   })

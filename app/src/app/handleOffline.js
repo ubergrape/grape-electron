@@ -9,14 +9,19 @@ export default function handleOffline(url, win) {
   }
   let response = false
   const { webContents } = win
+
   webContents.once('did-fail-load', (e, code) => {
+    // eslint-disable-next-line no-console
     console.log('did-fail-load', e, code)
     offline(e, code)
   })
+
   webContents.once('did-finish-load', () => {
+    // eslint-disable-next-line no-console
     console.log('did-finish-load')
     response = true
   })
+
   webContents.once('certificate-error', () => {
     win.loadURL(`${urls.certificateError}&url=${url}`)
   })
@@ -25,6 +30,7 @@ export default function handleOffline(url, win) {
 
   setTimeout(() => {
     if (!response) {
+      // eslint-disable-next-line no-console
       console.log('setTimeout 10000 offline')
       offline()
     }

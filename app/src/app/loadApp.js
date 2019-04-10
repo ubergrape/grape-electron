@@ -20,7 +20,7 @@ export default function loadApp(url = state.getUrl()) {
       webPreferences: {
         nodeIntegration: url.startsWith('file:'),
         nodeIntegrationInWorker: url.startsWith('file:'),
-        contextIsolation: url.startsWith('file:'),
+        contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
       },
     }),
@@ -39,6 +39,7 @@ export default function loadApp(url = state.getUrl()) {
     if (state.prefs.show) {
       if (hidden) {
         app.once('activate', (e, hasVisibleWindows) => {
+          // eslint-disable-next-line no-console
           console.log('activate', hasVisibleWindows)
           newMain.show()
         })
