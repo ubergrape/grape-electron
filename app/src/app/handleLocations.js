@@ -38,7 +38,7 @@ export function openWindow(url) {
     webPreferences: {
       nodeIntegration: url.startsWith('file:'),
       nodeIntegrationInWorker: url.startsWith('file:'),
-      contextIsolation: !url.startsWith('file:'),
+      contextIsolation: false,
     },
   })
   secondaryWindow.once('closed', () => {

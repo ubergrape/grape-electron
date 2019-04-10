@@ -9,8 +9,10 @@ let dir
 
 if (isOSX()) dir = path.normalize(`${app.getAppPath()}/../../../..`)
 else if (isWindows()) dir = path.dirname(app.getPath('exe'))
+// eslint-disable-next-line no-console
 else console.warn('Implement rc file path.')
 
+// eslint-disable-next-line no-console
 console.log(`looking for .graperc or graperc file in: ${dir}`)
 
 let filePath = path.join(dir, '.graperc')
@@ -23,6 +25,7 @@ if (existsSync(filePath)) {
   try {
     config = loadJson.sync(filePath)
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err)
   }
 }

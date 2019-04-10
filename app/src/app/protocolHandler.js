@@ -1,6 +1,7 @@
 import { app } from 'electron'
 import minimatch from 'minimatch'
 import url from 'url'
+import log from 'electron-log'
 
 import state from './state'
 import { urls } from '../constants/pages'
@@ -55,6 +56,7 @@ export function register() {
   app.setAsDefaultProtocolClient(protocol)
 
   app.on('open-url', (e, url) => {
+    log.info('open-url', e, url)
     e.preventDefault()
     lastUrl = url
     handle()

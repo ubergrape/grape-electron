@@ -1516,6 +1516,11 @@ electron-json-storage@^2.0.0:
     mkdirp "^0.5.1"
     rimraf "^2.5.1"
 
+electron-log@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-3.0.5.tgz#9bdd307f1f1aec85c0873babd6bdfffb1a661436"
+  integrity sha512-wWOPNBVGh7NJx/OLXdgtuYrqxoG9ZWO+kZYloIHi66B5W9EgXZw71jdZ1ddeWNg4CkABypa8tkrRGqCKF+9tYg==
+
 electron-window-state@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/electron-window-state/-/electron-window-state-4.1.1.tgz#6b34fdc31b38514dfec8b7c8f7b5d4addb67632d"

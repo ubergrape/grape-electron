@@ -12,6 +12,7 @@
     "electron-about-window": "^1.6.1",
     "electron-context-menu": "^0.2.1",
     "electron-json-storage": "^2.0.0",
+    "electron-log": "^3.0.5",
     "electron-window-state": "^4.1.1",
     "fs-jetpack": "^0.7.0",
     "grape-theme": "^2.3.0",
