@@ -1,5 +1,5 @@
 {
-  "version": "2.16.4",
+  "version": "2.16.5",
   "devDependencies": {
     "asar": "^0.10.0",
     "babel-eslint": "^8.2.3",
