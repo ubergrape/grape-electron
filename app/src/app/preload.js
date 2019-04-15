@@ -43,7 +43,7 @@ const openExternal = href => {
   shell.openExternal(href)
 }
 
-window.GrapeAppBridge = {
+window.grapeAppBridge = {
   removeBadge,
   addBadge,
   onConnectionEvent,
