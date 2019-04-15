@@ -24,6 +24,8 @@
 	<string>{{version}}</string>
   <key>LSApplicationCategoryType</key>
   <string>public.app-category.business</string>
+	<key>LSMultipleInstancesProhibited</key>
+	<true/>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.8.0</string>
 	<key>NSMainNibFile</key>

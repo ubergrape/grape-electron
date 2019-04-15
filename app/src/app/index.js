@@ -22,19 +22,24 @@ function init() {
   })
 }
 
-const gotTheLock = app.requestSingleInstanceLock()
-
-if (!gotTheLock) {
-  app.quit()
-} else {
-  app.on('second-instance', (e, argv, workingDirectory) => {
-    log.info('second-instance', argv, workingDirectory)
-    // Someone tried to run a second instance, we should focus our window.
-    if (state.myWindow) {
-      if (state.myWindow.isMinimized()) state.myWindow.restore()
-      state.myWindow.focus()
-    }
-  })
-
+// https://github.com/electron/electron/issues/15958
+if (process.mas) {
   init()
+} else {
+  const gotTheLock = app.requestSingleInstanceLock()
+
+  if (!gotTheLock) {
+    app.quit()
+  } else {
+    app.on('second-instance', (e, argv, workingDirectory) => {
+      log.info('second-instance', argv, workingDirectory)
+      // Someone tried to run a second instance, we should focus our window.
+      if (state.myWindow) {
+        if (state.myWindow.isMinimized()) state.myWindow.restore()
+        state.myWindow.focus()
+      }
+    })
+
+    init()
+  }
 }
