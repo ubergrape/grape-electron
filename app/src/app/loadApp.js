@@ -1,5 +1,7 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow } from 'electron'
 import log from 'electron-log'
+import path from 'path'
 
 import env from './env'
 import state from './state'
@@ -9,11 +11,11 @@ import loadURL from './loadURL'
 import handleLocations from './handleLocations'
 import { urls } from '../constants/pages'
 
-const path = require('path')
-
 export default function loadApp(url = state.getUrl()) {
   state.mainWindow.loadURL(urls.loading)
-  state.mainWindow.once('close', () => (state.mainWindow = null))
+  state.mainWindow.once('close', () => {
+    state.mainWindow = null
+  })
 
   const newMain = new BrowserWindow(
     Object.assign({}, state.prefs, {
@@ -22,7 +24,7 @@ export default function loadApp(url = state.getUrl()) {
         nodeIntegration: url.startsWith('file:'),
         nodeIntegrationInWorker: url.startsWith('file:'),
         contextIsolation: false,
-        preload: path.join(__dirname, 'preload.js'),
+        preload: path.join(__dirname, './preload/preloadMain.js'),
       },
     }),
   )

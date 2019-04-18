@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { globalShortcut, BrowserWindow, app } from 'electron'
 import log from 'electron-log'
 
