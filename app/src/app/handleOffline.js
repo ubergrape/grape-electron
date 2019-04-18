@@ -1,5 +1,6 @@
 import log from 'electron-log'
 
+import loadApp from './loadApp'
 import { urls } from '../constants/pages'
 
 const responseTimeout = 10000
@@ -7,7 +8,7 @@ const responseTimeout = 10000
 export default function handleOffline(url, win) {
   function offline(e, code) {
     if (code === -3) return // Redirect
-    win.loadURL(urls.connectionError)
+    loadApp(urls.connectionError)
   }
   let response = false
   const { webContents } = win
@@ -23,7 +24,7 @@ export default function handleOffline(url, win) {
   })
 
   webContents.once('certificate-error', () => {
-    win.loadURL(`${urls.certificateError}&url=${url}`)
+    loadApp(`${urls.certificateError}&url=${url}`)
   })
 
   if (url) win.loadURL(url)
