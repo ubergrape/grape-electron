@@ -8,5 +8,9 @@
     <true/>
     <key>com.apple.security.application-groups</key>
     <string>Y8DPE6DGC7.com.ChatGrape</string>
+    <key>com.apple.security.device.camera</key>
+    <true/>
+    <key>com.apple.security.device.microphone</key>
+    <true/>
   </dict>
 </plist>
