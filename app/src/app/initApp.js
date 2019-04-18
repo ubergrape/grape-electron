@@ -12,6 +12,7 @@ import contextMenu from 'electron-context-menu'
 import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 import log from 'electron-log'
+import path from 'path'
 
 import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
@@ -68,6 +69,7 @@ export default () => {
         nodeIntegrationInWorker: false,
         contextIsolation: false,
         allowDisplayingInsecureContent: true,
+        preload: path.join(__dirname, './preload/preloadMain.js'),
       },
       show: !startInBackground,
       icon: imagePaths.icon,

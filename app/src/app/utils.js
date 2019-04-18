@@ -14,6 +14,7 @@ export function isOSX() {
 export function osType() {
   if (isWindows()) return 'win'
   if (isOSX()) return 'osx'
+  return 'linux'
 }
 
 export function isNotificationSupported() {

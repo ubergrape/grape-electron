@@ -1,5 +1,6 @@
-import path from 'path'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
+import path from 'path'
 import { existsSync } from 'fs'
 import loadJson from 'load-json-file'
 import { isWindows, isOSX } from './utils'
