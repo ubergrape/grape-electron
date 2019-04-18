@@ -34,6 +34,10 @@
 	<string>AtomApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
+  <key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone so people you talk to in a Grape Call can hear you.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow your conversational partners to see you in a Grape Call. You can turn off your video anytime during a call.</string>
   <key>NSHumanReadableCopyright</key>
   <string>{{copyright}}</string>
 </dict>
