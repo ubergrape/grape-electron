@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { shell, BrowserWindow, systemPreferences, session } from 'electron'
+import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 import path from 'path'
 
@@ -24,6 +24,7 @@ const secondaryWindowBlobs = [
   '**/accounts/organization/settings/members*',
   '**/accounts/settings*',
   '**/accounts/settings/notifications*',
+  '**/call/*',
   '**/call/jitsire/*',
 ]
 
@@ -44,7 +45,7 @@ export function openWindow(url) {
     },
   }
 
-  if (minimatch(url, '**/call/jitsire/*')) {
+  if (minimatch(url, '**/call/jitsire/*') || minimatch(url, '**/call/*')) {
     secondaryWindowConfig.webPreferences.preload = path.join(
       __dirname,
       './preload/preloadSecondary.js',
