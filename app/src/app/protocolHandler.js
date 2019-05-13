@@ -39,7 +39,10 @@ export function handle() {
   const urlObj = url.parse(lastUrl)
 
   let actionName = urlObj.host
-  if (minimatch(lastUrl, '**/call/jitsire/*')) {
+  if (
+    minimatch(lastUrl, '**/call/jitsire/*') ||
+    minimatch(lastUrl, '**/call/*')
+  ) {
     actionName = 'grapecall'
   }
 
