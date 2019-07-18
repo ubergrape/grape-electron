@@ -294,7 +294,10 @@ export default () => {
       content: notification.message,
     })
     trayIcon.once('balloon-click', () => {
-      e.sender.send(String(notification.event))
+      e.sender.send(String(notification.events.onClick))
+    })
+    trayIcon.once('balloon-closed', () => {
+      e.sender.send(String(notification.events.onClose))
     })
 
     mainWindow.once('focus', () => {

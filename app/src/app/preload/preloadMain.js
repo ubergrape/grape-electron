@@ -15,29 +15,35 @@ const onConnectionEvent = (name, text) => {
 
 const notificationClickTimeout = 20000
 
-const showNotification = (options, callback, dependencies) => {
+const showNotification = (options, callbacks, params, dependencies) => {
   const { createWebNotification, random } = dependencies
 
   if (remote.getGlobal('isNotificationSupported')) {
-    createWebNotification(options, callback)
+    createWebNotification(options, callbacks, params)
     return
   }
 
-  const event = random(10000)
   const { title, content } = options
 
-  ipcRenderer.once(event, callback)
+  const onClick = random(100000)
+  const onClose = random(100000)
+  if (callbacks.onClick) ipcRenderer.once(onClick, callbacks.onClick)
+  if (callbacks.onClose) ipcRenderer.once(onClose, callbacks.onClose)
+
+  setTimeout(() => {
+    ipcRenderer.removeAllListeners(onClick)
+    ipcRenderer.removeAllListeners(onClose)
+  }, notificationClickTimeout)
 
   // This will show Windows Tray Balllon in Windows < 10.
   ipcRenderer.send('showNotification', {
-    event,
+    events: {
+      onClick,
+      onClose,
+    },
     title,
     message: content,
   })
-
-  setTimeout(() => {
-    ipcRenderer.removeAllListeners(event)
-  }, notificationClickTimeout)
 }
 
 const openExternal = href => {
