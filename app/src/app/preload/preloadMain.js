@@ -27,8 +27,8 @@ const showNotification = (options, callbacks, params, dependencies) => {
 
   const onClick = random(100000)
   const onClose = random(100000)
-  ipcRenderer.once(onClick, callbacks.onClick)
-  ipcRenderer.once(onClose, callbacks.onClose)
+  if (callbacks.onClick) ipcRenderer.once(onClick, callbacks.onClick)
+  if (callbacks.onClose) ipcRenderer.once(onClose, callbacks.onClose)
 
   setTimeout(() => {
     ipcRenderer.removeAllListeners(onClick)
