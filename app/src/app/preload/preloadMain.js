@@ -24,26 +24,25 @@ const showNotification = (options, callbacks, params, dependencies) => {
   }
 
   const { title, content } = options
-  let isShow = false
 
-  callbacks.forEach(callback => {
-    const event = random(10000)
-    ipcRenderer.once(event, callback)
+  const onClick = random(100000)
+  const onClose = random(100000)
+  ipcRenderer.once(onClick, callbacks.onClick)
+  ipcRenderer.once(onClose, callbacks.onClose)
 
-    setTimeout(() => {
-      ipcRenderer.removeAllListeners(event)
-    }, notificationClickTimeout)
+  setTimeout(() => {
+    ipcRenderer.removeAllListeners(onClick)
+    ipcRenderer.removeAllListeners(onClose)
+  }, notificationClickTimeout)
 
-    if (!isShow) {
-      isShow = true
-
-      // This will show Windows Tray Balllon in Windows < 10.
-      ipcRenderer.send('showNotification', {
-        event,
-        title,
-        message: content,
-      })
-    }
+  // This will show Windows Tray Balllon in Windows < 10.
+  ipcRenderer.send('showNotification', {
+    events: {
+      onClick,
+      onClose,
+    },
+    title,
+    message: content,
   })
 }
 
