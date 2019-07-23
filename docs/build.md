@@ -53,16 +53,16 @@ In order to sign you need a certificate, thumbprint and token passwork.
 Certificate located on USB security token, you can find it at office.
 To use it, simply plug-in it to USB port and install SafeNet client that you can find [here](https://support.sectigo.com/Com_KnowledgeDetailPage?Id=kA01N000000zFLx).
 
-SafeNet will ask a token password while singing. Token password you can get from @sk7.
+SafeNet will ask a token password while signing. Token password you can get from @sk7.
 
 To find thumbprint do following steps:
-- Plug-in security token an mount it (if you're using virtual machine)
-- Open SafeNet client
-- Click "Advanced View" (icon like Settings wheel)
-- Go to "Tokens"
-- Go to "User certificates"
-- Click twice to "UberGrape GmbH"
-- Open "Details" path
+- plug-in security token an mount it (if you're using virtual machine)
+- open SafeNet client
+- click "Advanced View" (icon like settings wheel)
+- go to "Tokens"
+- go to "User certificates"
+- click twice to "UberGrape GmbH"
+- open "Details" path
 - "Thumbprint" field will be last at list
 
 Run this command to create signed builds:
@@ -70,7 +70,7 @@ Run this command to create signed builds:
 yarn release -- --thumbprint THUMBPRINT
 ```
 
-We have a pre configured Windows 10 image that you can find by this [link]() or in external drive at office. If you setting up your own environment, follow set up guide for Windows below.
+We have a pre configured Windows 10 image that you can find by this [link](https://drive.google.com/open?id=1RAozPUdoTJnvoF9BeNUUFbiBJQNILDyF) or in external drive at office. If you setting up your own environment, follow set up guide for Windows below.
 
 ## Windows set up
 
