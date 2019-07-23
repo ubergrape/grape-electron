@@ -48,18 +48,31 @@ You need to sign a release to:
 
 ### Windows
 
-In order to sign you need a certificate and a password.
-So you need to have a certificate on your `win7` and password.
+In order to sign you need a certificate, thumbprint and token passwork.
 
-We have a pre configured windows 7 image that you can [find in our internal wiki](https://github.com/ubergrape/chatgrape/wiki/Electron-Passwords) (only accessble to Grape developers). The certificate will be in `c:\grape_code_signing.p12`.
+Certificate located on USB security token, you can find it at office.
+To use it, simply plug-in it to USB port and install SafeNet client that you can find [here](https://support.sectigo.com/Com_KnowledgeDetailPage?Id=kA01N000000zFLx).
 
-Or if you're building own environment, you need to get the certificate and the password from @sk7
+SafeNet will ask a token password while singing. Token password you can get from @sk7.
 
+To find thumbprint do following steps:
+- Plug-in security token an mount it (if you're using virtual machine)
+- Open SafeNet client
+- Click "Advanced View" (icon like Settings wheel)
+- Go to "Tokens"
+- Go to "User certificates"
+- Click twice to "UberGrape GmbH"
+- Open "Details" path
+- "Thumbprint" field will be last at list
+
+Run this command to create signed builds:
 ```
-yarn release -- --sign PASSWORD --cert c:\path-to-cert.p12
+yarn release -- --thumbprint THUMBPRINT
 ```
 
-## Windows
+We have a pre configured Windows 10 image that you can find by this [link]() or in external drive at office. If you setting up your own environment, follow set up guide for Windows below.
+
+## Windows set up
 
 _We're building only 32bit application._
 _To build 64bit app you need to use 64bit Windows._
@@ -68,13 +81,13 @@ _To build 64bit app you need to use 64bit Windows._
 
 Otherwise you need to:
 
-- install 32bit node (last safe version is `6.3.0`)
+- install 32bit node (last safe version is `8.16.0`)
 - install git or download source
 - install latest [WiX](http://wixtoolset.org/)
   - add path to `bin` folder (usually it will be `C:\Program Files\WiX Toolset v3.9\bin\`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
 - install [microsoft windows sdk for win7](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
   - add path to `bin` folder (usually it will be `C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin`) to `Path` variable. [See instructions](http://www.nextofwindows.com/how-to-addedit-environment-variables-in-windows-7)
-- fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows)
+- fix the [msvcp120.dll issue](https://www.google.com.ua/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=msvcp120+dll+windows) (only for windows 7)
 
 steps with [`choco`](https://chocolatey.org/) (**WIP**)
 
