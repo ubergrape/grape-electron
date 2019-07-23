@@ -74,11 +74,6 @@ We have a pre configured Windows 10 image that you can find by this [link](https
 
 ## Windows set up
 
-_We're building only 32bit application._
-_To build 64bit app you need to use 64bit Windows._
-
----
-
 Otherwise you need to:
 
 - install 32bit node (last safe version is `8.16.0`)
