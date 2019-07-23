@@ -14,7 +14,7 @@ let readyAppDir
 let manifest
 let exeName
 
-const init = function() {
+const init = function() {  
   projectDir = jetpack
   tmpDir = projectDir.dir('./tmp', { empty: true })
   releasesDir = projectDir.dir('./releases')
@@ -103,22 +103,24 @@ const renameApp = function() {
 }
 
 const signApp = function() {
-  const password = utils.getSigningId()
-  const cert = utils.getCert()
+  const thumbprint = utils.getSigningId()
   const deferred = Q.defer()
-  if (password) {
+  if (thumbprint) {
     console.log(releasesDir.path(utils.finalPackageName(manifest, 'msi')))
     const sign = childProcess.spawn(
       'signtool',
       [
         'sign',
-        '/f',
-        cert,
-        '/p',
-        password,
-        '/td',
-        'SHA256',
+        '/tr',
+	'http://timestamp.sectigo.com?td=sha256',
+	'/td',
+	'sha256',
+	'/fd',
+	'sha256',
+	'/sha1',
+        thumbprint,
         releasesDir.path(utils.finalPackageName(manifest, 'msi')),
+	releasesDir.path(utils.finalPackageName(manifest, 'exe'))
       ],
       {
         stdio: 'inherit',
