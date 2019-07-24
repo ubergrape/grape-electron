@@ -31,11 +31,7 @@ exports.getEnvName = function() {
 }
 
 exports.getSigningId = function() {
-  return argv.sign
-}
-
-exports.getCert = function() {
-  return argv.cert
+  return argv.thumbprint
 }
 
 // Fixes https://github.com/nodejs/node-v0.x-archive/issues/2318
