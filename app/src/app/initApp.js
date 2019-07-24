@@ -11,12 +11,12 @@ import storage from 'electron-json-storage'
 import contextMenu from 'electron-context-menu'
 import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
+import log from 'electron-log'
+import path from 'path'
 
-import { formatMessage } from '../i18n'
 import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
 import state from './state'
-import * as menu from './menu'
 import loadApp from './loadApp'
 import loadURL from './loadURL'
 import { urls } from '../constants/pages'
@@ -36,6 +36,8 @@ const messages = defineMessages({
 })
 
 export default () => {
+  // eslint-disable-next-line global-require
+  const { formatMessage } = require('../i18n')
   contextMenu({
     append: params => [
       {
@@ -63,7 +65,11 @@ export default () => {
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign({}, state.dimensions, {
       webPreferences: {
+        nodeIntegration: false,
+        nodeIntegrationInWorker: false,
+        contextIsolation: false,
         allowDisplayingInsecureContent: true,
+        preload: path.join(__dirname, './preload/preloadMain.js'),
       },
       show: !startInBackground,
       icon: imagePaths.icon,
@@ -90,6 +96,9 @@ export default () => {
     if (state.dimensions.isMaximized && state.prefs.show) {
       state.mainWindow.maximize()
     }
+
+    // eslint-disable-next-line global-require
+    const menu = require('./menu')
 
     const Menu = ElectronMenu
     state.Menu = ElectronMenu
@@ -120,22 +129,115 @@ export default () => {
     }
   })
 
-  app.on('window-all-closed', () => {})
+  app.on('will-finish-launching', () => {
+    log.info('will-finish-launching')
+  })
+
+  app.on('window-all-closed', () => {
+    log.info('window-all-closed')
+  })
+
   app.on('before-quit', () => {
+    log.info('before-quit')
     state.preventClose = false
   })
 
+  app.on('quit', (e, exitCode) => {
+    log.info('quit', exitCode)
+  })
+
+  app.on('open-file', (e, path) => {
+    log.info('open-file', path)
+  })
+
+  app.on('continue-activity', (e, type, userInfo) => {
+    log.info('continue-activity', type, userInfo)
+  })
+
+  app.on('will-continue-activity', (e, type) => {
+    log.info('will-continue-activity', type)
+  })
+
+  app.on('continue-activity-error', (e, type, error) => {
+    log.info('continue-activity-error', type, error)
+  })
+
+  app.on('activity-was-continued', (e, type, userInfo) => {
+    log.info('activity-was-continued', type, userInfo)
+  })
+
+  app.on('update-activity-state', (e, type, userInfo) => {
+    log.info('update-activity-state', type, userInfo)
+  })
+
+  app.on('new-window-for-tab', () => {
+    log.info('new-window-for-tab')
+  })
+
+  app.on('browser-window-created', () => {
+    log.info('browser-window-created')
+  })
+
+  app.on('web-contents-created', () => {
+    log.info('web-contents-created')
+  })
+
+  app.on('certificate-error', (e, webContents, url, error, callback) => {
+    log.info('certificate-error', url, error)
+    if (url.indexOf('staging.chatgrape.com') > -1) {
+      e.preventDefault()
+      callback(true)
+    } else {
+      callback(false)
+    }
+  })
+
   app.on(
-    'certificate-error',
-    (e, webContents, url, error, certificate, callback) => {
-      if (url.indexOf('staging.chatgrape.com') > -1) {
-        e.preventDefault()
-        callback(true)
-      } else {
-        callback(false)
-      }
+    'select-client-certificate',
+    (e, webContents, url, certificateList, callback) => {
+      log.info('select-client-certificate', url, certificateList, callback)
     },
   )
+
+  app.on('login', (e, webContents, request, authInfo, callback) => {
+    log.info('login', request, authInfo, callback)
+  })
+
+  app.on('gpu-process-crashed', (e, killed) => {
+    log.info('gpu-process-crashed', killed)
+  })
+
+  app.on('accessibility-support-changed', (e, accessibilitySupportEnabled) => {
+    log.info('accessibility-support-changed', accessibilitySupportEnabled)
+  })
+
+  app.on('session-created', session => {
+    log.info('session-created', session)
+  })
+
+  app.on('remote-require', (e, webContents, moduleName) => {
+    log.info('remote-require', moduleName)
+  })
+
+  app.on('remote-get-global', (e, webContents, globalName) => {
+    log.info('remote-get-global', globalName)
+  })
+
+  app.on('remote-get-builtin', (e, webContents, moduleName) => {
+    log.info('remote-get-global', moduleName)
+  })
+
+  app.on('remote-get-current-window', () => {
+    log.info('remote-get-current-window')
+  })
+
+  app.on('remote-get-current-web-contents', () => {
+    log.info('remote-get-current-web-contents')
+  })
+
+  app.on('remote-get-guest-web-contents', () => {
+    log.info('remote-get-guest-web-contents')
+  })
 
   if (isOSX()) {
     systemPreferences.subscribeNotification(
@@ -149,6 +251,10 @@ export default () => {
       },
     )
   }
+
+  ipcMain.on('onConnectionEvent', (e, name, text) => {
+    log.warn('on-connection-event', name, text || '')
+  })
 
   ipcMain.on('addBadge', (e, badge) => {
     if (isWindows()) {
@@ -188,7 +294,10 @@ export default () => {
       content: notification.message,
     })
     trayIcon.once('balloon-click', () => {
-      e.sender.send(String(notification.event))
+      e.sender.send(String(notification.events.onClick))
+    })
+    trayIcon.once('balloon-closed', () => {
+      e.sender.send(String(notification.events.onClose))
     })
 
     mainWindow.once('focus', () => {

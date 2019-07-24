@@ -34,10 +34,6 @@ exports.getSigningId = function() {
   return argv.sign
 }
 
-exports.getCert = function() {
-  return argv.cert
-}
-
 // Fixes https://github.com/nodejs/node-v0.x-archive/issues/2318
 exports.spawnablePath = function(path) {
   if (process.platform === 'win32') {

@@ -1,27 +1,39 @@
+import log from 'electron-log'
+
+import loadApp from './loadApp'
 import { urls } from '../constants/pages'
-import state from './state'
 
 const responseTimeout = 10000
 
 export default function handleOffline(url, win) {
   function offline(e, code) {
     if (code === -3) return // Redirect
-    win.loadURL(urls.connectionError)
+    loadApp(urls.connectionError)
   }
   let response = false
   const { webContents } = win
-  webContents.once('did-fail-load', offline)
-  webContents.once('did-get-response-details', () => {
+
+  webContents.once('did-fail-load', (e, code) => {
+    log.info('did-fail-load', e, code)
+    offline(e, code)
+  })
+
+  webContents.once('did-finish-load', () => {
+    log.info('did-finish-load')
     response = true
   })
+
   webContents.once('certificate-error', () => {
-    win.loadURL(`${urls.certificateError}&url=${url}`)
+    loadApp(`${urls.certificateError}&url=${url}`)
   })
 
   if (url) win.loadURL(url)
 
   setTimeout(() => {
-    if (!response) offline()
+    if (!response) {
+      log.warn('setTimeout 10000 offline')
+      offline()
+    }
     response = false
   }, responseTimeout)
 }

@@ -122,7 +122,7 @@ const finalize = () => {
   finalAppDir.write('Contents/Info.plist', info)
 
   // Prepare Info.plist of Helper apps
-  ;[' EH', ' NP', ''].forEach(helperSuffix => {
+  ;[''].forEach(helperSuffix => {
     info = projectDir.read(
       `resources/osx/helper_apps/Info${helperSuffix}.plist`,
     )
@@ -156,7 +156,7 @@ const finalize = () => {
 
 const renameApp = () => {
   // Rename helpers
-  ;[' Helper EH', ' Helper NP', ' Helper'].forEach(helperSuffix => {
+  ;[' Helper'].forEach(helperSuffix => {
     finalAppDir.rename(
       `Contents/Frameworks/Electron${helperSuffix}.app/Contents/MacOS/Electron${helperSuffix}`,
       manifest.productName + helperSuffix,

@@ -2,24 +2,44 @@
 // app starts. This script is running through entire life of your application.
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
-import '../electron/setDataDirs'
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
-import logToFile from './logToFile'
+import log from 'electron-log'
+import '../electron/setDataDirs'
+import state from './state'
 import { register as registerProtocol } from './protocolHandler'
 import { register as registerShortcuts } from './shortcuts'
-import makeSingleInstance from './makeSingleInstance'
 import initApp from './initApp'
 
 function init() {
-  logToFile()
   registerProtocol()
 
-  app.once('ready', () => {
+  app.once('ready', launchInfo => {
+    log.info('ready', JSON.stringify(launchInfo))
     initApp()
     registerShortcuts()
   })
 }
 
-const shouldQuit = makeSingleInstance()
-if (shouldQuit) app.quit()
-else init()
+// https://github.com/electron/electron/issues/15958
+if (process.mas) {
+  init()
+} else {
+  const gotTheLock = app.requestSingleInstanceLock()
+
+  if (!gotTheLock) {
+    app.quit()
+  } else {
+    app.on('second-instance', (e, argv, workingDirectory) => {
+      log.info('second-instance', argv, workingDirectory)
+      // Someone tried to run a second instance, we should focus our window.
+      if (state.myWindow) {
+        if (state.myWindow.isMinimized()) state.myWindow.restore()
+        state.myWindow.focus()
+      }
+    })
+
+    init()
+  }
+}

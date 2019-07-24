@@ -1,10 +1,13 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 import minimatch from 'minimatch'
 import url from 'url'
+import log from 'electron-log'
 
 import state from './state'
 import { urls } from '../constants/pages'
 import ensureFocus from './ensureFocus'
+import loadApp from './loadApp'
 import { openWindow } from './handleLocations'
 
 export const protocol = 'chatgrape'
@@ -23,7 +26,7 @@ const actions = {
       })
       win.webContents.send('submitAuthToken', { token, url: postUrl })
     })
-    win.loadURL(urls.tokenAuth)
+    loadApp(urls.tokenAuth)
   },
   grapecall: urlObj => {
     openWindow(`https://${urlObj.hostname}${urlObj.path}`)
@@ -36,7 +39,10 @@ export function handle() {
   const urlObj = url.parse(lastUrl)
 
   let actionName = urlObj.host
-  if (minimatch(lastUrl, '**/call/jitsire/*')) {
+  if (
+    minimatch(lastUrl, '**/call/jitsire/*') ||
+    minimatch(lastUrl, '**/call/*')
+  ) {
     actionName = 'grapecall'
   }
 
@@ -54,6 +60,7 @@ export function register() {
   app.setAsDefaultProtocolClient(protocol)
 
   app.on('open-url', (e, url) => {
+    log.info('open-url', e, url)
     e.preventDefault()
     lastUrl = url
     handle()
