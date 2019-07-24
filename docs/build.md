@@ -67,7 +67,7 @@ To find thumbprint do following steps:
 
 Run this command to create signed builds:
 ```
-yarn release -- --thumbprint THUMBPRINT
+yarn release -- --sign THUMBPRINT
 ```
 
 We have a pre configured Windows 10 image and all info about it you can find by this [link](https://github.com/ubergrape/chatgrape/wiki/Windows-virtual-image) (only accessble to Grape developers) or in external drive at office (only virtual image).

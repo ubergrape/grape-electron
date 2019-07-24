@@ -112,15 +112,15 @@ const signApp = function() {
       [
         'sign',
         '/tr',
-	'http://timestamp.sectigo.com?td=sha256',
-	'/td',
-	'sha256',
-	'/fd',
-	'sha256',
-	'/sha1',
+        'http://timestamp.sectigo.com?td=sha256',
+        '/td',
+        'sha256',
+        '/fd',
+        'sha256',
+        '/sha1',
         thumbprint,
         releasesDir.path(utils.finalPackageName(manifest, 'msi')),
-	releasesDir.path(utils.finalPackageName(manifest, 'exe'))
+	      releasesDir.path(utils.finalPackageName(manifest, 'exe'))
       ],
       {
         stdio: 'inherit',
