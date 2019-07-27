@@ -7,6 +7,7 @@ const sign = require('electron-osx-sign') // eslint-disable-line import/no-extra
 const download = require('electron-download') // eslint-disable-line import/no-extraneous-dependencies
 const extract = require('extract-zip') // eslint-disable-line import/no-extraneous-dependencies
 const semver = require('semver') // eslint-disable-line import/no-extraneous-dependencies
+const zip = require('electron-installer-zip') // eslint-disable-line import/no-extraneous-dependencies
 const path = require('path')
 
 const utils = require('../utils')
@@ -273,6 +274,23 @@ const packToDmgFile = () => {
 
 const cleanClutter = () => tmpDir.removeAsync('.')
 
+const zipApp = () => {
+  const opts = {
+    dir: releasesDir.path('./Grape.app'),
+    // out can either be a directory or a path for a ZIP file
+    out: releasesDir.path(`./Grape.zip`),
+    // out: 'dist/App.zip',
+  }
+
+  zip(opts, (err, res) => {
+    if (err) {
+      console.error(err) // eslint-disable-line no-console
+      process.exit(1)
+    }
+    console.log('Zip file written to: ', res) // eslint-disable-line no-console
+  })
+}
+
 module.exports = () =>
   init()
     .then(downloadRuntime)
@@ -285,4 +303,5 @@ module.exports = () =>
     .then(packToPkgFile)
     .then(packToDmgFile)
     .then(cleanClutter)
+    .then(zipApp)
     .catch(console.error) // eslint-disable-line no-console

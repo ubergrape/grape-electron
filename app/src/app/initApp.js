@@ -13,6 +13,7 @@ import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 import log from 'electron-log'
 import path from 'path'
+import updateElectronApp from 'update-electron-app'
 
 import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
@@ -61,6 +62,13 @@ export default () => {
   const startInBackground = autostart && env.startInBackgroundWhenAutostarted
   console.log(`autostart: ${autostart}`) // eslint-disable-line no-console
   console.log(`startInBackground: ${startInBackground}`) // eslint-disable-line no-console
+
+  if (!process.mas) {
+    updateElectronApp({
+      updateInterval: '5 minutes',
+      logger: log,
+    })
+  }
 
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign({}, state.dimensions, {
