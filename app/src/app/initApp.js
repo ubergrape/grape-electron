@@ -63,12 +63,10 @@ export default () => {
   console.log(`autostart: ${autostart}`) // eslint-disable-line no-console
   console.log(`startInBackground: ${startInBackground}`) // eslint-disable-line no-console
 
-  if (!process.mas) {
-    updateElectronApp({
-      updateInterval: '5 minutes',
-      logger: log,
-    })
-  }
+  updateElectronApp({
+    updateInterval: '5 minutes',
+    logger: log,
+  })
 
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign({}, state.dimensions, {
