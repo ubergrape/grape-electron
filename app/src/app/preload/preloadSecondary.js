@@ -29,3 +29,7 @@ window.JitsiMeetElectron = {
     })
   },
 }
+
+window.grapeCallBridge = {
+  desktopCapturer,
+}
