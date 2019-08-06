@@ -34,7 +34,7 @@
   "scripts": {
     "postinstall": "cd app && yarn",
     "build": "gulp build",
-    "release": "gulp release --env=production",
+    "release": "yarn --cwd ./app build && gulp release --env=production",
     "start": "node ./tasks/start",
     "test": "node ./tasks/start --env=test",
     "install-native": "node ./tasks/install_native_module",
