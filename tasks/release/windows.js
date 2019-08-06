@@ -102,11 +102,112 @@ const renameApp = function() {
   return readyAppDir.renameAsync('electron.exe', exeName)
 }
 
+const detachEngineFromExe = function() {
+  const thumbprint = utils.getSigningId()
+  const deferred = Q.defer()
+  if (thumbprint) {
+    console.log(`Detaching engine from ${releasesDir.path(utils.finalPackageName(manifest, 'exe'))}...`)
+    const detach = childProcess.spawn(
+      'insignia',
+      [
+        '-ib',
+	      releasesDir.path(utils.finalPackageName(manifest, 'exe')),
+        '-o',
+        releasesDir.path('engine.exe'),
+      ],
+      {
+        stdio: 'inherit',
+      },
+    )
+    detach.on('error', err => {
+      throw err
+    })
+    detach.on('close', () => {
+      gulpUtil.log('Engine succesfully detached.')
+      deferred.resolve()
+    })
+  } else {
+    return Q()
+  }
+
+  return deferred.promise
+}
+
+const signEngineFromExe = function() {
+  const thumbprint = utils.getSigningId()
+  const deferred = Q.defer()
+  if (thumbprint) {
+    console.log(`Signing engine...`)
+    const signEngine = childProcess.spawn(
+      'signtool',
+      [
+        'sign',
+        '/tr',
+        'http://timestamp.sectigo.com?td=sha256',
+        '/td',
+        'sha256',
+        '/fd',
+        'sha256',
+        '/sha1',
+        thumbprint,
+        releasesDir.path('engine.exe')
+      ],
+      {
+        stdio: 'inherit',
+      },
+    )
+    signEngine.on('error', err => {
+      throw err
+    })
+    signEngine.on('close', () => {
+      gulpUtil.log('Engine succesfully signed.')
+      deferred.resolve()
+    })
+  } else {
+    return Q()
+  }
+
+  return deferred.promise
+}
+
+const reAttachEngineToExe = function() {
+  const thumbprint = utils.getSigningId()
+  const deferred = Q.defer()
+  if (thumbprint) {
+    console.log(`Re-attaching engine to ${releasesDir.path(utils.finalPackageName(manifest, 'exe'))}...`)
+    const detach = childProcess.spawn(
+      'insignia',
+      [
+        '-ab',
+        releasesDir.path('engine.exe'),
+	      releasesDir.path(utils.finalPackageName(manifest, 'exe')),
+        '-o',
+        releasesDir.path(utils.finalPackageName(manifest, 'exe')),
+      ],
+      {
+        stdio: 'inherit',
+      },
+    )
+    detach.on('error', err => {
+      throw err
+    })
+    detach.on('close', () => {
+      gulpUtil.log('Engine succesfully re-attached.')
+      jetpack.remove(releasesDir.path('engine.exe'))
+      deferred.resolve()
+    })
+  } else {
+    return Q()
+  }
+
+  return deferred.promise
+}
+
 const signApp = function() {
   const thumbprint = utils.getSigningId()
   const deferred = Q.defer()
   if (thumbprint) {
-    console.log(releasesDir.path(utils.finalPackageName(manifest, 'msi')))
+    console.log(`Signing ${releasesDir.path(utils.finalPackageName(manifest, 'msi'))} and ${releasesDir.path(utils.finalPackageName(manifest, 'exe'))}...`)
     const sign = childProcess.spawn(
       'signtool',
       [
@@ -120,7 +221,7 @@ const signApp = function() {
         '/sha1',
         thumbprint,
         releasesDir.path(utils.finalPackageName(manifest, 'msi')),
-	      releasesDir.path(utils.finalPackageName(manifest, 'exe'))
+	      releasesDir.path(utils.finalPackageName(manifest, 'exe')),
       ],
       {
         stdio: 'inherit',
@@ -420,6 +521,9 @@ module.exports = function() {
     .then(renameApp)
     .then(createInstaller)
     .then(cleanClutter)
+    .then(detachEngineFromExe)
+    .then(signEngineFromExe)
+    .then(reAttachEngineToExe)
     .then(signApp)
     .catch(console.error)
 }
