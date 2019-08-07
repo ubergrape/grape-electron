@@ -67,7 +67,7 @@ const finalize = function() {
       icon: projectDir.path('resources/windows/icon.ico'),
       'version-string': {
         ProductName: manifest.productName,
-        FileDescription: manifest.description,
+        FileDescription: manifest.productName,
         ProductVersion: manifest.version,
         CompanyName: manifest.author, // it might be better to add another field to package.json for this
         LegalCopyright: manifest.copyright,
