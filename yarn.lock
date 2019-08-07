@@ -3785,9 +3785,10 @@ rc@^1.1.2, rc@^1.2.1:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-rcedit@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/rcedit/-/rcedit-0.4.0.tgz#d731d13be81859351ddc613d6ad73c39efdce6e4"
+rcedit@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rcedit/-/rcedit-2.0.0.tgz#dcc85d93aa91a41c1ebc5c6aa1dfc43ea28b7dad"
+  integrity sha512-XcFGyEBjhWSsud+R8elwQtGBbVkCf7tAiad+nXo5jc6l2rMf46NfGNwjnmBNneBIZDfq+Npf8lwP371JTONfrw==
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
