@@ -5,6 +5,7 @@ import path from 'path'
 
 import state from './state'
 import ensureFocus from './ensureFocus'
+import * as imagePaths from '../constants/images'
 
 const mainWindowBlobs = [
   'file://**',
@@ -43,6 +44,7 @@ export function openWindow(url) {
       nodeIntegrationInWorker: url.startsWith('file:'),
       contextIsolation: false,
     },
+    icon: imagePaths.icon,
   }
 
   if (minimatch(url, '**/call/jitsire/*') || minimatch(url, '**/call/*')) {
