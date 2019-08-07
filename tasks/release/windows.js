@@ -59,11 +59,9 @@ const finalize = function() {
   )
 
   const rcedit = require('rcedit')
-  const electronExePromise = Q.defer()
-  const fileCilentExePropmise = Q.defer()
 
   // Replace Electron icon for your own.
-  rcedit(
+  return rcedit(
     readyAppDir.path('electron.exe'),
     {
       icon: projectDir.path('resources/windows/icon.ico'),
@@ -77,25 +75,9 @@ const finalize = function() {
       },
     },
     err => {
-      if (!err) {
-        electronExePromise.resolve()
-        // Replace Default icon at grapefile_client.
-        rcedit(
-          readyAppDir.path('grapefile_client.exe'),
-          {
-            icon: projectDir.path('resources/windows/icon.ico'),
-          },
-          err => {
-            if (!err) {
-              fileCilentExePropmise.resolve()
-            }
-          },
-        )
-      }
+      console.log(err)
     },
   )
-
-  return Q.all([electronExePromise.propmise, fileCilentExePropmise.promise])
 }
 
 const renameApp = function() {
@@ -508,6 +490,12 @@ const createInstaller = function() {
     .then(runLightForBootstraper)
 }
 
+const signEngine = function() {
+  return detachEngineFromExe()
+    .then(signEngineFromExe)
+    .then(reAttachEngineToExe)
+}
+
 const cleanClutter = function() {
   return tmpDir.removeAsync('.')
 }
@@ -521,9 +509,7 @@ module.exports = function() {
     .then(renameApp)
     .then(createInstaller)
     .then(cleanClutter)
-    .then(detachEngineFromExe)
-    .then(signEngineFromExe)
-    .then(reAttachEngineToExe)
+    .then(signEngine)
     .then(signApp)
     .catch(console.error)
 }
