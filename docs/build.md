@@ -48,7 +48,7 @@ You need to sign a release to:
 
 ### Windows
 
-In order to sign you need a certificate, thumbprint and token passwork.
+In order to sign you need a certificate, thumbprint and token password.
 
 Certificate located on USB security token, you can find it at office.
 To use it, simply plug-in it to USB port and install SafeNet client that you can find [here](https://support.sectigo.com/Com_KnowledgeDetailPage?Id=kA01N000000zFLx).
