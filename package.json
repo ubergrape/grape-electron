@@ -21,6 +21,10 @@
       "category": "public.app-category.business",
       "target": ["mas", "dmg", "zip"]
     },
+    "win": {
+      "certificateSubjectName": "UberGrape GmbH",
+      "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
+    },
     "directories": {
       "output": "build",
       "buildResources": "assets"
