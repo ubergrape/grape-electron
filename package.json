@@ -1,10 +1,11 @@
 {
-  "name": "grape",
+  "name": "Grape",
   "version": "1.0.0",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "src/index.js",
   "scripts": {
-    "start": "NODE_ENV=development electron ."
+    "start": "NODE_ENV=development electron .",
+    "build": "electron-builder"
   },
   "repository": "https://github.com/ubergrape/grape-electron",
   "keywords": [
@@ -14,7 +15,19 @@
   ],
   "author": "UberGrape GmbH",
   "copyright": "© 2019, UberGrape GmbH",
+  "build": {
+    "appId": "com.ChatGrape",
+    "mac": {
+      "category": "public.app-category.business",
+      "target": ["mas", "dmg", "zip"]
+    },
+    "directories": {
+      "output": "build",
+      "buildResources": "assets"
+    }
+  },
   "devDependencies": {
-    "electron": "^6.0.2"
+    "electron": "^6.0.2",
+    "electron-builder": "^21.2.0"
   }
 }
