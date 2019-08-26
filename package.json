@@ -13,8 +13,7 @@
     "chat",
     "enterprise chat"
   ],
-  "author": "UberGrape GmbH",
-  "email": "support@chatgrape.com",
+  "author": "UberGrape GmbH <support@chatgrape.com>",
   "copyright": "© 2019, UberGrape GmbH",
   "build": {
     "appId": "com.ChatGrape",
