@@ -14,6 +14,7 @@
     "enterprise chat"
   ],
   "author": "UberGrape GmbH",
+  "email": "support@chatgrape.com",
   "copyright": "© 2019, UberGrape GmbH",
   "build": {
     "appId": "com.ChatGrape",
@@ -26,7 +27,7 @@
       "provisioningProfile": "./assets/AppStore_Distribution.provisionprofile"
     },
     "linux": {
-      "target": ["tar.gz", "deb"],
+      "target": ["tar.gz", "deb", "rpm", "pacman"],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",
       "category": "Office"
