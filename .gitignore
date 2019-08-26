@@ -3,3 +3,6 @@ dist
 build
 
 yarn-error.log
+
+AppStore_Distribution.provisionprofile
+Developer_Distribution.provisionprofile
