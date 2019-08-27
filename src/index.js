@@ -49,3 +49,7 @@ app.on('before-quit', () => app.quitting = true)
 app.on('activate', () => {
   mainWindow.show()
 })
+
+autoUpdater.on('error', err => {
+  log.error(err)
+})
