@@ -1,12 +1,18 @@
 // Modules to control application life and create native browser window
 const electron = require('electron')
 const path = require('path')
+const { autoUpdater } = require('electron-updater')
 
-const {app, BrowserWindow} = electron
+const { app, BrowserWindow } = electron
+
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "info"
 
 let mainWindow
 
 const createWindow = () => {
+  autoUpdater.checkForUpdatesAndNotify()
+
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
 
   mainWindow = new BrowserWindow({

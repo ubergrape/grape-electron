@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "NODE_ENV=development electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "deploy": "electron-builder --publish onTagOrDraft"
   },
   "repository": "https://github.com/ubergrape/grape-electron",
   "keywords": [
@@ -20,13 +21,19 @@
     "buildVersion": "47",
     "mac": {
       "category": "public.app-category.business",
-      "target": ["mas", "dmg", "zip"],
-      "entitlementsInherit": "./assets/child.plist",
-      "entitlements": "./assets/Info.plist",
-      "provisioningProfile": "./assets/AppStore_Distribution.provisionprofile"
+      "target": [
+        "mas",
+        "dmg",
+        "zip"
+      ]
     },
     "linux": {
-      "target": ["tar.gz", "deb", "rpm", "pacman"],
+      "target": [
+        "tar.gz",
+        "deb",
+        "rpm",
+        "pacman"
+      ],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",
       "category": "Office"
@@ -43,5 +50,9 @@
   "devDependencies": {
     "electron": "^6.0.2",
     "electron-builder": "^21.2.0"
+  },
+  "dependencies": {
+    "electron-log": "^3.0.7",
+    "electron-updater": "^4.1.2"
   }
 }
