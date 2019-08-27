@@ -1,4 +1,3 @@
-// Modules to control application life and create native browser window
 const electron = require('electron')
 const path = require('path')
 const { autoUpdater } = require('electron-updater')
@@ -25,7 +24,7 @@ const createWindow = () => {
     }
   })
 
-  mainWindow.loadURL('https://uebergrape.staging.chatgrape.com')
+  mainWindow.loadURL('https://chatgrape.com/chat')
 
   if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
 
