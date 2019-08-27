@@ -5,7 +5,7 @@ const { autoUpdater } = require('electron-updater')
 const { app, BrowserWindow } = electron
 
 autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "info"
+autoUpdater.logger.transports.file.level = "debug"
 
 let mainWindow
 
