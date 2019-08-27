@@ -24,7 +24,7 @@ const createWindow = () => {
     }
   })
 
-  mainWindow.loadURL('https://uebergrape.staging.chatgrape.com')
+  mainWindow.loadURL('https://chatgrape.com/chat')
 
   if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
 
