@@ -1,6 +1,6 @@
 {
   "name": "Grape",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0-alpha.3",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "src/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "copyright": "© 2019, UberGrape GmbH",
   "build": {
     "appId": "com.ChatGrape",
-    "buildVersion": "50",
+    "buildVersion": "51",
     "mac": {
       "category": "public.app-category.business",
       "target": [
