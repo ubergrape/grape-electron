@@ -44,11 +44,11 @@
     }
   },
   "devDependencies": {
-    "electron": "^6.0.2",
-    "electron-builder": "^21.2.0"
+    "electron": "4",
+    "electron-builder": "20.34.0"
   },
   "dependencies": {
     "electron-log": "^3.0.7",
-    "electron-updater": "^4.1.2"
+    "electron-updater": "3.2.3"
   }
 }
