@@ -38,9 +38,9 @@
       "artifactName": "${productName}-${version}.${ext}",
       "category": "Office"
     },
-    "win": {	
-      "certificateSubjectName": "UberGrape GmbH",	
-      "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"	
+    "win": {
+      "certificateSubjectName": "UberGrape GmbH",
+      "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
     },
     "directories": {
       "output": "build",
@@ -48,11 +48,12 @@
     }
   },
   "devDependencies": {
-    "electron": "4",
-    "electron-builder": "20.34.0"
+    "electron": "^6.0.7",
+    "electron-builder": "^21.2.0"
   },
   "dependencies": {
     "electron-log": "^3.0.7",
-    "electron-updater": "4.0.0"
+    "electron-updater": "^4.1.2",
+    "minimatch": "^3.0.4"
   }
 }
