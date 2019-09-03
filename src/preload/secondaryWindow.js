@@ -1,5 +1,5 @@
 const { desktopCapturer } = require('electron')
 
-window.grapeCallBridge = {
+global.grapeCallBridge = {
   desktopCapturer,
 }

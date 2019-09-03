@@ -66,7 +66,6 @@ const createWindow = () => {
         height: 600,
         parent: mainWindow,
         webPreferences: {
-          contextIsolation: true,
           preload: path.join(__dirname, 'preload/secondaryWindow.js'),
         },
       })
