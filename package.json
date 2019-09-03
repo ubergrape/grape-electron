@@ -30,9 +30,7 @@
     "linux": {
       "target": [
         "tar.gz",
-        "deb",
-        "rpm",
-        "pacman"
+        "deb"
       ],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",
