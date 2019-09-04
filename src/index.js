@@ -1,12 +1,15 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const electron = require('electron')
 const path = require('path')
 const { autoUpdater } = require('electron-updater')
 const minimatch = require('minimatch')
+const log = require('electron-log')
 
 const { app, shell, BrowserWindow } = electron
 
-autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "debug"
+autoUpdater.logger = log
+
+autoUpdater.logger.transports.file.level = 'debug'
 
 let mainWindow
 let secondaryWindow
@@ -42,7 +45,8 @@ const createWindow = () => {
 
   mainWindow.loadURL('https://uebergrape.staging.chatgrape.com')
 
-  if (process.env.NODE_ENV === 'development') mainWindow.webContents.openDevTools()
+  if (process.env.NODE_ENV === 'development')
+    mainWindow.webContents.openDevTools()
 
   mainWindow.on('close', e => {
     if (app.quitting) {
@@ -53,7 +57,7 @@ const createWindow = () => {
     }
   })
 
-  mainWindow.once('ready-to-show', e => {
+  mainWindow.once('ready-to-show', () => {
     mainWindow.show()
   })
 
@@ -89,7 +93,9 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
-app.on('before-quit', () => app.quitting = true)
+app.on('before-quit', () => {
+  app.quitting = true
+})
 
 app.on('activate', () => {
   mainWindow.show()
