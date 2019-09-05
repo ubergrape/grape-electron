@@ -4,7 +4,7 @@
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
-    "start": "NODE_ENV=development yarn build && electron .",
+    "start": "NODE_ENV=development yarn build:lib && electron .",
     "build:lib": "babel src -d lib --copy-files",
     "build": "electron-builder",
     "deploy": "yarn build:lib && electron-builder --publish onTagOrDraft",
