@@ -84,7 +84,6 @@ const createWindow = () => {
   }
 
   mainWindow.webContents.on('new-window', handleNavigation)
-
   mainWindow.webContents.on('will-navigate', handleNavigation)
 }
 
