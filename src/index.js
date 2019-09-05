@@ -1,14 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const electron = require('electron')
-const path = require('path')
-const { autoUpdater } = require('electron-updater')
-const minimatch = require('minimatch')
-const log = require('electron-log')
+import { app, screen, shell, BrowserWindow } from 'electron'
+import { autoUpdater } from 'electron-updater'
+import minimatch from 'minimatch'
+import log from 'electron-log'
 
-const { app, shell, BrowserWindow } = electron
+import urls from './constants/pages'
 
 autoUpdater.logger = log
-
 autoUpdater.logger.transports.file.level = 'debug'
 
 let mainWindow
@@ -26,27 +24,25 @@ const mainWindowLinks = [
 
 const shouldOpenIn = (globs, url) => globs.some(glob => minimatch(url, glob))
 
-const createWindow = () => {
-  autoUpdater.checkForUpdatesAndNotify()
+const createWindow = loadUrl => {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
 
-  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
+  if (mainWindow) mainWindow.close()
 
   mainWindow = new BrowserWindow({
     minHeight: 600,
     minWidth: 800,
     width,
     height,
-    show: false,
+    show: !!mainWindow,
     backgroundColor: '#FFF',
     webPreferences: {
-      contextIsolation: true,
+      nodeIntegration: loadUrl.startsWith('file:'),
+      contextIsolation: !loadUrl.startsWith('file:'),
     },
   })
 
-  mainWindow.loadURL('https://uebergrape.staging.chatgrape.com')
-
-  if (process.env.NODE_ENV === 'development')
-    mainWindow.webContents.openDevTools()
+  mainWindow.loadURL(loadUrl)
 
   mainWindow.on('close', e => {
     if (app.quitting) {
@@ -72,7 +68,7 @@ const createWindow = () => {
         height: 600,
         parent: mainWindow,
         webPreferences: {
-          preload: path.join(__dirname, 'preload/secondaryWindow.js'),
+          preload: `${__dirname}/preload/secondaryWindow.js`,
         },
       })
 
@@ -87,7 +83,20 @@ const createWindow = () => {
   mainWindow.webContents.on('will-navigate', handleNavigation)
 }
 
-app.on('ready', createWindow)
+const initApp = url => {
+  autoUpdater.checkForUpdatesAndNotify()
+
+  createWindow(url)
+
+  setTimeout(() => {
+    createWindow('https://uebergrape.staging.chatgrape.com')
+  }, 5000)
+
+  if (process.env.NODE_ENV === 'development')
+    mainWindow.webContents.openDevTools()
+}
+
+app.on('ready', () => initApp(urls.index))
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
