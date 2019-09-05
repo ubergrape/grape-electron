@@ -9,6 +9,8 @@ import urls from './constants/pages'
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'debug'
 
+app.allowRendererProcessReuse = true
+
 let mainWindow
 let secondaryWindow
 let isShown
