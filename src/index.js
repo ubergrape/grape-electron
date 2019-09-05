@@ -61,7 +61,9 @@ const createWindow = () => {
     mainWindow.show()
   })
 
-  mainWindow.webContents.on('new-window', (e, url) => {
+  const handleNavigation = (e, url) => {
+    if (shouldOpenIn(mainWindowLinks, url)) return
+
     e.preventDefault()
 
     if (minimatch(url, '**/call/*')) {
@@ -79,12 +81,11 @@ const createWindow = () => {
     }
 
     shell.openExternal(url)
-  })
+  }
 
-  mainWindow.webContents.on('will-navigate', (e, url) => {
-    if (shouldOpenIn(mainWindowLinks, url)) return
-    shell.openExternal(url)
-  })
+  mainWindow.webContents.on('new-window', handleNavigation)
+
+  mainWindow.webContents.on('will-navigate', handleNavigation)
 }
 
 app.on('ready', createWindow)
