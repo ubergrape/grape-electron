@@ -11,6 +11,8 @@ autoUpdater.logger.transports.file.level = 'debug'
 
 let mainWindow
 let secondaryWindow
+let isShown
+let isInitialLoading
 
 const mainWindowLinks = [
   'file://**',
@@ -24,17 +26,43 @@ const mainWindowLinks = [
 
 const shouldOpenIn = (globs, url) => globs.some(glob => minimatch(url, glob))
 
+const handleNavigation = (e, url) => {
+  if (shouldOpenIn(mainWindowLinks, url)) return
+
+  e.preventDefault()
+
+  if (minimatch(url, '**/call/*')) {
+    secondaryWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      parent: mainWindow,
+      webPreferences: {
+        preload: `${__dirname}/preload/secondaryWindow.js`,
+      },
+    })
+
+    secondaryWindow.loadURL(url)
+    return
+  }
+
+  shell.openExternal(url)
+}
+
 const createWindow = loadUrl => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
 
   if (mainWindow) mainWindow.close()
+  else {
+    isShown = false
+    isInitialLoading = true
+  }
 
   mainWindow = new BrowserWindow({
     minHeight: 600,
     minWidth: 800,
     width,
     height,
-    show: !!mainWindow,
+    show: !!mainWindow && isShown,
     backgroundColor: '#FFF',
     webPreferences: {
       nodeIntegration: loadUrl.startsWith('file:'),
@@ -44,6 +72,22 @@ const createWindow = loadUrl => {
 
   mainWindow.loadURL(loadUrl)
 
+  mainWindow.once('ready-to-show', () => {
+    if (isShown || isInitialLoading) mainWindow.show()
+    isInitialLoading = false
+  })
+
+  mainWindow.once('show', () => {
+    isShown = true
+  })
+
+  mainWindow.once('hide', () => {
+    isShown = false
+  })
+
+  mainWindow.webContents.on('new-window', handleNavigation)
+  mainWindow.webContents.on('will-navigate', handleNavigation)
+
   mainWindow.on('close', e => {
     if (app.quitting) {
       mainWindow = null
@@ -52,35 +96,6 @@ const createWindow = loadUrl => {
       mainWindow.hide()
     }
   })
-
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  const handleNavigation = (e, url) => {
-    if (shouldOpenIn(mainWindowLinks, url)) return
-
-    e.preventDefault()
-
-    if (minimatch(url, '**/call/*')) {
-      secondaryWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        parent: mainWindow,
-        webPreferences: {
-          preload: `${__dirname}/preload/secondaryWindow.js`,
-        },
-      })
-
-      secondaryWindow.loadURL(url)
-      return
-    }
-
-    shell.openExternal(url)
-  }
-
-  mainWindow.webContents.on('new-window', handleNavigation)
-  mainWindow.webContents.on('will-navigate', handleNavigation)
 }
 
 const initApp = url => {
