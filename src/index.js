@@ -6,7 +6,7 @@ import path from 'path'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
-import initApp from './utils/initApp'
+import initApp from './app/initApp'
 import urls from './constants/pages'
 import state from './state'
 import isDevelopment from './utils/isDevelopment'
