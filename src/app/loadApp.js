@@ -3,7 +3,7 @@ import { BrowserWindow, app, screen } from 'electron'
 
 import state from '../state'
 import handleNavigation from './handleNavigation'
-import isDevelopment from './isDevelopment'
+import isDevelopment from '../utils/isDevelopment'
 
 export default url => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize

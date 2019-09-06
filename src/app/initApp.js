@@ -2,7 +2,7 @@ import { autoUpdater } from 'electron-updater'
 
 import state from '../state'
 import loadApp from './loadApp'
-import isDevelopment from './isDevelopment'
+import isDevelopment from '../utils/isDevelopment'
 
 export default url => {
   autoUpdater.checkForUpdatesAndNotify()
