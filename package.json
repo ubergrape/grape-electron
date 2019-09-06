@@ -4,9 +4,11 @@
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
-    "start": "NODE_ENV=development yarn build:lib && electron .",
-    "build:lib": "babel src -d lib --copy-files",
     "build": "electron-builder",
+    "build:lib": "babel src -d lib --copy-files",
+    "build:lib:watch": "babel src -d lib --watch --copy-files",
+    "start": "NODE_ENV=development yarn build:lib && electron .",
+    "start:watch": "NODE_ENV=development yarn start && yarn build:lib:watch",
     "deploy": "yarn build:lib && electron-builder --publish onTagOrDraft",
     "precommit": "lint-staged"
   },
@@ -86,6 +88,7 @@
     "babel-eslint": "^10.0.3",
     "electron": "^6.0.7",
     "electron-builder": "^21.2.0",
+    "electron-reload": "^1.5.0",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.2.0",
