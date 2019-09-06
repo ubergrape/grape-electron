@@ -6,9 +6,9 @@
   "scripts": {
     "build": "electron-builder",
     "build:lib": "babel src -d lib --copy-files",
-    "build:lib:watch": "babel src -d lib --watch --copy-files",
-    "start": "NODE_ENV=development yarn build:lib && electron .",
-    "start:watch": "NODE_ENV=development yarn start && yarn build:lib:watch",
+    "build:lib:watch": "yarn build:lib --watch",
+    "start": "yarn build:lib && NODE_ENV=development electron .",
+    "start:watch": "yarn start && yarn build:lib:watch",
     "deploy": "yarn build:lib && electron-builder --publish onTagOrDraft",
     "precommit": "lint-staged"
   },
