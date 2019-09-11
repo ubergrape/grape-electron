@@ -1,6 +1,4 @@
-import { createUseStyles } from 'react-jss'
-
-export default createUseStyles({
+export default {
   wrapper: {
     position: 'absolute',
     display: 'flex',
@@ -43,4 +41,4 @@ export default createUseStyles({
       borderRadius: [0, 5, 5, 0],
     },
   },
-})
+}
