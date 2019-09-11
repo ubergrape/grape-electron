@@ -31,6 +31,11 @@ export default {
     padding: 10,
     flexGrow: 1,
     border: '1px solid #007cff',
+    background: () => {
+      // eslint-disable-next-line no-console
+      console.log('#007cff')
+      return '#007cff'
+    },
     '&:first-child': {
       isolate: false,
       borderRight: 0,
