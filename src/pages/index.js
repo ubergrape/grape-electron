@@ -8,6 +8,7 @@ import nested from 'jss-plugin-nested'
 import expand from 'jss-plugin-expand'
 import camel from 'jss-plugin-camel-case'
 import unit from 'jss-plugin-default-unit'
+import functions from 'jss-plugin-rule-value-function'
 import { create } from 'jss'
 
 import About from './about'
@@ -28,9 +29,10 @@ const styles = {
 
 const jss = create()
 jss.use(
+  functions(),
   isolate({
     reset: [
-      'all',
+      'inherit',
       {
         fontFamily:
           '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
@@ -45,7 +47,7 @@ jss.use(
   expand(),
 )
 
-jss.createStyleSheet(styles)
+jss.createStyleSheet(styles).attach()
 
 const page = new URL(window.location.href).searchParams.get('page')
 const Page = pageComponentMap[page]

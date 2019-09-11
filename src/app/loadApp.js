@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserWindow, app, screen } from 'electron'
+import { white } from 'grape-theme/dist/base-colors'
 
 import state from '../state'
 import handleNavigation from './handleNavigation'
@@ -20,7 +21,7 @@ export default url => {
     width,
     height,
     show: (!!state.mainWindow && state.isShown) || !isDevelopment,
-    backgroundColor: '#FFF',
+    backgroundColor: white,
     webPreferences: {
       nodeIntegration: url.startsWith('file:'),
       contextIsolation: !url.startsWith('file:'),
