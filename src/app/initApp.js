@@ -6,8 +6,10 @@ import state from '../state'
 import loadApp from './loadApp'
 import getOsType from '../utils/getOsType'
 import isDevelopment from '../utils/isDevelopment'
-import { trayWhiteIcon, trayWhiteWindowsIcon } from '../constants/images'
+import images from '../constants/images'
 import { menu, tray } from '../menu'
+
+const { trayWhiteIcon, trayWhiteWindowsIcon } = images
 
 export default url => {
   autoUpdater.checkForUpdatesAndNotify()

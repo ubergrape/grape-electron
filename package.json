@@ -1,14 +1,15 @@
 {
-  "name": "Grape",
+  "name": "grape-electron",
+  "productName": "Grape",
   "version": "3.0.0-alpha.12",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
     "build": "electron-builder",
     "build:lib": "babel src -d lib --copy-files",
-    "build:lib:watch": "yarn build:lib --watch",
+    "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && NODE_ENV=development electron .",
-    "start:watch": "yarn start && yarn build:lib:watch",
+    "start:watch": "yarn build:lib:watch & NODE_ENV=development electron .",
     "deploy": "yarn build:lib && electron-builder --publish onTagOrDraft",
     "precommit": "lint-staged"
   },
@@ -105,9 +106,20 @@
     "@babel/preset-react": "^7.0.0",
     "electron-log": "^3.0.7",
     "electron-updater": "^4.1.2",
+    "grape-theme": "^3.4.1",
+    "jss": "^10.0.0-alpha.24",
+    "jss-plugin-camel-case": "^10.0.0-alpha.24",
+    "jss-plugin-default-unit": "^10.0.0-alpha.24",
+    "jss-plugin-expand": "^10.0.0-alpha.24",
+    "jss-plugin-extend": "^10.0.0-alpha.24",
+    "jss-plugin-global": "^10.0.0-alpha.24",
+    "jss-plugin-isolate": "^10.0.0-alpha.24",
+    "jss-plugin-nested": "^10.0.0-alpha.24",
+    "jss-plugin-rule-value-function": "^10.0.0-alpha.24",
     "minimatch": "^3.0.4",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-helmet": "^5.2.1",
     "react-jss": "^10.0.0-alpha.24"
   }
 }

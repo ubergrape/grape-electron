@@ -24,7 +24,7 @@ const init = () => {
     })
   }
 
-  app.on('ready', () => initApp(urls.about))
+  app.on('ready', () => initApp(urls.domain))
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()

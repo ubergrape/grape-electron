@@ -49,7 +49,7 @@ export default url => {
 
   mainWindow.on('close', e => {
     if (app.quitting) {
-      app.mainWindow = null
+      state.mainWindow = null
     } else {
       e.preventDefault()
       mainWindow.hide()

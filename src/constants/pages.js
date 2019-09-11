@@ -12,4 +12,5 @@ const pages = format({
 export default {
   index: `${pages}`,
   about: `${pages}?page=about`,
+  domain: `${pages}?page=domain`,
 }
