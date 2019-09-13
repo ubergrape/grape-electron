@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app, BrowserWindow } from 'electron'
 
-import isDevelopment from '../utils/isDevelopment'
+import { isDevelopment } from '../utils'
 import quit from './actions/quit.js'
 import backToChat from './actions/backToChat'
 import openAboutWindow from './actions/openAboutWindow'
@@ -147,7 +147,6 @@ if (process.platform !== 'darwin') {
       {
         label: 'Choose domain',
         click: chooseDomain,
-        // enabled: !env.chooseDomainDisabled,
       },
       { type: 'separator' },
       { label: 'About Grape', click: openAboutWindow },
@@ -169,7 +168,6 @@ if (process.platform === 'darwin') {
       {
         label: 'Choose domain',
         click: chooseDomain,
-        // enabled: !env.chooseDomainDisabled,
       },
       { type: 'separator' },
       {

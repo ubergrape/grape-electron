@@ -1,18 +1,21 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, Menu, Tray } from 'electron'
+import { app, ipcMain, Menu, Tray } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../state'
 import loadApp from './loadApp'
-import getOsType from '../utils/getOsType'
-import isDevelopment from '../utils/isDevelopment'
-import images from '../constants/images'
+import { getOsType, getUrl, isDevelopment } from '../utils'
+import { images } from '../constants'
 import { menu, tray } from '../menu'
+import store from '../store'
+import env from '../env'
 
 const { trayWhiteIcon, trayWhiteWindowsIcon } = images
 
 export default url => {
   autoUpdater.checkForUpdatesAndNotify()
+
+  global.host = store.get('host') || env.host
 
   loadApp(url)
 
@@ -35,3 +38,18 @@ export default url => {
 
   if (isDevelopment) state.mainWindow.webContents.openDevTools()
 }
+
+ipcMain.on('domainChange', (e, { type, domain }) => {
+  const isOnPremises = type === 'onPremises'
+  if (isOnPremises) store.set('host.onPremisesDomain', domain)
+
+  const url = getUrl({
+    protocol: store.get('host.protocol'),
+    domain: isOnPremises
+      ? store.get('host.onPremisesDomain')
+      : store.get('host.cloudDomain'),
+    path: store.get('host.path'),
+  })
+
+  loadApp(url)
+})

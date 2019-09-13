@@ -7,9 +7,9 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
 import initApp from './app/initApp'
-import urls from './constants/pages'
 import state from './state'
-import isDevelopment from './utils/isDevelopment'
+import store from './store'
+import { isDevelopment, getUrlToLoad } from './utils'
 
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'debug'
@@ -24,13 +24,17 @@ const init = () => {
     })
   }
 
-  app.on('ready', () => initApp(urls.domain))
+  app.on('ready', () => {
+    const url = getUrlToLoad(store)
+    initApp(url)
+  })
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
   })
 
   app.on('before-quit', () => {
+    store.set('lastUrl', state.mainWindow.webContents.getURL())
     app.quitting = true
   })
 

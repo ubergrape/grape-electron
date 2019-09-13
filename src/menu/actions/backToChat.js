@@ -1,6 +1,8 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import loadApp from '../../app/loadApp'
+import { getUrlToLoad } from '../../utils'
+import store from '../../store'
 
 export default () => {
-  loadApp()
+  const url = getUrlToLoad(store)
+  loadApp(url)
 }

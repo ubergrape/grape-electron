@@ -11,6 +11,7 @@ import unit from 'jss-plugin-default-unit'
 import functions from 'jss-plugin-rule-value-function'
 import { create } from 'jss'
 
+import ErrorBoundary from './error'
 import About from './about'
 import Domain from './domain'
 
@@ -53,8 +54,10 @@ const page = new URL(window.location.href).searchParams.get('page')
 const Page = pageComponentMap[page]
 
 render(
-  <JssProvider jss={jss}>
-    <Page />
-  </JssProvider>,
+  <ErrorBoundary>
+    <JssProvider jss={jss}>
+      <Page />
+    </JssProvider>
+  </ErrorBoundary>,
   document.getElementById('grape'),
 )

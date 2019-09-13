@@ -4,7 +4,7 @@ import { white } from 'grape-theme/dist/base-colors'
 
 import state from '../state'
 import handleNavigation from './handleNavigation'
-import isDevelopment from '../utils/isDevelopment'
+import { isDevelopment } from '../utils'
 
 export default url => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
@@ -20,7 +20,7 @@ export default url => {
     minWidth: 800,
     width,
     height,
-    show: (!!state.mainWindow && state.isShown) || !isDevelopment,
+    show: state.mainWindow && state.isShown,
     backgroundColor: white,
     webPreferences: {
       nodeIntegration: url.startsWith('file:'),
@@ -37,11 +37,11 @@ export default url => {
     state.isInitialLoading = false
   })
 
-  mainWindow.once('show', () => {
+  mainWindow.on('show', () => {
     state.isShown = true
   })
 
-  mainWindow.once('hide', () => {
+  mainWindow.on('hide', () => {
     state.isShown = false
   })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import injectSheet from 'react-jss'
 
-import images from '../../constants/images'
+import { images } from '../../constants'
 import pkg from '../../../package.json'
 import styles from './styles'
 

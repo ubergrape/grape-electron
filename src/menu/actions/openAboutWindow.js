@@ -2,7 +2,7 @@
 import { BrowserWindow } from 'electron'
 import { grayLighter } from 'grape-theme/dist/base-colors'
 
-import urls from '../../constants/pages'
+import { pages } from '../../constants'
 import state from '../../state'
 
 export default () => {
@@ -29,5 +29,5 @@ export default () => {
     state.aboutWindow = null
   })
 
-  aboutWindow.loadURL(urls.about)
+  aboutWindow.loadURL(pages.about)
 }
