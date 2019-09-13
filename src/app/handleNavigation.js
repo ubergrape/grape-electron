@@ -1,9 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 import path from 'path'
 
 import state from '../state'
+import loadUrl from './loadUrl'
 
 const mainWindowLinks = [
   'file://**',
@@ -32,8 +32,7 @@ export default (e, url) => {
       },
     })
 
-    secondaryWindow.loadURL(url)
-
+    loadUrl(url, secondaryWindow)
     state.secondaryWindow = secondaryWindow
     return
   }

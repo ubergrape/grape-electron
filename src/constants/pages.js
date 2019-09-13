@@ -13,4 +13,6 @@ export default {
   index: `${pages}`,
   about: `${pages}?page=about`,
   domain: `${pages}?page=domain`,
+  connectionError: `${pages}?page=connectionError`,
+  certificateError: `${pages}?page=connectionError&type=badSslCert`,
 }

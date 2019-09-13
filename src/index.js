@@ -1,7 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { app } from 'electron'
 import electronReload from 'electron-reload'
-/* eslint-enable import/no-extraneous-dependencies */
 import path from 'path'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
@@ -18,7 +16,6 @@ app.allowRendererProcessReuse = true
 
 const init = () => {
   if (isDevelopment) {
-    // eslint-disable-next-line global-require, import/no-extraneous-dependencies
     electronReload(__dirname, {
       electron: path.join(__dirname, '../node_modules/.bin/electron'),
     })

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 import Store from 'electron-store'
 import path from 'path'

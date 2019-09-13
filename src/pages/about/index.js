@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import injectSheet from 'react-jss'
+import withStyles from 'react-jss'
 
 import { images } from '../../constants'
 import pkg from '../../../package.json'
@@ -47,4 +47,4 @@ const About = ({ classes }) => (
   </div>
 )
 
-export default injectSheet(styles)(About)
+export default withStyles(styles)(About)

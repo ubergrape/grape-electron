@@ -1,10 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserWindow, app, screen } from 'electron'
 import { white } from 'grape-theme/dist/base-colors'
 
 import state from '../state'
 import handleNavigation from './handleNavigation'
 import { isDevelopment } from '../utils'
+import loadUrl from './loadUrl'
 
 export default url => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
@@ -28,7 +28,7 @@ export default url => {
     },
   })
 
-  mainWindow.loadURL(url)
+  loadUrl(url, mainWindow)
 
   mainWindow.once('ready-to-show', () => {
     if ((state.isShown || state.isInitialLoading) && !isDevelopment) {

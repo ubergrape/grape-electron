@@ -14,9 +14,11 @@ import { create } from 'jss'
 import ErrorBoundary from './error'
 import About from './about'
 import Domain from './domain'
+import ConnectionError from './connection-error'
 
 const pageComponentMap = {
   about: About,
+  connectionError: ConnectionError,
   domain: Domain,
 }
 

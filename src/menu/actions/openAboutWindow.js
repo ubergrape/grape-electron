@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserWindow } from 'electron'
 import { grayLighter } from 'grape-theme/dist/base-colors'
 

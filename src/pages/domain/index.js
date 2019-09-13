@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer, remote } from 'electron'
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
@@ -43,7 +42,7 @@ class Domain extends Component {
     })
   }
 
-  onContinueClick = () => {
+  onSubmit = () => {
     const {
       state: { tab, value },
     } = this
@@ -80,10 +79,10 @@ class Domain extends Component {
         <Helmet>
           <title>{pkg.productName}: Choose domain</title>
         </Helmet>
-        <div className={classes.main}>
-          <div className={classes.logo}>
-            <img alt={pkg.productName} className={classes.image} src={logo} />
-          </div>
+        <div className={classes.logo}>
+          <img alt={pkg.productName} className={classes.image} src={logo} />
+        </div>
+        <form className={classes.main} onSubmit={this.onSubmit}>
           <div className={classes.text}>Where do you want to connect?</div>
           <div className={classes.tabs}>
             <button
@@ -123,15 +122,14 @@ class Domain extends Component {
             />
           </div>
           <button
-            onClick={this.onContinueClick}
-            type="button"
+            type="submit"
             className={`${classes.continue} ${
               tab === 'onPremises' ? classes.continueExpanded : ''
             }`}
           >
             Continue
           </button>
-        </div>
+        </form>
       </div>
     )
   }

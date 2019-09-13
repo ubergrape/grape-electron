@@ -1,0 +1,33 @@
+// eslint-disable-next-line import/no-cycle
+import loadApp from './loadApp'
+import { pages } from '../constants'
+
+const offline = (e, window, code) => {
+  // https://cs.chromium.org/chromium/src/net/base/net_error_list.h
+  if (code === -3) return
+  loadApp(pages.connectionError)
+}
+
+export default function handleOffline(url, window) {
+  let response = false
+  const { webContents } = window
+
+  webContents.once('did-fail-load', (e, code) => {
+    offline(e, window, code)
+  })
+
+  webContents.once('did-finish-load', () => {
+    response = true
+  })
+
+  webContents.once('certificate-error', () => {
+    loadApp(`${pages.certificateError}&url=${url}`)
+  })
+
+  if (url) window.loadURL(url)
+
+  setTimeout(() => {
+    if (!response) offline()
+    response = false
+  }, 10000)
+}
