@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import handleOffline from './handleOffline'
 
 export default (url, window) => {

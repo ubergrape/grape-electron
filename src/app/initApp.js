@@ -3,6 +3,7 @@ import { autoUpdater } from 'electron-updater'
 
 import state from '../state'
 import loadApp from './loadApp'
+
 import { getOsType, getUrl, isDevelopment } from '../utils'
 import { images } from '../constants'
 import { menu, tray } from '../menu'

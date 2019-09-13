@@ -2,8 +2,9 @@ import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 import path from 'path'
 
-import state from '../state'
+// eslint-disable-next-line import/no-cycle
 import loadUrl from './loadUrl'
+import state from '../state'
 
 const mainWindowLinks = [
   'file://**',

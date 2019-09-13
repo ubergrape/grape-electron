@@ -1,10 +1,12 @@
 import { BrowserWindow, app, screen } from 'electron'
 import { white } from 'grape-theme/dist/base-colors'
 
-import state from '../state'
+/* eslint-disable import/no-cycle */
 import handleNavigation from './handleNavigation'
-import { isDevelopment } from '../utils'
 import loadUrl from './loadUrl'
+/* eslint-enable import/no-cycle */
+import state from '../state'
+import { isDevelopment } from '../utils'
 
 export default url => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
