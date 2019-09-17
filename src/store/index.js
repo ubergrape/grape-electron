@@ -3,8 +3,10 @@ import Store from 'electron-store'
 import path from 'path'
 import fs from 'fs'
 
+/* eslint-disable import/no-cycle */
 import { isDevelopment } from '../utils'
 import env from '../env'
+/* eslint-enable import/no-cycle */
 
 let data = {}
 

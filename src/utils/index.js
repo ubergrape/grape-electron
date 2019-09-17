@@ -1,6 +1,7 @@
 import getOsType from './getOsType'
 import getUrlToLoad from './getUrlToLoad'
-import getUrl from './getUrl'
 import isDevelopment from './isDevelopment'
+// eslint-disable-next-line import/no-cycle
+import getUrl from './getUrl'
 
-export { getOsType, getUrlToLoad, getUrl, isDevelopment }
+export { getOsType, getUrlToLoad, isDevelopment, getUrl }

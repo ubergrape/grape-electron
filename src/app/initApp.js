@@ -3,8 +3,9 @@ import { autoUpdater } from 'electron-updater'
 
 import state from '../state'
 import loadApp from './loadApp'
+import loadURL from './loadUrl'
 
-import { getOsType, getUrl, isDevelopment } from '../utils'
+import { getOsType, getUrl } from '../utils'
 import { images } from '../constants'
 import { menu, tray } from '../menu'
 import store from '../store'
@@ -35,21 +36,15 @@ export default url => {
 
   state.tray.setToolTip(app.getName())
   state.tray.setContextMenu(Menu.buildFromTemplate(tray))
-
-  if (isDevelopment) state.mainWindow.webContents.openDevTools()
 }
 
 ipcMain.on('domainChange', (e, { type, domain }) => {
-  const isOnPremises = type === 'onPremises'
-  if (isOnPremises) store.set('host.onPremisesDomain', domain)
+  store.set('host.type', type)
+  if (type === 'onPremises') store.set('host.onPremisesDomain', domain)
 
-  const url = getUrl({
-    protocol: store.get('host.protocol'),
-    domain: isOnPremises
-      ? store.get('host.onPremisesDomain')
-      : store.get('host.cloudDomain'),
-    path: store.get('host.path'),
-  })
+  loadApp(getUrl())
+})
 
-  loadApp(url)
+ipcMain.on('loadChat', () => {
+  loadURL(getUrl(), state.mainWindow)
 })

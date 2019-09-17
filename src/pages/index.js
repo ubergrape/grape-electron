@@ -10,6 +10,7 @@ import camel from 'jss-plugin-camel-case'
 import unit from 'jss-plugin-default-unit'
 import functions from 'jss-plugin-rule-value-function'
 import { create } from 'jss'
+import qs from 'querystring'
 
 import ErrorBoundary from './error'
 import About from './about'
@@ -24,7 +25,11 @@ const pageComponentMap = {
 
 const styles = {
   '@global': {
+    html: {
+      height: '100%',
+    },
     body: {
+      height: '100%',
       margin: 0,
     },
   },
@@ -52,13 +57,13 @@ jss.use(
 
 jss.createStyleSheet(styles).attach()
 
-const page = new URL(window.location.href).searchParams.get('page')
+const { page, type, url } = qs.parse(window.location.search.substr(1))
 const Page = pageComponentMap[page]
 
 render(
   <ErrorBoundary>
     <JssProvider jss={jss}>
-      <Page />
+      <Page page={page} type={type} url={url} />
     </JssProvider>
   </ErrorBoundary>,
   document.getElementById('grape'),

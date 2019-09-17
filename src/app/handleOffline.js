@@ -9,10 +9,12 @@ const offline = (e, window, code) => {
 }
 
 export default function handleOffline(url, window) {
+  let certificateError = false
   let response = false
   const { webContents } = window
 
   webContents.once('did-fail-load', (e, code) => {
+    if (certificateError) return
     offline(e, window, code)
   })
 
@@ -21,9 +23,11 @@ export default function handleOffline(url, window) {
   })
 
   webContents.once('certificate-error', () => {
+    certificateError = true
     loadApp(`${pages.certificateError}&url=${url}`)
   })
 
+  if (certificateError) return
   if (url) window.loadURL(url)
 
   setTimeout(() => {

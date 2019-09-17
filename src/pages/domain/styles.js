@@ -3,12 +3,10 @@ import { small } from 'grape-theme/dist/fonts'
 
 export default {
   wrapper: {
-    position: 'absolute',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '100%',
     height: '100%',
   },
   main: {

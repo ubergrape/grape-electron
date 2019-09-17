@@ -32,6 +32,8 @@ export default url => {
 
   loadUrl(url, mainWindow)
 
+  if (isDevelopment) mainWindow.webContents.openDevTools()
+
   mainWindow.once('ready-to-show', () => {
     if ((state.isShown || state.isInitialLoading) && !isDevelopment) {
       mainWindow.show()

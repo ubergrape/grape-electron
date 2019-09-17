@@ -3,13 +3,11 @@ import { smaller, biggest } from 'grape-theme/dist/fonts'
 
 export default {
   wrapper: {
-    position: 'absolute',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    width: '100%',
     background: grayLighter,
   },
   icon: {

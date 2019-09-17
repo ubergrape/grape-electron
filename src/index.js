@@ -22,8 +22,7 @@ const init = () => {
   }
 
   app.on('ready', () => {
-    const url = getUrlToLoad(store)
-    initApp(url)
+    initApp(getUrlToLoad(store))
   })
 
   app.on('window-all-closed', () => {

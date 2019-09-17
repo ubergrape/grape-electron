@@ -1,5 +1,5 @@
-import { ipcRenderer, remote } from 'electron'
 import React, { Component } from 'react'
+import { ipcRenderer, remote } from 'electron'
 import { Helmet } from 'react-helmet'
 import { withStyles } from 'react-jss'
 import { parse } from 'url'
@@ -8,7 +8,7 @@ import { images } from '../../constants'
 import pkg from '../../../package.json'
 import styles from './styles'
 
-const { cloudDomain, onPremisesDomain } = remote.getGlobal('host')
+const { cloudDomain, onPremisesDomain, type } = remote.getGlobal('host')
 
 const { logo } = images
 
@@ -16,7 +16,7 @@ class Domain extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tab: onPremisesDomain ? 'onPremises' : 'cloud',
+      tab: type || 'cloud',
       value: onPremisesDomain || '',
     }
   }
