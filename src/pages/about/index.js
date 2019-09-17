@@ -43,7 +43,9 @@ const About = ({ classes }) => (
         </tbody>
       </table>
     </div>
-    <div className={classes.row}>{pkg.copyright}</div>
+    <div className={classes.row}>
+      © {new Date().getFullYear()}, UberGrape GmbH
+    </div>
   </div>
 )
 
