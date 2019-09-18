@@ -57,9 +57,10 @@ export const menu = [
   {
     label: 'View',
     submenu: [
+      // Replace "Force reload" with "Reload" to don't confuce user with two reload button
+      // https://jira.ubergrape.com/browse/GRAPE-17534
       {
         label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
         role: 'forcereload',
       },
       {
