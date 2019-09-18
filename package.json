@@ -1,8 +1,8 @@
 {
   "name": "grape-electron",
   "productName": "Grape",
-  "buildVersion": "60",
-  "version": "3.0.0-alpha.12",
+  "buildVersion": "61",
+  "version": "3.0.0-alpha.13",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "copyright": "© 2019, UberGrape GmbH",
   "build": {
     "appId": "com.ChatGrape",
-    "buildVersion": "60",
+    "buildVersion": "61",
     "files": [
       "lib/**/*",
       "assets/tray-icons/*",
