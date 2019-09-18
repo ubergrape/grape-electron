@@ -1,7 +1,7 @@
 {
   "name": "production",
   "host": {
-    "protocol": "https",
+    "cloudProtocol": "https",
     "cloudDomain": "chatgrape.com",
     "path": "chat"
   }

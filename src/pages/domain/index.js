@@ -9,7 +9,13 @@ import { images } from '../../constants'
 import pkg from '../../../package.json'
 import styles from './styles'
 
-const { cloudDomain, onPremisesDomain, type } = remote.getGlobal('host')
+const { host, currentDomainType } = remote.getGlobal('store')
+const {
+  cloudProtocol,
+  onPremisesProtocol,
+  cloudDomain,
+  onPremisesDomain,
+} = host
 
 const { logo } = images
 
@@ -17,8 +23,11 @@ class Domain extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tab: type || 'cloud',
-      value: onPremisesDomain || '',
+      tab: currentDomainType || 'cloud',
+      value:
+        `${
+          onPremisesProtocol ? `${onPremisesProtocol}://` : ''
+        }${onPremisesDomain}` || '',
     }
   }
 
@@ -49,26 +58,32 @@ class Domain extends Component {
     } = this
 
     let domain = cloudDomain
+    let protocol = cloudProtocol
 
     if (tab === 'onPremises') {
       // Valid input can be an URL or a domain with optional custom port.
       // We try to parse the input as URL first.
       let parsed = parse(value)
-      // Invalid urls don't have double slashes after the protocol.
 
+      protocol = parsed.protocol ? parsed.protocol.slice(0, -1) : ''
+
+      // Invalid urls don't have double slashes after the protocol.
       if (!parsed.slashes) {
         // Because of that we strip out any potential leading `:` and `/` character
         // and re parse as url. This is to fix things like `//foo.com`, `://foo.com` and so on.
-        parsed = parse(`http://${value.replace(/^[:/]*/g, '')}`)
+        parsed = parse(
+          `${protocol || 'http'}://${value.replace(/^[:/]*/g, '')}`,
+        )
       }
 
-      // host contains hostname and optionally the port.
+      // Host contains hostname and optionally the port.
       domain = parsed.host
     }
 
     ipcRenderer.send('domainChange', {
       type: tab,
       domain,
+      protocol,
     })
   }
 
@@ -112,7 +127,7 @@ class Domain extends Component {
               tab === 'onPremises' ? classes.domainExpanded : ''
             }`}
           >
-            <span className={classes.text}>Server Domain</span>
+            <span className={classes.text}>Server Domain or URL</span>
             <input
               placeholder="example.com"
               onChange={this.onInputChange}

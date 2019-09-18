@@ -17,13 +17,50 @@ const filePath = isDevelopment
 
 if (!fs.existsSync(path.join(filePath, 'graperc.json'))) data = env
 
+const schema = {
+  name: {
+    type: 'string',
+  },
+  host: {
+    cloudProtocol: {
+      type: 'string',
+    },
+    onPremisesProtocol: {
+      type: 'string',
+    },
+    cloudDomain: {
+      type: 'string',
+      format: 'hostname',
+    },
+    onPremisesDomain: {
+      type: 'string',
+      format: 'hostname',
+    },
+    path: {
+      type: 'string',
+    },
+  },
+  currentDomainType: {
+    type: 'string',
+  },
+  lastUrl: {
+    type: 'string',
+  },
+}
+
 const store = new Store({
   name: 'graperc',
   cwd: filePath,
+  schema,
+  migrations: {
+    '3.0.0-alpha.14': s => {
+      s.delete('host.type')
+    },
+  },
 })
 
 store.onDidAnyChange(() => {
-  global.host = store.get('host')
+  global.store = store.get()
 })
 
 if (Object.keys(data)) store.set(data)

@@ -17,7 +17,7 @@ const { trayWhiteIcon, trayWhiteWindowsIcon } = images
 export default url => {
   autoUpdater.checkForUpdatesAndNotify()
 
-  global.host = store.get('host') || env.host
+  global.store = store.get() || env
 
   loadApp(url)
 
@@ -39,9 +39,12 @@ export default url => {
   state.tray.setContextMenu(Menu.buildFromTemplate(tray))
 }
 
-ipcMain.on('domainChange', (e, { type, domain }) => {
-  store.set('host.type', type)
-  if (type === 'onPremises') store.set('host.onPremisesDomain', domain)
+ipcMain.on('domainChange', (e, { type, domain, protocol }) => {
+  store.set('currentDomainType', type)
+  if (type === 'onPremises') {
+    store.set('host.onPremisesProtocol', protocol)
+    store.set('host.onPremisesDomain', domain)
+  }
 
   loadApp(getUrl())
 })
