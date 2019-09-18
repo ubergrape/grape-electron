@@ -1,3 +1,3 @@
 import { normalize } from 'path'
 
-export const assets = normalize(`${__dirname}/../../assets`)
+export const assets = normalize(`${__dirname}/../assets`)
