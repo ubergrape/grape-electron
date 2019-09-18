@@ -7,12 +7,12 @@ export default () => {
   const protocol =
     (type === 'cloud'
       ? store.get('host.cloudProtocol')
-      : store.get('host.onPremisesProtocol')) || 'http'
+      : store.get('host.onPremisesProtocol')) || 'http:'
 
   const domain =
     type === 'cloud'
       ? store.get('host.cloudDomain')
       : store.get('host.onPremisesDomain')
 
-  return `${protocol}://${domain}`
+  return `${protocol}//${domain}`
 }

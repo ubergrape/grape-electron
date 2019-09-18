@@ -26,7 +26,7 @@ class Domain extends Component {
       tab: currentDomainType || 'cloud',
       value:
         `${
-          onPremisesProtocol ? `${onPremisesProtocol}://` : ''
+          onPremisesProtocol ? `${onPremisesProtocol}//` : ''
         }${onPremisesDomain || ''}` || '',
     }
   }
@@ -65,14 +65,14 @@ class Domain extends Component {
       // We try to parse the input as URL first.
       let parsed = parse(value)
 
-      protocol = parsed.protocol ? parsed.protocol.slice(0, -1) : ''
+      protocol = parsed.protocol ? parsed.protocol : ''
 
       // Invalid urls don't have double slashes after the protocol.
       if (!parsed.slashes) {
         // Because of that we strip out any potential leading `:` and `/` character
         // and re parse as url. This is to fix things like `//foo.com`, `://foo.com` and so on.
         parsed = parse(
-          `${protocol || 'http'}://${value.replace(/^[:/]*/g, '')}`,
+          `${protocol || 'http:'}//${value.replace(/^[:/]*/g, '')}`,
         )
       }
 

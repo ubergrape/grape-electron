@@ -56,7 +56,6 @@ jss.use(
 )
 
 jss.createStyleSheet(styles).attach()
-
 const { page, type, url } = qs.parse(window.location.search.substr(1))
 const Page = pageComponentMap[page]
 

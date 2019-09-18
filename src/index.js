@@ -6,6 +6,7 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
 import initApp from './app/initApp'
+import { pages } from './constants'
 import state from './state'
 import store from './store'
 import { isDevelopment, getUrlToLoad } from './utils'
@@ -23,7 +24,16 @@ const init = () => {
   }
 
   app.on('ready', () => {
-    initApp(getUrlToLoad(store))
+    const url = getUrlToLoad(store)
+    const { searchParams, protocol } = new URL(url)
+    const page = searchParams.get('page')
+
+    if (page === 'connectionError' && protocol === 'file:') {
+      initApp(pages.domain)
+      return
+    }
+
+    initApp(url)
   })
 
   app.on('window-all-closed', () => {
