@@ -216,7 +216,7 @@ export const getMenuTemplate = () => {
   return menu
 }
 
-export const tray = [
+export const trayTemplate = [
   { label: 'Open', click: showMainWindow },
   { label: 'Quit', click: quit },
 ]

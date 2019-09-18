@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserWindow, app, screen } from 'electron'
 import { white } from 'grape-theme/dist/base-colors'
+import path from 'path'
 
 /* eslint-disable import/no-cycle */
 import handleNavigation from './handleNavigation'
@@ -27,8 +28,8 @@ export default url => {
     show: state.mainWindow && state.isShown,
     backgroundColor: white,
     webPreferences: {
+      preload: path.join(__dirname, '../preload/mainWindow.js'),
       nodeIntegration: url.startsWith('file:'),
-      contextIsolation: !url.startsWith('file:'),
     },
   })
 
