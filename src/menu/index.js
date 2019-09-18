@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, BrowserWindow } from 'electron'
+import { app } from 'electron'
 
 import { isDevelopment } from '../utils'
 import quit from './actions/quit.js'
@@ -65,6 +65,10 @@ export const menu = [
       {
         label: 'Force Reload',
         role: 'forcereload',
+      },
+      {
+        label: 'Toggle Developer Tools',
+        role: 'toggledevtools',
       },
       { type: 'separator' },
       {
@@ -202,17 +206,11 @@ if (isDevelopment) {
     submenu: [
       {
         label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
-        click: () => {
-          BrowserWindow.getFocusedWindow().webContents.reloadIgnoringCache()
-        },
+        role: 'reload',
       },
       {
-        label: 'Toggle DevTools',
-        accelerator: 'Alt+CmdOrCtrl+I',
-        click: () => {
-          BrowserWindow.getFocusedWindow().toggleDevTools()
-        },
+        label: 'Toggle Developer Tools',
+        role: 'toggledevtools',
       },
     ],
   })

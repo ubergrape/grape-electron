@@ -19,7 +19,7 @@ const About = ({ classes }) => (
     <img className={classes.icon} alt={pkg.productName} src={icon} />
     <div className={classes.name}>{pkg.productName}</div>
     <div className={classes.row}>
-      Version {pkg.version} ({pkg.build.buildVersion})
+      Version {pkg.version} ({pkg.buildVersion})
     </div>
     <div className={classes.row}>
       <table className={classes.table}>
