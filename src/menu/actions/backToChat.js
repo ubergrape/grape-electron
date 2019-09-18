@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import loadApp from '../../app/loadApp'
 import { getUrlToLoad } from '../../utils'
 import store from '../../store'

@@ -8,7 +8,8 @@ import { images, pages } from '../../constants'
 import pkg from '../../../package.json'
 import styles from './styles'
 
-const { cloudDomain, onPremisesDomain } = remote.getGlobal('store')
+const { host } = remote.getGlobal('store')
+const { cloudDomain, onPremisesDomain } = host
 
 const { icon } = images
 

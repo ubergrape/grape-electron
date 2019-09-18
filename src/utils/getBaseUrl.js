@@ -7,10 +7,10 @@ export default () => {
   if (type === 'cloud') {
     return `${store.get('host.cloudProtocol')}://${store.get(
       'host.cloudDomain',
-    )}/${store.get('host.path')}`
+    )}`
   }
 
   return `${store.get('host.onPremisesProtocol')}://${store.get(
     'host.onPremisesDomain',
-  )}/${store.get('host.path')}`
+  )}`
 }

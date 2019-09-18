@@ -6,9 +6,9 @@ import state from '../state'
 import loadApp from './loadApp'
 import loadURL from './loadUrl'
 
-import { getOsType, getUrl } from '../utils'
+import { getOsType, getChatUrl } from '../utils'
 import { images } from '../constants'
-import { menu, tray } from '../menu'
+import { getMenuTemplate, tray } from '../menu'
 import store from '../store'
 import env from '../env'
 
@@ -21,7 +21,7 @@ export default url => {
 
   loadApp(url)
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
+  Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
   switch (getOsType) {
     case 'windows':
@@ -46,9 +46,9 @@ ipcMain.on('domainChange', (e, { type, domain, protocol }) => {
     store.set('host.onPremisesDomain', domain)
   }
 
-  loadApp(getUrl())
+  loadApp(getChatUrl())
 })
 
 ipcMain.on('loadChat', () => {
-  loadURL(getUrl(), state.mainWindow)
+  loadURL(getChatUrl(), state.mainWindow)
 })

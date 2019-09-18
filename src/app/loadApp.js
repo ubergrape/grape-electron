@@ -4,6 +4,7 @@ import { white } from 'grape-theme/dist/base-colors'
 
 /* eslint-disable import/no-cycle */
 import handleNavigation from './handleNavigation'
+import handleRedirect from './handleRedirect'
 import loadUrl from './loadUrl'
 /* eslint-enable import/no-cycle */
 import state from '../state'
@@ -31,10 +32,6 @@ export default url => {
     },
   })
 
-  loadUrl(url, mainWindow)
-
-  if (isDevelopment) mainWindow.webContents.openDevTools()
-
   mainWindow.once('ready-to-show', () => {
     if ((state.isShown || state.isInitialLoading) && !isDevelopment) {
       mainWindow.show()
@@ -52,6 +49,7 @@ export default url => {
 
   mainWindow.webContents.on('new-window', handleNavigation)
   mainWindow.webContents.on('will-navigate', handleNavigation)
+  mainWindow.webContents.on('did-navigate', handleRedirect)
 
   mainWindow.on('close', e => {
     if (app.quitting) {
@@ -61,6 +59,10 @@ export default url => {
       mainWindow.hide()
     }
   })
+
+  loadUrl(url, mainWindow)
+
+  if (isDevelopment) mainWindow.webContents.openDevTools()
 
   state.mainWindow = mainWindow
 }
