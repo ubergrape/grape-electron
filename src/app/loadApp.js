@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserWindow, app, screen } from 'electron'
 import { white } from 'grape-theme/dist/base-colors'
 

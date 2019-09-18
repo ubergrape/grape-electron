@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { app, ipcMain, Menu, Tray } from 'electron'
 import { autoUpdater } from 'electron-updater'
 

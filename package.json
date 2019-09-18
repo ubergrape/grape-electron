@@ -94,6 +94,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.3",
+    "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -108,7 +109,6 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
-    "electron": "^6.0.9",
     "electron-log": "^3.0.7",
     "electron-reload": "^1.5.0",
     "electron-store": "^5.0.0",

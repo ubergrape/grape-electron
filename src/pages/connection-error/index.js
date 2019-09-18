@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer, remote } from 'electron'
 import { Helmet } from 'react-helmet'
 import { withStyles } from 'react-jss'
