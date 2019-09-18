@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 
-import { isDevelopment } from '../utils'
 import quit from './actions/quit.js'
 import backToChat from './actions/backToChat'
 import openAboutWindow from './actions/openAboutWindow'
@@ -60,10 +59,7 @@ export const menu = [
     submenu: [
       {
         label: 'Reload',
-        role: 'reload',
-      },
-      {
-        label: 'Force Reload',
+        accelerator: 'CmdOrCtrl+R',
         role: 'forcereload',
       },
       {
@@ -195,22 +191,6 @@ if (process.platform === 'darwin') {
       {
         label: 'Quit Grape',
         role: 'quit',
-      },
-    ],
-  })
-}
-
-if (isDevelopment) {
-  menu.push({
-    label: 'Development',
-    submenu: [
-      {
-        label: 'Reload',
-        role: 'reload',
-      },
-      {
-        label: 'Toggle Developer Tools',
-        role: 'toggledevtools',
       },
     ],
   })
