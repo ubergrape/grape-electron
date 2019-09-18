@@ -27,7 +27,7 @@ class Domain extends Component {
       value:
         `${
           onPremisesProtocol ? `${onPremisesProtocol}://` : ''
-        }${onPremisesDomain}` || '',
+        }${onPremisesDomain || ''}` || '',
     }
   }
 

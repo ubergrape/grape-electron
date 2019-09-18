@@ -4,13 +4,15 @@ import store from '../store'
 export default () => {
   const type = store.get('currentDomainType')
 
-  if (type === 'cloud') {
-    return `${store.get('host.cloudProtocol')}://${store.get(
-      'host.cloudDomain',
-    )}`
-  }
+  const protocol =
+    (type === 'cloud'
+      ? store.get('host.cloudProtocol')
+      : store.get('host.onPremisesProtocol')) || 'http'
 
-  return `${store.get('host.onPremisesProtocol')}://${store.get(
-    'host.onPremisesDomain',
-  )}`
+  const domain =
+    type === 'cloud'
+      ? store.get('host.cloudDomain')
+      : store.get('host.onPremisesDomain')
+
+  return `${protocol}://${domain}`
 }
