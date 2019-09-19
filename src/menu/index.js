@@ -1,6 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { app } from 'electron'
-
 import state from '../state'
 
 import quit from './actions/quit.js'
@@ -10,7 +7,6 @@ import openSupport from './actions/openSupport'
 import openWebsite from './actions/openWebsite'
 /* eslint-disable import/no-cycle */
 import chooseDomain from './actions/chooseDomain'
-import backToChat from './actions/backToChat'
 import openSettings from './actions/openSettings'
 /* eslint-enable import/no-cycle */
 
@@ -69,9 +65,10 @@ export const getMenuTemplate = () => {
           label: 'Reload',
           role: 'forcereload',
         },
+        { type: 'separator' },
         {
-          label: 'Toggle Developer Tools',
-          role: 'toggledevtools',
+          label: 'Toggle Full Screen',
+          role: 'togglefullscreen',
         },
         { type: 'separator' },
         {
@@ -86,39 +83,12 @@ export const getMenuTemplate = () => {
           label: 'Zoom Out',
           role: 'zoomout',
         },
-        { type: 'separator' },
-        {
-          label: 'Toggle Full Screen',
-          role: 'togglefullscreen',
-        },
       ],
     },
     {
       role: 'window',
       label: 'Window',
       submenu: [
-        {
-          label: 'Minimize',
-          role: 'minimize',
-        },
-        {
-          label: 'Close Window',
-          role: 'close',
-        },
-      ],
-    },
-    {
-      role: 'help',
-      label: 'Help',
-      submenu: [
-        {
-          label: 'Learn More',
-          click: openWebsite,
-        },
-        {
-          label: 'Support',
-          click: openSupport,
-        },
         {
           label: 'Close Window',
           role: 'close',
@@ -138,6 +108,25 @@ export const getMenuTemplate = () => {
         },
       ],
     },
+    {
+      role: 'help',
+      label: 'Help',
+      submenu: [
+        {
+          label: 'About Grape',
+          click: openAboutWindow,
+        },
+        { type: 'separator' },
+        {
+          label: 'Learn More',
+          click: openWebsite,
+        },
+        {
+          label: 'Open Help Center',
+          click: openSupport,
+        },
+      ],
+    },
   ]
 
   // Windows and Linux
@@ -145,22 +134,20 @@ export const getMenuTemplate = () => {
     menu.unshift({
       label: 'Application',
       submenu: [
-        { label: 'About Grape', click: openAboutWindow },
+        {
+          label: 'Settings',
+          click: openSettings,
+          visible: state.isSettingsVisible,
+        },
+        {
+          label: 'Choose domain',
+          click: chooseDomain,
+        },
         { type: 'separator' },
         {
           label: 'Quit',
           accelerator: 'Cmd+Q',
           click: quit,
-        },
-        { label: 'Back to chat', click: backToChat },
-        {
-          label: 'Choose domain',
-          click: chooseDomain,
-        },
-        {
-          label: 'Settings',
-          click: openSettings,
-          visible: state.isSettingsVisible,
         },
       ],
     })
@@ -169,29 +156,22 @@ export const getMenuTemplate = () => {
   // Mac
   if (process.platform === 'darwin') {
     menu.unshift({
-      label: app.getName(),
+      label: 'Application',
       submenu: [
-        {
-          label: 'About Grape',
-          click: openAboutWindow,
-        },
-        { type: 'separator' },
-        { label: 'Back to chat', click: backToChat },
-        {
-          label: 'Choose domain',
-          click: chooseDomain,
-        },
         {
           label: 'Settings',
           click: openSettings,
           visible: state.isSettingsVisible,
+        },
+        {
+          label: 'Choose domain',
+          click: chooseDomain,
         },
         { type: 'separator' },
         {
           label: 'Services',
           role: 'services',
         },
-        { type: 'separator' },
         {
           label: 'Hide Grape',
           role: 'hide',
@@ -206,8 +186,9 @@ export const getMenuTemplate = () => {
         },
         { type: 'separator' },
         {
-          label: 'Quit Grape',
-          role: 'quit',
+          label: 'Quit',
+          accelerator: 'Cmd+Q',
+          click: quit,
         },
       ],
     })
