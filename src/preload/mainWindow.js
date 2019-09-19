@@ -18,8 +18,8 @@ const openExternal = href => {
 }
 
 const showNotification = (options, callbacks, dependencies, params) => {
-  // eslint-disable-next-line no-console
-  console.log(options, callbacks, dependencies, params)
+  const { createWebNotification } = dependencies
+  createWebNotification(options, callbacks, params)
 }
 
 window.grapeAppBridge = {

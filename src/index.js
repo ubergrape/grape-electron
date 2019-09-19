@@ -16,6 +16,9 @@ autoUpdater.logger.transports.file.level = 'debug'
 
 app.allowRendererProcessReuse = true
 
+// https://electronjs.org/docs/tutorial/notifications#windows
+app.setAppUserModelId('com.ChatGrape')
+
 const init = () => {
   if (isDevelopment) {
     electronReload(__dirname, {
