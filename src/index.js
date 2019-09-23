@@ -17,7 +17,7 @@ autoUpdater.logger.transports.file.level = 'debug'
 app.allowRendererProcessReuse = true
 
 // https://electronjs.org/docs/tutorial/notifications#windows
-app.setAppUserModelId('com.ChatGrape')
+app.setAppUserModelId(process.execPath)
 
 const init = () => {
   if (isDevelopment) {
