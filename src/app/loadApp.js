@@ -9,7 +9,7 @@ import handleRedirect from './handleRedirect'
 import loadUrl from './loadUrl'
 /* eslint-enable import/no-cycle */
 import state from '../state'
-import { isDevelopment } from '../utils'
+import { isDevelopment, getOsType } from '../utils'
 
 export default url => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
@@ -34,7 +34,10 @@ export default url => {
   })
 
   mainWindow.once('ready-to-show', () => {
-    if ((state.isShown || state.isInitialLoading) && !isDevelopment) {
+    if (
+      ((state.isShown || state.isInitialLoading) && !isDevelopment) ||
+      getOsType === 'windows'
+    ) {
       mainWindow.show()
     }
     state.isInitialLoading = false
