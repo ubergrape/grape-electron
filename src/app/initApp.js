@@ -38,7 +38,7 @@ export default url => {
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
-  switch (getOsType()) {
+  switch (getOsType) {
     case 'windows':
       state.tray = new Tray(trayWhiteWindowsIcon)
       break
@@ -60,7 +60,7 @@ export default url => {
 
 ipcMain.on('addBadge', (e, badge) => {
   const { tray, mainWindow } = state
-  switch (getOsType()) {
+  switch (getOsType) {
     case 'windows':
       tray.setImage(trayBlueWindowsIcon)
       mainWindow.setOverlayIcon(

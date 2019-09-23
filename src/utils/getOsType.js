@@ -1,6 +1,6 @@
 import os from 'os'
 
-export default () => {
+export default (() => {
   let type
 
   switch (os.type()) {
@@ -18,4 +18,4 @@ export default () => {
   }
 
   return type
-}
+})()
