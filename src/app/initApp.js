@@ -17,6 +17,7 @@ import loadURL from './loadUrl'
 import { getOsType, getChatUrl } from '../utils'
 import { images } from '../constants'
 import { getMenuTemplate, trayTemplate } from '../menu'
+import showMainWindow from '../menu/actions/showMainWindow'
 import store from '../store'
 import env from '../env'
 
@@ -56,6 +57,7 @@ export default url => {
 
   state.tray.setToolTip(app.getName())
   state.tray.setContextMenu(Menu.buildFromTemplate(trayTemplate))
+  state.tray.on('click', () => showMainWindow())
 }
 
 ipcMain.on('addBadge', (e, badge) => {
