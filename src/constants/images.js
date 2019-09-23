@@ -11,5 +11,5 @@ export default {
   trayBlueIcon: path.join(trayIcons, 'tray-blue.png'),
   trayWhiteWindowsIcon: path.join(trayIcons, 'tray-white-windows.png'),
   trayBlueWindowsIcon: path.join(trayIcons, 'tray-blue-windows.png'),
-  overlayIcon: path.join(trayIcons, 'overlay.png'),
+  overlayIcon: path.join(assets, 'overlay.png'),
 }
