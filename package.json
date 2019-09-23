@@ -6,13 +6,13 @@
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib/ build/ && NODE_ENV=production yarn build:lib && electron-builder",
+    "build": "rm -rf lib/ build/ && cross-env NODE_ENV=production yarn build:lib && electron-builder",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
-    "start": "yarn build:lib && NODE_ENV=development electron .",
-    "start:proxy": "yarn build:lib && NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
-    "start:watch": "yarn build:lib:watch & yarn build:lib && NODE_ENV=development electron .",
-    "start:watch:proxy": "yarn build:lib:watch & yarn build:lib && NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
+    "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
+    "start:proxy": "yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
+    "start:watch": "yarn build:lib:watch & yarn build:lib && cross-env NODE_ENV=development electron .",
+    "start:watch:proxy": "yarn build:lib:watch & yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
     "deploy": "yarn build:lib & electron-builder --publish onTagOrDraft",
     "precommit": "lint-staged"
   },
