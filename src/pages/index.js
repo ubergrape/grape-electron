@@ -61,7 +61,7 @@ const Page = pageComponentMap[page]
 
 render(
   <ErrorBoundary>
-    <JssProvider jss={jss}>
+    <JssProvider Jss={jss}>
       <Page page={page} type={type} url={url} />
     </JssProvider>
   </ErrorBoundary>,
