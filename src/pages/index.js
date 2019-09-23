@@ -43,7 +43,7 @@ jss.use(
       'inherit',
       {
         fontFamily:
-          '"proxima-nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
+          '"Proxima Nova", "Helvetica Neue", Arial, Helvetica, sans-serif',
       },
     ],
   }),
