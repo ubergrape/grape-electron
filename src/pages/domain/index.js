@@ -93,10 +93,14 @@ class Domain extends Component {
     return (
       <div className={classes.wrapper}>
         <Helmet>
-          <title>{pkg.productName}: Choose domain</title>
+          <title>{pkg.build.productName}: Choose domain</title>
         </Helmet>
         <div className={classes.logo}>
-          <img alt={pkg.productName} className={classes.image} src={logo} />
+          <img
+            alt={pkg.build.productName}
+            className={classes.image}
+            src={logo}
+          />
         </div>
         <form className={classes.main} onSubmit={this.onSubmit}>
           <div className={classes.text}>Where do you want to connect?</div>

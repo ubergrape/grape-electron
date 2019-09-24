@@ -14,10 +14,10 @@ const {
 const About = ({ classes }) => (
   <div className={classes.wrapper}>
     <Helmet>
-      <title>About {pkg.productName}</title>
+      <title>About {pkg.build.productName}</title>
     </Helmet>
-    <img className={classes.icon} alt={pkg.productName} src={icon} />
-    <div className={classes.name}>{pkg.productName}</div>
+    <img className={classes.icon} alt={pkg.build.productName} src={icon} />
+    <div className={classes.name}>{pkg.build.productName}</div>
     <div className={classes.row}>
       Version {pkg.version} ({pkg.buildVersion})
     </div>
@@ -43,9 +43,7 @@ const About = ({ classes }) => (
         </tbody>
       </table>
     </div>
-    <div className={classes.row}>
-      © {new Date().getFullYear()}, UberGrape GmbH
-    </div>
+    <div className={classes.row}>pkg.build.copyright</div>
   </div>
 )
 
