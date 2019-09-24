@@ -32,6 +32,7 @@
       "assets/tray-icons/*",
       "assets/icon.png",
       "assets/logo.png",
+      "assets/overlay.png",
       "package.json"
     ],
     "mac": {

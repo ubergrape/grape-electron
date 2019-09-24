@@ -8,6 +8,7 @@ import fs from 'fs'
 import { isDevelopment } from '../utils'
 import env from '../env'
 /* eslint-enable import/no-cycle */
+import pkg from '../../package.json'
 
 let data = {}
 
@@ -49,6 +50,7 @@ const schema = {
 }
 
 const store = new Store({
+  projectVersion: pkg.version,
   name: 'graperc',
   cwd: filePath,
   schema,

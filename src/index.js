@@ -10,14 +10,12 @@ import { pages } from './constants'
 import state from './state'
 import store from './store'
 import { isDevelopment, getUrlToLoad } from './utils'
+import pkg from '../package.json'
 
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'debug'
 
 app.allowRendererProcessReuse = true
-
-// https://electronjs.org/docs/tutorial/notifications#windows
-app.setAppUserModelId(process.execPath)
 
 const init = () => {
   if (isDevelopment) {
@@ -27,6 +25,10 @@ const init = () => {
   }
 
   app.on('ready', () => {
+    // https://electronjs.org/docs/tutorial/notifications#windows
+    if (isDevelopment) app.setAppUserModelId(process.execPath)
+    else app.setAppUserModelId(pkg.build.appId)
+
     const url = getUrlToLoad(store)
     const { searchParams, protocol } = new URL(url)
     const page = searchParams.get('page')
