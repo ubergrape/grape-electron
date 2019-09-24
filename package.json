@@ -1,5 +1,8 @@
 {
   "name": "grape-electron",
+  "appId": "com.chatgrape.ubergrape",
+  "copyright": "© 2019, UberGrape GmbH",
+  "author": "UberGrape GmbH <support@chatgrape.com>",
   "buildVersion": "61",
   "version": "3.0.0-alpha.13",
   "description": "The world’s most advanced team chat meets enterprise search.",
@@ -21,7 +24,7 @@
     "chat",
     "enterprise chat"
   ],
-  "author": "UberGrape GmbH <support@chatgrape.com>",
+  "productName": "Grape",
   "build": {
     "appId": "com.chatgrape.ubergrape",
     "productName": "Grape",

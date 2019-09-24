@@ -77,14 +77,10 @@ class ConnectionError extends Component {
     return (
       <div className={classes.wrapper}>
         <Helmet>
-          <title>{pkg.build.productName}: Lost connection</title>
+          <title>{pkg.productName}: Lost connection</title>
         </Helmet>
         <div className={classes.content}>
-          <img
-            className={classes.icon}
-            alt={pkg.build.productName}
-            src={icon}
-          />
+          <img className={classes.icon} alt={pkg.productName} src={icon} />
           <div className={classes.text}>
             <div>The app could not connect to the Grape server.</div>
             <div className={classes.error}>{errorMessages(type, url)}</div>

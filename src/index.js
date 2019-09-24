@@ -27,7 +27,7 @@ const init = () => {
   app.on('ready', () => {
     // https://electronjs.org/docs/tutorial/notifications#windows
     if (isDevelopment) app.setAppUserModelId(process.execPath)
-    else app.setAppUserModelId(pkg.build.appId)
+    else app.setAppUserModelId(pkg.appId)
 
     const url = getUrlToLoad(store)
     const { searchParams, protocol } = new URL(url)
