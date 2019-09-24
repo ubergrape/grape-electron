@@ -43,7 +43,7 @@ const About = ({ classes }) => (
         </tbody>
       </table>
     </div>
-    <div className={classes.row}>pkg.build.copyright</div>
+    <div className={classes.row}>{pkg.build.copyright}</div>
   </div>
 )
 
