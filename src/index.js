@@ -9,7 +9,7 @@ import initApp from './app/initApp'
 import { pages } from './constants'
 import state from './state'
 import store from './store'
-import { isDevelopment, getUrlToLoad } from './utils'
+import { isDevelopment, getOsType, getUrlToLoad } from './utils'
 import pkg from '../package.json'
 
 autoUpdater.logger = log
@@ -25,9 +25,11 @@ const init = () => {
   }
 
   app.on('ready', () => {
-    // https://electronjs.org/docs/tutorial/notifications#windows
-    if (isDevelopment) app.setAppUserModelId(process.execPath)
-    else app.setAppUserModelId(pkg.appId)
+    if (getOsType === 'windows') {
+      // https://electronjs.org/docs/tutorial/notifications#windows
+      if (isDevelopment) app.setAppUserModelId(process.execPath)
+      else app.setAppUserModelId(pkg.appId)
+    }
 
     const url = getUrlToLoad(store)
     const { searchParams, protocol } = new URL(url)
