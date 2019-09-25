@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ipcRenderer, shell } from 'electron'
+import electron, { ipcRenderer, shell } from 'electron'
 
 const addBadge = text => {
   ipcRenderer.send('addBadge', text)
@@ -19,7 +19,7 @@ const openExternal = href => {
 
 const showNotification = (options, callbacks, dependencies, params) => {
   const { createWebNotification } = dependencies
-  createWebNotification(options, callbacks, params)
+  createWebNotification(options, callbacks, params, electron)
 }
 
 window.grapeAppBridge = {

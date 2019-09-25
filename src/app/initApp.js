@@ -117,3 +117,7 @@ ipcMain.on('domainChange', (e, { type, domain, protocol }) => {
 ipcMain.on('loadChat', () => {
   loadURL(getChatUrl(), state.mainWindow)
 })
+
+ipcMain.on('showMainWindow', () => {
+  state.mainWindow.show()
+})
