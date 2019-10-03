@@ -6,6 +6,7 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
 import initApp from './app/initApp'
+import { register, unregister } from './shortcuts'
 import { pages } from './constants'
 import state from './state'
 import store from './store'
@@ -41,6 +42,18 @@ const init = () => {
     }
 
     initApp(url)
+  })
+
+  app.on('browser-window-focus', () => {
+    register()
+  })
+
+  app.on('browser-window-blur', () => {
+    unregister()
+  })
+
+  app.on('will-quit', () => {
+    unregister()
   })
 
   app.on('window-all-closed', () => {

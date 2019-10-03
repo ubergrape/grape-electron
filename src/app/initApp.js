@@ -81,9 +81,18 @@ ipcMain.on('addBadge', (e, badge) => {
   }
 })
 
+// https://electronjs.org/docs/tutorial/mojave-dark-mode-guide#automatically-updating-your-own-interfaces
+systemPreferences.subscribeNotification(
+  'AppleInterfaceThemeChangedNotification',
+  () => {
+    state.tray.setImage(
+      systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
+    )
+  },
+)
+
 ipcMain.on('removeBadge', () => {
   const { tray, mainWindow } = state
-
   switch (getOsType) {
     case 'windows':
       tray.setImage(trayWhiteWindowsIcon)
@@ -120,4 +129,8 @@ ipcMain.on('loadChat', () => {
 
 ipcMain.on('showMainWindow', () => {
   state.mainWindow.show()
+})
+
+ipcMain.on('bounceIcon', () => {
+  if (getOsType === 'mac') app.dock.bounce()
 })
