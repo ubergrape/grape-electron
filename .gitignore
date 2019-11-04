@@ -2,6 +2,7 @@ node_modules
 dist
 build
 lib
+i18n/src
 
 yarn-error.log
 

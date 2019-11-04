@@ -16,6 +16,8 @@
     "start:watch": "concurrently \"yarn build:lib:watch\"  \"yarn build:lib && cross-env NODE_ENV=development electron .\"",
     "start:watch:proxy": "concurrently \"yarn build:lib:watch\" \"yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .\"",
     "deploy": "yarn build:lib && electron-builder --publish onTagOrDraft",
+    "i18n:export": "yarn build:lib && babel-node i18n/scripts/export.js",
+    "i18n:import": "yarn build:lib && babel-node i18n/scripts/import.js",
     "precommit": "lint-staged"
   },
   "repository": "https://github.com/ubergrape/grape-electron",
@@ -67,7 +69,13 @@
   "babel": {
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-export-default-from"
+      "@babel/plugin-proposal-export-default-from",
+      [
+        "react-intl",
+        {
+          "messagesDir": "./i18n"
+        }
+      ]
     ],
     "presets": [
       "@babel/preset-env",
@@ -103,6 +111,7 @@
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
+    "@babel/node": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
     "@babel/preset-env": "^7.5.5",

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { ipcRenderer, remote } from 'electron'
 import { Helmet } from 'react-helmet'
 import { withStyles } from 'react-jss'
+import { FormattedMessage } from 'react-intl'
 
 import { images, pages } from '../../constants'
 import pkg from '../../../package.json'
@@ -89,7 +90,10 @@ class ConnectionError extends Component {
               <div>
                 Or try to{' '}
                 <a className={classes.link} href={pages.domain}>
-                  change the on-premises domain
+                  <FormattedMessage
+                    id="changeOnPremisesDomain"
+                    defaultMessage="change the on-premises domain"
+                  />
                 </a>
                 .
               </div>

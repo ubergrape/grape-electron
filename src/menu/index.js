@@ -1,3 +1,4 @@
+import { defineMessages } from 'react-intl'
 import state from '../state'
 
 import quit from './actions/quit.js'
@@ -10,10 +11,23 @@ import chooseDomain from './actions/chooseDomain'
 import openSettings from './actions/openSettings'
 /* eslint-enable import/no-cycle */
 
+import { formatMessage } from '../i18n'
+
+const messages = defineMessages({
+  application: {
+    id: 'menuApplication',
+    defaultMessage: 'Application',
+  },
+  edit: {
+    id: 'menuEdit',
+    defaultMessage: 'Edit',
+  },
+})
+
 export const getMenuTemplate = () => {
   const menu = [
     {
-      label: 'Edit',
+      label: formatMessage(messages.edit),
       submenu: [
         {
           label: 'Undo',
@@ -59,7 +73,7 @@ export const getMenuTemplate = () => {
     {
       label: 'View',
       submenu: [
-        // Replace "Force reload" with "Reload" to don't confuse a user with two reload button
+        // Replacing "Force reload" with "Reload" to don't confuse a user with two reload button
         // https://jira.ubergrape.com/browse/GRAPE-17534
         {
           label: 'Reload',
@@ -132,7 +146,7 @@ export const getMenuTemplate = () => {
   // Windows and Linux
   if (process.platform !== 'darwin') {
     menu.unshift({
-      label: 'Application',
+      label: formatMessage(messages.application),
       submenu: [
         {
           label: 'Settings',

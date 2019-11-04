@@ -17,6 +17,8 @@ import About from './about'
 import Domain from './domain'
 import ConnectionError from './connection-error'
 
+import { wrapWithIntlProvider } from '../i18n'
+
 const pageComponentMap = {
   about: About,
   connectionError: ConnectionError,
@@ -57,7 +59,7 @@ jss.use(
 
 jss.createStyleSheet(styles).attach()
 const { page, type, url } = qs.parse(window.location.search.substr(1))
-const Page = pageComponentMap[page]
+const Page = wrapWithIntlProvider(pageComponentMap[page])
 
 render(
   <ErrorBoundary>
