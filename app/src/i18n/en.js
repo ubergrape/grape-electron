@@ -52,7 +52,6 @@ export default {
   "menuSupport": "Support",
   "lostConnectionTitle": "Grape: Lost Connection",
   "checkInternetConnection": "Please check if your internet connection is working properly.",
-  "badSslCert": "The certificate used by instance \"{url}\" seems to be invalid.",
   "loading": "Loading…",
   "reloadGrape": "reload Grape",
   "tryToReload": "Try to {button} again.",

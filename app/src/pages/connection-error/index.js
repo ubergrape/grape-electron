@@ -20,26 +20,16 @@ const messages = defineMessages({
 })
 
 const errorMessages = defineMessages({
-  default: {
+  checkConnection: {
     id: 'checkInternetConnection',
     defaultMessage:
       'Please check if your internet connection is working properly.',
-    description: 'Connection error description.',
-  },
-  badSslCert: {
-    id: 'badSslCert',
-    defaultMessage:
-      'The certificate used by instance "{url}" seems to be invalid.',
     description: 'Connection error description.',
   },
 })
 
 @injectIntl
 export default class ConnectionError extends Component {
-  static defaultProps = {
-    type: 'default',
-  }
-
   constructor(props) {
     super(props)
     this.state = { isLoading: false }
@@ -99,7 +89,6 @@ export default class ConnectionError extends Component {
   render() {
     const {
       intl: { formatMessage },
-      type,
       url,
     } = this.props
 
@@ -113,7 +102,7 @@ export default class ConnectionError extends Component {
               defaultMessage="The app could not connect to the Grape server."
             />
           </h1>
-          <h2>{formatMessage(errorMessages[type], { url })}</h2>
+          <h2>{formatMessage(errorMessages.checkConnection, { url })}</h2>
           <p>{this.renderReloadMessage()}</p>
           {domain !== grapeDomain &&
             !chooseDomainDisabled && (
@@ -127,7 +116,7 @@ export default class ConnectionError extends Component {
                         <FormattedMessage
                           id="changeOnPremisesDomain"
                           defaultMessage="change the on-premises domain"
-                        />
+                      />
                       </a>
                     ),
                   }}

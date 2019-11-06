@@ -51,9 +51,6 @@
   "checkInternetConnection":
     "Please check if your internet connection is working properly.",
   "_checkInternetConnection.comment": "Connection error description.",
-  "badSslCert":
-    "The certificate used by instance \"{url}\" seems to be invalid.",
-  "_badSslCert.comment": "Connection error description.",
   "loading": "Loading…",
   "_loading.comment": "Button text when it is loading.",
   "reloadGrape": "reload Grape",
