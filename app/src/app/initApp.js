@@ -190,16 +190,6 @@ export default () => {
     log.info('web-contents-created')
   })
 
-  app.on('certificate-error', (e, webContents, url, error, callback) => {
-    log.info('certificate-error', url, error)
-    if (url.indexOf('staging.chatgrape.com') > -1) {
-      e.preventDefault()
-      callback(true)
-    } else {
-      callback(false)
-    }
-  })
-
   app.on(
     'select-client-certificate',
     (e, webContents, url, certificateList, callback) => {
