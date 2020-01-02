@@ -24,6 +24,10 @@ export default {
   },
   link: {
     color: '#0080ff',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
   button: {
     extend: normal,

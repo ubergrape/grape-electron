@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -20,7 +21,14 @@ class ErrorBoundary extends Component {
     const { hasError } = this.state
 
     if (hasError) {
-      return <h1>Something went wrong.</h1>
+      return (
+        <h1>
+          <FormattedMessage
+            id="somethingWentWrong"
+            defaultMessage="Something went wrong."
+          />
+        </h1>
+      )
     }
 
     return children

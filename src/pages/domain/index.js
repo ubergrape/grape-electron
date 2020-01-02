@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { ipcRenderer, remote } from 'electron'
 import { Helmet } from 'react-helmet'
 import { withStyles } from 'react-jss'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { parse } from 'url'
 
 import { images } from '../../constants'
@@ -24,10 +25,9 @@ class Domain extends Component {
     super(props)
     this.state = {
       tab: currentDomainType || 'cloud',
-      value:
-        `${
-          onPremisesProtocol ? `${onPremisesProtocol}//` : ''
-        }${onPremisesDomain || ''}` || '',
+      value: `${
+        onPremisesProtocol ? `${onPremisesProtocol}//` : ''
+      }${onPremisesDomain || ''}`,
     }
   }
 
@@ -88,18 +88,32 @@ class Domain extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const {
+      classes,
+      intl: { formatMessage },
+    } = this.props
     const { tab, value } = this.state
     return (
       <div className={classes.wrapper}>
         <Helmet>
-          <title>{pkg.productName}: Choose domain</title>
+          <title>
+            {pkg.productName}:{' '}
+            {formatMessage({
+              id: 'lostConnectionTitle',
+              defaultMessage: 'Choose domain',
+            })}
+          </title>
         </Helmet>
         <div className={classes.logo}>
           <img alt={pkg.productName} className={classes.image} src={logo} />
         </div>
         <form className={classes.main} onSubmit={this.onSubmit}>
-          <div className={classes.text}>Where do you want to connect?</div>
+          <div className={classes.text}>
+            <FormattedMessage
+              id="whereToConnectTitle"
+              defaultMessage="Where do you want to connect?"
+            />
+          </div>
           <div className={classes.tabs}>
             <button
               type="button"
@@ -109,7 +123,7 @@ class Domain extends Component {
                 tab === 'cloud' ? classes.activeTab : ''
               }`}
             >
-              Grape Cloud
+              <FormattedMessage id="grapeTab" defaultMessage="Grape Cloud" />
             </button>
             <button
               type="button"
@@ -119,7 +133,10 @@ class Domain extends Component {
                 tab === 'onPremises' ? classes.activeTab : ''
               }`}
             >
-              On-Premises
+              <FormattedMessage
+                id="onPremisesTab"
+                defaultMessage="On-Premises"
+              />
             </button>
           </div>
           <div
@@ -127,7 +144,12 @@ class Domain extends Component {
               tab === 'onPremises' ? classes.domainExpanded : ''
             }`}
           >
-            <span className={classes.text}>Server Domain or URL</span>
+            <span className={classes.text}>
+              <FormattedMessage
+                id="serverDomainOrUrl"
+                defaultMessage="Server Domain or URL"
+              />
+            </span>
             <input
               placeholder="example.com"
               onChange={this.onInputChange}
@@ -143,7 +165,7 @@ class Domain extends Component {
               tab === 'onPremises' ? classes.continueExpanded : ''
             }`}
           >
-            Continue
+            <FormattedMessage id="continue" defaultMessage="Continue" />
           </button>
         </form>
       </div>
@@ -151,4 +173,4 @@ class Domain extends Component {
   }
 }
 
-export default withStyles(styles)(Domain)
+export default withStyles(styles)(injectIntl(Domain))

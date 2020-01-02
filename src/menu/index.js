@@ -14,13 +14,141 @@ import openSettings from './actions/openSettings'
 import { formatMessage } from '../i18n'
 
 const messages = defineMessages({
+  edit: {
+    id: 'menuEdit',
+    defaultMessage: 'Edit',
+  },
+  undo: {
+    id: 'menuUndo',
+    defaultMessage: 'Undo',
+  },
+  redo: {
+    id: 'menuRedo',
+    defaultMessage: 'Redo',
+  },
+  cut: {
+    id: 'menuCut',
+    defaultMessage: 'Cut',
+  },
+  copy: {
+    id: 'menuCopy',
+    defaultMessage: 'Copy',
+  },
+  paste: {
+    id: 'menuPaste',
+    defaultMessage: 'Paste',
+  },
+  selectAll: {
+    id: 'menuSelectAll',
+    defaultMessage: 'Select All',
+  },
+  speech: {
+    id: 'menuSpeech',
+    defaultMessage: 'Speech',
+  },
+  startSpeaking: {
+    id: 'menuStartSpeaking',
+    defaultMessage: 'Start Speaking',
+  },
+  stopSpeaking: {
+    id: 'menuStopSpeaking',
+    defaultMessage: 'Stop Speaking',
+  },
+  view: {
+    id: 'menuView',
+    defaultMessage: 'View',
+  },
+  reload: {
+    id: 'menuReload',
+    defaultMessage: 'Reload',
+  },
+  toggleFullScreen: {
+    id: 'menuToggleFullScreen',
+    defaultMessage: 'Toggle Full Screen',
+  },
+  resetZoom: {
+    id: 'menuResetZoom',
+    defaultMessage: 'Actual Size',
+  },
+  zoomIn: {
+    id: 'menuZoomIn',
+    defaultMessage: 'Zoom In',
+  },
+  zoomOut: {
+    id: 'menuZoomOut',
+    defaultMessage: 'Zoom Out',
+  },
+  window: {
+    id: 'menuWindow',
+    defaultMessage: 'Window',
+  },
+  close: {
+    id: 'menuClose',
+    defaultMessage: 'Close Window',
+  },
+  minimize: {
+    id: 'menuMinimize',
+    defaultMessage: 'Minimize',
+  },
+  zoom: {
+    id: 'menuZoom',
+    defaultMessage: 'Zoom',
+  },
+  front: {
+    id: 'menuFront',
+    defaultMessage: 'Bring All to Front',
+  },
+  help: {
+    id: 'menuHelp',
+    defaultMessage: 'Help',
+  },
+  about: {
+    id: 'menuAbout',
+    defaultMessage: 'About Grape',
+  },
+  learnMore: {
+    id: 'menuLearnMore',
+    defaultMessage: 'Learn More',
+  },
+  openHelpCenter: {
+    id: 'menuOpenHelpCenter',
+    defaultMessage: 'Open Help Center',
+  },
   application: {
     id: 'menuApplication',
     defaultMessage: 'Application',
   },
-  edit: {
-    id: 'menuEdit',
-    defaultMessage: 'Edit',
+  settings: {
+    id: 'menuSettings',
+    defaultMessage: 'Settings',
+  },
+  chooseDomain: {
+    id: 'menuChooseDomain',
+    defaultMessage: 'Choose domain',
+  },
+  quit: {
+    id: 'menuQuit',
+    defaultMessage: 'Quit',
+  },
+  services: {
+    id: 'menuServices',
+    defaultMessage: 'Services',
+  },
+  hide: {
+    id: 'menuHide',
+    defaultMessage: 'Hide Grape',
+  },
+  hideOthers: {
+    id: 'menuHideOthers',
+    defaultMessage: 'Hide Others',
+  },
+  unhide: {
+    id: 'menuUnhide',
+    defaultMessage: 'Show All',
+  },
+  open: {
+    id: 'menuOpen',
+    defaultMessage: 'Open',
   },
 })
 
@@ -30,40 +158,40 @@ export const getMenuTemplate = () => {
       label: formatMessage(messages.edit),
       submenu: [
         {
-          label: 'Undo',
+          label: formatMessage(messages.undo),
           role: 'undo',
         },
         {
-          label: 'Redo',
+          label: formatMessage(messages.redo),
           role: 'redo',
         },
         { type: 'separator' },
         {
-          label: 'Cut',
+          label: formatMessage(messages.cut),
           role: 'cut',
         },
         {
-          label: 'Copy',
+          label: formatMessage(messages.copy),
           role: 'copy',
         },
         {
-          label: 'Paste',
+          label: formatMessage(messages.paste),
           role: 'paste',
         },
         {
-          label: 'Select All',
+          label: formatMessage(messages.selectAll),
           role: 'selectall',
         },
         { type: 'separator' },
         {
-          label: 'Speech',
+          label: formatMessage(messages.speech),
           submenu: [
             {
-              label: 'Start Speaking',
+              label: formatMessage(messages.startSpeaking),
               role: 'startspeaking',
             },
             {
-              label: 'Stop Speaking',
+              label: formatMessage(messages.stopSpeaking),
               role: 'stopspeaking',
             },
           ],
@@ -71,72 +199,72 @@ export const getMenuTemplate = () => {
       ],
     },
     {
-      label: 'View',
+      label: formatMessage(messages.view),
       submenu: [
         // Replacing "Force reload" with "Reload" to don't confuse a user with two reload button
         // https://jira.ubergrape.com/browse/GRAPE-17534
         {
-          label: 'Reload',
+          label: formatMessage(messages.reload),
           role: 'forcereload',
         },
         { type: 'separator' },
         {
-          label: 'Toggle Full Screen',
+          label: formatMessage(messages.toggleFullScreen),
           role: 'togglefullscreen',
         },
         { type: 'separator' },
         {
-          label: 'Actual Size',
+          label: formatMessage(messages.resetZoom),
           role: 'resetzoom',
         },
         {
-          label: 'Zoom In',
+          label: formatMessage(messages.zoomIn),
           role: 'zoomin',
         },
         {
-          label: 'Zoom Out',
+          label: formatMessage(messages.zoomOut),
           role: 'zoomout',
         },
       ],
     },
     {
       role: 'window',
-      label: 'Window',
+      label: formatMessage(messages.window),
       submenu: [
         {
-          label: 'Close Window',
+          label: formatMessage(messages.close),
           role: 'close',
         },
         {
-          label: 'Minimize',
+          label: formatMessage(messages.minimize),
           role: 'minimize',
         },
         {
-          label: 'Zoom',
+          label: formatMessage(messages.zoom),
           role: 'zoom',
         },
         { type: 'separator' },
         {
-          label: 'Bring All to Front',
+          label: formatMessage(messages.front),
           role: 'front',
         },
       ],
     },
     {
       role: 'help',
-      label: 'Help',
+      label: formatMessage(messages.help),
       submenu: [
         {
-          label: 'About Grape',
+          label: formatMessage(messages.about),
           click: openAboutWindow,
         },
         { type: 'separator' },
         {
-          label: 'Learn More',
+          label: formatMessage(messages.learnMore),
           click: openWebsite,
         },
         {
-          label: 'Open Help Center',
+          label: formatMessage(messages.openHelpCenter),
           click: openSupport,
         },
       ],
@@ -149,17 +277,17 @@ export const getMenuTemplate = () => {
       label: formatMessage(messages.application),
       submenu: [
         {
-          label: 'Settings',
+          label: formatMessage(messages.settings),
           click: openSettings,
           visible: state.isSettingsVisible,
         },
         {
-          label: 'Choose domain',
+          label: formatMessage(messages.chooseDomain),
           click: chooseDomain,
         },
         { type: 'separator' },
         {
-          label: 'Quit',
+          label: formatMessage(messages.quit),
           accelerator: 'Cmd+Q',
           click: quit,
         },
@@ -170,37 +298,37 @@ export const getMenuTemplate = () => {
   // Mac
   if (process.platform === 'darwin') {
     menu.unshift({
-      label: 'Application',
+      label: formatMessage(messages.application),
       submenu: [
         {
-          label: 'Settings',
+          label: formatMessage(messages.settings),
           click: openSettings,
           visible: state.isSettingsVisible,
         },
         {
-          label: 'Choose domain',
+          label: formatMessage(messages.chooseDomain),
           click: chooseDomain,
         },
         { type: 'separator' },
         {
-          label: 'Services',
+          label: formatMessage(messages.services),
           role: 'services',
         },
         {
-          label: 'Hide Grape',
+          label: formatMessage(messages.hide),
           role: 'hide',
         },
         {
-          label: 'Hide Others',
+          label: formatMessage(messages.hideOthers),
           role: 'hideothers',
         },
         {
-          label: 'Show All',
+          label: formatMessage(messages.unhide),
           role: 'unhide',
         },
         { type: 'separator' },
         {
-          label: 'Quit',
+          label: formatMessage(messages.quit),
           accelerator: 'Cmd+Q',
           click: quit,
         },
@@ -212,6 +340,6 @@ export const getMenuTemplate = () => {
 }
 
 export const trayTemplate = [
-  { label: 'Open', click: showMainWindow },
-  { label: 'Quit', click: quit },
+  { label: formatMessage(messages.open), click: showMainWindow },
+  { label: formatMessage(messages.quit), click: quit },
 ]

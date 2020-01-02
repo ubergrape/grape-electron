@@ -1,5 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { FormattedMessage } from 'react-intl'
 import withStyles from 'react-jss'
 
 import { images } from '../../constants'
@@ -14,12 +15,15 @@ const {
 const About = ({ classes }) => (
   <div className={classes.wrapper}>
     <Helmet>
-      <title>About {pkg.productName}</title>
+      <title>
+        <FormattedMessage id="about" defaultMessage="About" /> {pkg.productName}
+      </title>
     </Helmet>
     <img className={classes.icon} alt={pkg.productName} src={icon} />
     <div className={classes.name}>{pkg.productName}</div>
     <div className={classes.row}>
-      Version {pkg.version} ({pkg.buildVersion})
+      <FormattedMessage id="version" defaultMessage="Version" /> {pkg.version} (
+      {pkg.buildVersion})
     </div>
     <div className={classes.row}>
       <table className={classes.table}>

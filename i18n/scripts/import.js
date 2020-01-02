@@ -6,7 +6,7 @@ const messagesPattern = './i18n/translations/*.json'
 const outputDir = './src/i18n/'
 const commentRegExp = /\.comment$/
 
-sync(messagesPattern).foeEach(file => {
+sync(messagesPattern).forEach(file => {
   const filename = file
     .split('/')
     .pop()
