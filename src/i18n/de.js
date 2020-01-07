@@ -5,6 +5,8 @@
  * DON'T EDIT!
  */
 export default {
+  "saveImageTo": "Bild speichern unter…",
+  "windowsBadgeIconTitle": "{amount} ungelesene {amount, plural, one {Konversation} other {Konersationen}}",
   "menuEdit": "Bearbeiten",
   "menuUndo": "Rückgängig",
   "menuRedo": "Erneut",

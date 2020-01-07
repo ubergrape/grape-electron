@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import withStyles from 'react-jss'
 
 import { images } from '../../constants'
@@ -12,11 +12,16 @@ const {
   versions: { electron, chrome, node, v8 },
 } = process
 
-const About = ({ classes }) => (
+const About = ({ classes, intl: { formatMessage } }) => (
   <div className={classes.wrapper}>
     <Helmet>
       <title>
-        <FormattedMessage id="about" defaultMessage="About" /> {pkg.productName}
+        {pkg.productName}:{' '}
+        {formatMessage({
+          id: 'about',
+          defaultMessage: 'About',
+        })}{' '}
+        {pkg.productName}
       </title>
     </Helmet>
     <img className={classes.icon} alt={pkg.productName} src={icon} />
@@ -51,4 +56,4 @@ const About = ({ classes }) => (
   </div>
 )
 
-export default withStyles(styles)(About)
+export default withStyles(styles)(injectIntl(About))

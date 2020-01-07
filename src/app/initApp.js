@@ -9,6 +9,7 @@ import {
 } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
+import contextMenu from 'electron-context-menu'
 
 import state from '../state'
 import loadApp from './loadApp'
@@ -16,7 +17,7 @@ import loadURL from './loadUrl'
 
 import { getOsType, getChatUrl } from '../utils'
 import { images } from '../constants'
-import { getMenuTemplate, trayTemplate } from '../menu'
+import { getMenuTemplate, getTrayTemplate } from '../menu'
 import showMainWindow from '../menu/actions/showMainWindow'
 import store from '../store'
 import env from '../env'
@@ -30,7 +31,33 @@ const {
   trayWhiteWindowsIcon,
 } = images
 
+const messages = {
+  saveImageTo: {
+    id: 'saveImageTo',
+    defaultMessage: 'Save Image to…',
+  },
+  windowsBadgeIconTitle: {
+    id: 'windowsBadgeIconTitle',
+    defaultMessage:
+      '{amount} unread {amount, plural, one {channel} other {channels}}',
+  },
+}
+
 export default url => {
+  // eslint-disable-next-line global-require
+  const { formatMessage } = require('../i18n')
+  contextMenu({
+    append: (defaultActions, params) => [
+      {
+        label: formatMessage(messages.saveImageTo),
+        visible: params.mediaType === 'image',
+        click: () => {
+          state.mainWindow.webContents.downloadURL(params.srcURL)
+        },
+      },
+    ],
+  })
+
   autoUpdater.checkForUpdatesAndNotify()
 
   global.store = store.get() || env
@@ -56,18 +83,23 @@ export default url => {
   }
 
   state.tray.setToolTip(app.getName())
-  state.tray.setContextMenu(Menu.buildFromTemplate(trayTemplate))
+  state.tray.setContextMenu(Menu.buildFromTemplate(getTrayTemplate()))
   state.tray.on('click', () => showMainWindow())
 }
 
 ipcMain.on('addBadge', (e, badge) => {
   const { tray, mainWindow } = state
+  // eslint-disable-next-line global-require
+  const { formatMessage } = require('../i18n')
+
   switch (getOsType) {
     case 'windows':
       tray.setImage(trayBlueWindowsIcon)
       mainWindow.setOverlayIcon(
         overlayIcon,
-        `${parseInt(badge, 10)} unread channels`,
+        formatMessage(messages.windowsBadgeIconTitle, {
+          amount: parseInt(badge, 10),
+        }),
       )
       break
     case 'mac':

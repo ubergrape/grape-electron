@@ -8,7 +8,7 @@ const offline = (e, window, code) => {
   loadApp(pages.connectionError)
 }
 
-export default function handleOffline(url, window) {
+export default (url, window) => {
   let certificateError = false
   let response = false
   const { webContents } = window

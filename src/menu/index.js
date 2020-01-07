@@ -11,8 +11,6 @@ import chooseDomain from './actions/chooseDomain'
 import openSettings from './actions/openSettings'
 /* eslint-enable import/no-cycle */
 
-import { formatMessage } from '../i18n'
-
 const messages = defineMessages({
   edit: {
     id: 'menuEdit',
@@ -153,6 +151,8 @@ const messages = defineMessages({
 })
 
 export const getMenuTemplate = () => {
+  // eslint-disable-next-line global-require
+  const { formatMessage } = require('../i18n')
   const menu = [
     {
       label: formatMessage(messages.edit),
@@ -339,7 +339,11 @@ export const getMenuTemplate = () => {
   return menu
 }
 
-export const trayTemplate = [
-  { label: formatMessage(messages.open), click: showMainWindow },
-  { label: formatMessage(messages.quit), click: quit },
-]
+export const getTrayTemplate = () => {
+  // eslint-disable-next-line global-require
+  const { formatMessage } = require('../i18n')
+  return [
+    { label: formatMessage(messages.open), click: showMainWindow },
+    { label: formatMessage(messages.quit), click: quit },
+  ]
+}

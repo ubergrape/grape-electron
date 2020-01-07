@@ -3,11 +3,11 @@ import { shell, BrowserWindow } from 'electron'
 import minimatch from 'minimatch'
 import path from 'path'
 
-// eslint-disable-next-line import/no-cycle
-import loadUrl from './loadUrl'
+import ensureFocus from './ensureFocus'
 import state from '../state'
+import { images } from '../constants'
 
-const mainWindowLinks = [
+const mainWindowBlobs = [
   'file://**',
   '**/accounts/organization/dashboard*',
   '**/chat',
@@ -17,25 +17,48 @@ const mainWindowLinks = [
   '**/github.com/login**',
 ]
 
+const secondaryWindowBlobs = ['**/call/*']
+
+export const openWindow = url => {
+  if (state.secondaryWindow) {
+    const { secondaryWindow } = state
+    ensureFocus(secondaryWindow)
+    secondaryWindow.loadURL(url)
+    return
+  }
+
+  const secondaryWindowConfig = {
+    webPreferences: {
+      nodeIntegration: url.startsWith('file:'),
+      nodeIntegrationInWorker: url.startsWith('file:'),
+      contextIsolation: false,
+    },
+    icon: images.icon,
+  }
+
+  if (minimatch(url, '**/call/*')) {
+    secondaryWindowConfig.webPreferences.preload = path.join(
+      __dirname,
+      '../preload/secondaryWindow.js',
+    )
+  }
+
+  const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
+  secondaryWindow.once('closed', () => {
+    state.secondaryWindow = null
+  })
+  secondaryWindow.loadURL(url)
+}
+
 const shouldOpenIn = (globs, url) => globs.some(glob => minimatch(url, glob))
 
 export default (e, url) => {
-  if (shouldOpenIn(mainWindowLinks, url)) return
+  if (shouldOpenIn(mainWindowBlobs, url)) return
 
   e.preventDefault()
 
-  if (minimatch(url, '**/call/*')) {
-    const secondaryWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
-      parent: state.mainWindow,
-      webPreferences: {
-        preload: path.join(__dirname, '../preload/secondaryWindow.js'),
-      },
-    })
-
-    loadUrl(url, secondaryWindow)
-    state.secondaryWindow = secondaryWindow
+  if (shouldOpenIn(secondaryWindowBlobs, url)) {
+    openWindow(url)
     return
   }
 

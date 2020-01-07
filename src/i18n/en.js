@@ -5,7 +5,9 @@
  * DON'T EDIT!
  */
 export default {
-  "menuEdit": "Bearbeiten",
+  "saveImageTo": "Save Image to…",
+  "windowsBadgeIconTitle": "{amount} unread {amount, plural, one {channel} other {channels}}",
+  "menuEdit": "Edit",
   "menuUndo": "Undo",
   "menuRedo": "Redo",
   "menuCut": "Cut",
