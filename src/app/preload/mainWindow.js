@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer, shell } from 'electron'
-import pkg from '../../package.json'
+import pkg from '../../../package.json'
 
 const addBadge = text => {
   ipcRenderer.send('addBadge', text)

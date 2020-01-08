@@ -2,8 +2,8 @@
 import { BrowserWindow } from 'electron'
 import { grayLighter } from 'grape-theme/dist/base-colors'
 
-import { pages } from '../../constants'
-import state from '../../state'
+import { pages } from '../../../constants'
+import state from '../../../state'
 
 export default () => {
   const aboutWindow = new BrowserWindow({

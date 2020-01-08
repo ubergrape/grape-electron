@@ -17,8 +17,8 @@ import loadURL from './loadUrl'
 
 import { getOsType, getChatUrl } from '../utils'
 import { images } from '../constants'
-import { getMenuTemplate, getTrayTemplate } from '../menu'
-import showMainWindow from '../menu/actions/showMainWindow'
+import { getMenuTemplate, getTrayTemplate } from './menu'
+import showMainWindow from './menu/actions/showMainWindow'
 import store from '../store'
 import env from '../env'
 

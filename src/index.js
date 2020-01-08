@@ -6,7 +6,7 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
 import initApp from './app/initApp'
-import { register, unregister } from './shortcuts'
+import { register, unregister } from './app/shortcuts'
 import { pages } from './constants'
 import state from './state'
 import store from './store'
@@ -52,15 +52,12 @@ const init = () => {
     unregister()
   })
 
-  app.on('will-quit', () => {
-    unregister()
-  })
-
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
   })
 
   app.on('before-quit', () => {
+    unregister()
     store.set('lastUrl', state.mainWindow.webContents.getURL())
     app.quitting = true
   })

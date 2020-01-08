@@ -28,7 +28,7 @@ export default url => {
     show: !!state.mainWindow && state.isShown,
     backgroundColor: white,
     webPreferences: {
-      preload: path.join(__dirname, '../preload/mainWindow.js'),
+      preload: path.join(__dirname, './preload/mainWindow.js'),
       nodeIntegration: url.startsWith('file:'),
     },
   })

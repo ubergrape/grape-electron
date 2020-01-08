@@ -3,7 +3,7 @@ import { Menu } from 'electron'
 
 import state from '../state'
 // eslint-disable-next-line import/no-cycle
-import { getMenuTemplate } from '../menu'
+import { getMenuTemplate } from './menu'
 
 export default (e, url) => {
   const { protocol, pathname } = new URL(url)

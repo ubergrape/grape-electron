@@ -39,7 +39,7 @@ export const openWindow = url => {
   if (minimatch(url, '**/call/*')) {
     secondaryWindowConfig.webPreferences.preload = path.join(
       __dirname,
-      '../preload/secondaryWindow.js',
+      './preload/secondaryWindow.js',
     )
   }
 

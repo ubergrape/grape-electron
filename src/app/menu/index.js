@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl'
-import state from '../state'
+import state from '../../state'
 
 import quit from './actions/quit.js'
 import openAboutWindow from './actions/openAboutWindow'
@@ -152,7 +152,7 @@ const messages = defineMessages({
 
 export const getMenuTemplate = () => {
   // eslint-disable-next-line global-require
-  const { formatMessage } = require('../i18n')
+  const { formatMessage } = require('../../i18n')
   const menu = [
     {
       label: formatMessage(messages.edit),
@@ -341,7 +341,7 @@ export const getMenuTemplate = () => {
 
 export const getTrayTemplate = () => {
   // eslint-disable-next-line global-require
-  const { formatMessage } = require('../i18n')
+  const { formatMessage } = require('../../i18n')
   return [
     { label: formatMessage(messages.open), click: showMainWindow },
     { label: formatMessage(messages.quit), click: quit },
