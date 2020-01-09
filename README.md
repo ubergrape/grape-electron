@@ -23,7 +23,7 @@ yarn start
 
 `start:watch:proxy` - run app with hot-reload after each code update and proxy port for `grape-web-client`.
 
-`deploy` - build and upload the app build to GitHub releases. Before the run, set up with `Releasing` chapter.
+`release` - build and upload the app build to GitHub releases. Before the run, set up with `Releasing` chapter.
 
 `i18n:export` - export language files from `src/i18n` to `i18n`.
 
@@ -60,8 +60,8 @@ If you already have `.token` file in the root of the project, please skip these 
 3. Create `.token` file in the root of the project.
 4. Paste token and save the file.
 
-### Build and deploy the release
+### Build and publish the release
 
 ```bash
-yarn deploy
+yarn release
 ```
