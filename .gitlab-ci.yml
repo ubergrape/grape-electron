@@ -1,0 +1,41 @@
+---
+
+image: "node:12"
+
+stages:
+  - build
+  - release
+
+cache:
+  key: "test00000"
+  paths:
+    - packages
+
+
+build-linux:
+  stage: build
+  script:
+    - apt update -qq
+    - apt install -y fakeroot
+    - yarn
+    - yarn build
+    - mkdir -p packages
+    - cp build/*.tar.gz build/*.deb packages
+  only:
+    - branches
+  except:
+    - tags
+
+release-github:
+  stage: release
+  script:
+    - echo "Releasing to github"
+    - echo "${GITHUB_TOKEN}" > .token
+    - apt update -qq
+    - apt install -y fakeroot
+    - yarn
+    - yarn deploy
+  only:
+    - tags
+  except:
+    - branches
