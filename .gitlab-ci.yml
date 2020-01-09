@@ -16,7 +16,7 @@ build-linux:
   stage: build
   script:
     - apt update -qq
-    - apt install -y fakeroot
+    - apt install -y fakeroot rpm
     - yarn
     - yarn build
     - mkdir -p packages
@@ -32,7 +32,7 @@ release-github:
     - echo "Releasing to github"
     - echo "${GITHUB_PUBLISH_TOKEN}" > .token
     - apt update -qq
-    - apt install -y fakeroot
+    - apt install -y fakeroot rpm
     - yarn
     - yarn deploy
   only:
