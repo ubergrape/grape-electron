@@ -71,6 +71,16 @@ export default url => {
       state.tray = new Tray(trayWhiteWindowsIcon)
       break
     case 'mac':
+      // https://electronjs.org/docs/tutorial/mojave-dark-mode-guide#automatically-updating-your-own-interfaces
+      systemPreferences.subscribeNotification(
+        'AppleInterfaceThemeChangedNotification',
+        () => {
+          state.tray.setImage(
+            systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
+          )
+        },
+      )
+
       state.tray = new Tray(
         systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
       )
@@ -112,16 +122,6 @@ ipcMain.on('addBadge', (e, badge) => {
       break
   }
 })
-
-// https://electronjs.org/docs/tutorial/mojave-dark-mode-guide#automatically-updating-your-own-interfaces
-systemPreferences.subscribeNotification(
-  'AppleInterfaceThemeChangedNotification',
-  () => {
-    state.tray.setImage(
-      systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
-    )
-  },
-)
 
 ipcMain.on('removeBadge', () => {
   const { tray, mainWindow } = state
