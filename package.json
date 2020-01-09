@@ -54,8 +54,7 @@
         "tar.gz",
         "deb",
         "rpm",
-        "AppImage",
-        "snap"
+        "AppImage"
       ],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",
