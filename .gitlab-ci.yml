@@ -34,7 +34,7 @@ release-github:
     - apt update -qq
     - apt install -y fakeroot
     - yarn
-    - yarn build
+    - yarn deploy
   only:
     - tags
   except:
