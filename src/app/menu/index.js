@@ -205,6 +205,7 @@ export const getMenuTemplate = () => {
         // https://jira.ubergrape.com/browse/GRAPE-17534
         {
           label: formatMessage(messages.reload),
+          accelerator: 'CmdOrCtrl+R',
           role: 'forcereload',
         },
         { type: 'separator' },
@@ -329,7 +330,7 @@ export const getMenuTemplate = () => {
         { type: 'separator' },
         {
           label: formatMessage(messages.quit),
-          accelerator: 'Cmd+Q',
+          accelerator: 'Ctrl+Q',
           click: quit,
         },
       ],
