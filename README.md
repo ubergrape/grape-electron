@@ -29,7 +29,7 @@ yarn start
 
 `i18n:import` - import language files to `src/i18n` from `i18n`.
 
-`precommit` - pre-commit script, in use by `lint-staged`
+`precommit` - pre-commit script, in use by `lint-staged`.
 
 ## Releasing
 
