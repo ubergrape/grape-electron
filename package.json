@@ -51,7 +51,10 @@
     "linux": {
       "target": [
         "tar.gz",
-        "deb"
+        "deb",
+        "AppImage",
+        "rpm",
+        "snap"
       ],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",

@@ -53,10 +53,10 @@ More info [here](https://www.electron.build/configuration/publish.html#recommend
 
 ### Setup token
 
-If you already have `.token` file in the root of the project, please these steps.
+If you already have `.token` file in the root of the project, please skip these steps.
 
 1. Got to [token page](https://github.com/settings/tokens) and create one.
-2. Copy token to clipboard
+2. Copy token to clipboard.
 3. Create `.token` file in the root of the project.
 4. Paste token and save the file.
 
