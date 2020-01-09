@@ -8,7 +8,7 @@
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib/ build/ && yarn build:lib && electron-builder",
+    "build": "rm -rf lib/ build/ && yarn build:lib && electron-builder --publish never",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
@@ -58,7 +58,12 @@
       ],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",
-      "category": "Office"
+      "category": "Office",
+      "icon": "assets/icons/",
+      "description": "Grape Business Messenger",
+      "desktop": {
+        "Terminal": "false"
+      }
     },
     "win": {
       "certificateSubjectName": "UberGrape GmbH",
