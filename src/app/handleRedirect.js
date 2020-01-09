@@ -8,7 +8,7 @@ import { getMenuTemplate } from './menu'
 
 export default (e, url) => {
   const { protocol } = new URL(url)
-  if (protocol !== 'file:' && minimatch(url, '**/chat/*')) {
+  if (protocol !== 'file:' && minimatch(url, '**/chat/**')) {
     state.isSettingsVisible = true
   } else {
     state.isSettingsVisible = false
