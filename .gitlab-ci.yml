@@ -7,20 +7,23 @@ stages:
   - release
 
 cache:
-  key: "test00000"
+  key: "test00001"
   paths:
-    - packages
+    - electron_cache
+    - electron_builder_cache
 
 
 build-linux:
   stage: build
+  variables:
+    ELECTRON_CACHE: /builds/grape/grape-electron/electron_cache
+    ELECTRON_BUILDER_CACHE: /builds/grape/grape-electron/electron_builder_cache
   script:
     - apt update -qq
     - apt install -y fakeroot rpm
+    - mkdir -p electron_cache electron_builder_cache
     - yarn
     - yarn build
-    - mkdir -p packages
-    - cp build/*.tar.gz build/*.deb packages
   only:
     - branches
   except:
@@ -31,6 +34,7 @@ release-github:
   script:
     - echo "Releasing to github"
     - echo "${GITHUB_PUBLISH_TOKEN}" > .token
+    - mkdir -p electron_cache electron_builder_cache
     - apt update -qq
     - apt install -y fakeroot rpm
     - yarn
