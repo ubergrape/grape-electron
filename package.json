@@ -52,9 +52,7 @@
       "target": [
         "tar.gz",
         "deb",
-        "AppImage",
-        "rpm",
-        "snap"
+        "rpm"
       ],
       "executableName": "Grape",
       "artifactName": "${productName}-${version}.${ext}",
