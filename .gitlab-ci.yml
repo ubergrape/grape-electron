@@ -40,6 +40,4 @@ release-github:
     - yarn
     - yarn release:ci
   only:
-    - tags
-  except:
-    - branches
+    - web
