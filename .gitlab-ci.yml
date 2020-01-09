@@ -30,7 +30,7 @@ release-github:
   stage: release
   script:
     - echo "Releasing to github"
-    - echo "${GITHUB_TOKEN}" > .token
+    - echo "${GITHUB_PUBLISH_TOKEN}" > .token
     - apt update -qq
     - apt install -y fakeroot
     - yarn
