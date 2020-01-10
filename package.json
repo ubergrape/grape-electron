@@ -16,6 +16,7 @@
     "start:watch": "concurrently \"yarn build:lib:watch\"  \"yarn build:lib && cross-env NODE_ENV=development electron .\"",
     "start:watch:proxy": "concurrently \"yarn build:lib:watch\" \"yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .\"",
     "release": "rm -rf lib/ build/ && yarn build:lib && cross-env GH_TOKEN=\"$(more .token)\" electron-builder --publish onTagOrDraft",
+    "release:win": "rm -rf lib/ build/ && yarn build:lib && electron-builder --publish onTagOrDraft",
     "release:ci": "rm -rf lib/ build/ && yarn build:lib && cross-env GH_TOKEN=\"${GITHUB_PUBLISH_TOKEN}\" electron-builder --publish onTagOrDraft",
     "i18n:import": "yarn build:lib && babel-node i18n/scripts/import.js",
     "i18n:export": "yarn build:lib && babel-node i18n/scripts/export.js",

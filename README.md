@@ -65,17 +65,30 @@ If you already have `.token` file in the root of the project, please skip these 
 
 ### MacOS
 
-Simply run the command below, to build and deploy a new app to release draft.
+Run the command below, to build and deploy a new app to draft release.
 
 ```bash
 yarn release
 ```
 
-After, you'll see `mas`, `dmg` and `zip` files in the release draft.
+After, you'll see `mas`, `dmg` and `zip` files in the draft release.
 
 ### Linux
 
 If you're doing release first time, you need to ask somebody to grant permissions for GitLab repo. And then save your token to `GITHUB_PUBLISH_TOKEN` variable in "Variables" section in GitLab repository. Path is "Settings" -> "CI/CD" -> "Variables"
 
 1. Push your latest changes with release commit to GitLab.
-2. Go to "CI/CD" -> "Pipelines", and click "Run pipeline". It will initiate a build and deploy process. After the process will be finished, you'll see `tar.gz`, `deb`, `rpm` and `AppImage` files in the release draft.
+2. Go to "CI/CD" -> "Pipelines", and click "Run pipeline".
+3. Choose the correct branch and click "Run pipeline" again.
+4. It will initiate a build and deploy process. After the process will be finished, you'll see `tar.gz`, `deb`, `rpm` and `AppImage` files in the draft release.
+
+### Windows
+
+Please download and install pre-configured Windows 10 virtual image for VirtualBox. You can find by this [link](https://github.com/ubergrape/chatgrape/wiki/Windows-virtual-image) (only accessible to Grape developers) or in external drive at the office.
+
+Run the command below, to build and deploy a new app to draft release.
+
+1. Put USB-token to a USB drive.
+2. `GH_TOKEN=<token> yarn release:win`
+3. Go to Passbolt account and copy a password from "Sectigo USB security token" resource, if it's not available for you, ask for access from a responsible person.
+4. Paste every time, when "Token Logon" window will be prompted.
