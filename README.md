@@ -75,6 +75,7 @@ After, you'll see `mas`, `dmg` and `zip` files in the release draft.
 
 ### Linux
 
-1. If you're doing this first time, you need to save your token to GITHUB_PUBLISH_TOKEN variable in "Variables" section in GitLab repository. Path is "Settings" -> "CI/CD" -> "Variables"
-2. Push your changes latest changes with release commit to GitLab.
-3. Go to "CI/CD" -> "Pipelines", and click "Run pipeline". It will initiate a build and deploy process. After the process will be finished, you'll see `tar.gz`, `deb`, `rpm` and `AppImage` files in the release draft.
+If you're doing release first time, you need to ask somebody to grant permissions for GitLab repo. And then save your token to `GITHUB_PUBLISH_TOKEN` variable in "Variables" section in GitLab repository. Path is "Settings" -> "CI/CD" -> "Variables"
+
+1. Push your latest changes with release commit to GitLab.
+2. Go to "CI/CD" -> "Pipelines", and click "Run pipeline". It will initiate a build and deploy process. After the process will be finished, you'll see `tar.gz`, `deb`, `rpm` and `AppImage` files in the release draft.
