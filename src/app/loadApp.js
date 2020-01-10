@@ -30,6 +30,7 @@ export default url => {
     webPreferences: {
       preload: path.join(__dirname, './preload/mainWindow.js'),
       nodeIntegration: url.startsWith('file:'),
+      enableRemoteModule: url.startsWith('file:'),
     },
   })
 

@@ -30,6 +30,7 @@ export const openWindow = url => {
   const secondaryWindowConfig = {
     webPreferences: {
       nodeIntegration: url.startsWith('file:'),
+      enableRemoteModule: url.startsWith('file:'),
       nodeIntegrationInWorker: url.startsWith('file:'),
       contextIsolation: false,
     },
