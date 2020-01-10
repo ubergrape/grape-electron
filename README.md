@@ -40,6 +40,9 @@ git pull
 rm -rf node_modules && yarn
 ```
 
+To build the app, you need to use a local environment for macOS and Windows and GitLab CI for Linux.
+General processes will be described below. And OS-specific below them, with OS type title name.
+
 ### Creating a release draft
 
 If version already drafted, please skip these steps.
@@ -56,12 +59,22 @@ More info [here](https://www.electron.build/configuration/publish.html#recommend
 If you already have `.token` file in the root of the project, please skip these steps.
 
 1. Got to [token page](https://github.com/settings/tokens) and create one.
-2. Copy token to clipboard.
+2. Copy token to the clipboard.
 3. Create `.token` file in the root of the project.
 4. Paste token and save the file.
 
-### Build and publish the release
+### MacOS
+
+Simply run the command below, to build and deploy a new app to release draft.
 
 ```bash
 yarn release
 ```
+
+After, you'll see `mas`, `dmg` and `zip` files in the release draft.
+
+### Linux
+
+1. If you're doing this first time, you need to save your token to GITHUB_PUBLISH_TOKEN variable in "Variables" section in GitLab repository. Path is "Settings" -> "CI/CD" -> "Variables"
+2. Push your changes latest changes with release commit to GitLab.
+3. Go to "CI/CD" -> "Pipelines", and click "Run pipeline". It will initiate a build and deploy process. After the process will be finished, you'll see `tar.gz`, `deb`, `rpm` and `AppImage` files in the release draft.
