@@ -17,7 +17,7 @@ export default () => {
     backgroundColor: grayLighter,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       contextIsolation: false,
     },
   })
