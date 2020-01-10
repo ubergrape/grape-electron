@@ -99,7 +99,7 @@ class Domain extends Component {
           <title>
             {pkg.productName}:{' '}
             {formatMessage({
-              id: 'lostConnectionTitle',
+              id: 'chooseDomainTitle',
               defaultMessage: 'Choose domain',
             })}
           </title>
