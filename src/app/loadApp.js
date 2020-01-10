@@ -25,7 +25,7 @@ export default url => {
     minWidth: 800,
     width,
     height,
-    show: !!state.mainWindow && state.isShown,
+    show: Boolean(state.mainWindow) && state.isShown,
     backgroundColor: white,
     webPreferences: {
       preload: path.join(__dirname, './preload/mainWindow.js'),

@@ -48,7 +48,7 @@ General processes will be described below. And OS-specific below them, with OS t
 If version already drafted, please skip these steps.
 You can check releases [here](https://github.com/ubergrape/grape-electron/releases).
 
-1. Create version commit. Change `version` field in `package.json` for the version you want to release, e.g. `1.0.0` and increment `buildVersion` by 1 (There are two `buildVersion` fields in `package.json`. Please change both), e.g you should change `99` to `100`.
+1. Create version commit. Change `version` field in `package.json` for the version you want to release, e.g. `1.0.0` and increment `buildVersion` by 1, e.g you should change `99` to `100`.
 2. Push this commit with same commit message as `version` in `package.json`.
 3. Set a new GitHub release draft. A tag should be same as version field in `package.json` but with `v` prefix. For example for version `1.0.0` tag name is `v1.0.0`. Release name and descriptions can be anything you want.
 
@@ -92,3 +92,5 @@ Run the command below, to build and deploy a new app to draft release.
 2. `GH_TOKEN=<token> yarn release:win`
 3. Go to Passbolt account and copy a password from "Sectigo USB security token" resource, if it's not available for you, ask for access from a responsible person.
 4. Paste every time, when "Token Logon" window will be prompted.
+
+After, you'll see `exe` file in the draft release.

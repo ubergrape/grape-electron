@@ -6,6 +6,7 @@ import {
   Tray,
   systemPreferences,
   nativeImage,
+  nativeTheme,
 } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
@@ -76,23 +77,23 @@ export default url => {
         'AppleInterfaceThemeChangedNotification',
         () => {
           state.tray.setImage(
-            systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
+            nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon,
           )
         },
       )
 
       state.tray = new Tray(
-        systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
+        nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon,
       )
       state.tray.setPressedImage(
-        systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon,
+        nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon,
       )
       break
     default:
       state.tray = new Tray(trayWhiteIcon)
   }
 
-  state.tray.setToolTip(app.getName())
+  state.tray.setToolTip(app.name)
   state.tray.setContextMenu(Menu.buildFromTemplate(getTrayTemplate()))
   state.tray.on('click', () => showMainWindow())
 }
@@ -131,7 +132,7 @@ ipcMain.on('removeBadge', () => {
       mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
       break
     case 'mac':
-      tray.setImage(systemPreferences.isDarkMode() ? trayWhiteIcon : trayIcon)
+      tray.setImage(nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon)
       app.dock.setBadge('')
       break
     default:
