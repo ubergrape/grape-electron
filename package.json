@@ -3,8 +3,8 @@
   "appId": "com.ChatGrape",
   "copyright": "© 2020, UberGrape GmbH",
   "author": "UberGrape GmbH <support@chatgrape.com>",
-  "buildVersion": "71",
-  "version": "3.0.0-beta.9",
+  "buildVersion": "72",
+  "version": "3.0.0-beta.10",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
     "appId": "com.ChatGrape",
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
-    "buildVersion": "71",
+    "buildVersion": "72",
     "files": [
       "lib/**/*",
       "assets/tray-icons/*",
