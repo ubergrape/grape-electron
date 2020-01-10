@@ -1,6 +1,5 @@
 ---
 
-# image: "node:12"
 image: "registry.ubergrape.com:5000/docker/node"
 
 stages:
