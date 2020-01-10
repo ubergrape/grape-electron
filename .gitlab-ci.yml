@@ -1,6 +1,7 @@
 ---
 
-image: "node:12"
+# image: "node:12"
+image: "registry.ubergrape.com:5000/docker/node"
 
 stages:
   - build
@@ -19,8 +20,6 @@ build-linux:
     ELECTRON_CACHE: /builds/grape/grape-electron/electron_cache
     ELECTRON_BUILDER_CACHE: /builds/grape/grape-electron/electron_builder_cache
   script:
-    - apt update -qq
-    - apt install -y fakeroot rpm
     - mkdir -p electron_cache electron_builder_cache
     - yarn
     - yarn build
@@ -31,12 +30,13 @@ build-linux:
 
 release-github:
   stage: release
+  variables:
+    ELECTRON_CACHE: /builds/grape/grape-electron/electron_cache
+    ELECTRON_BUILDER_CACHE: /builds/grape/grape-electron/electron_builder_cache
   script:
     - echo "Releasing to github"
     - echo "${GITHUB_PUBLISH_TOKEN}" > .token
     - mkdir -p electron_cache electron_builder_cache
-    - apt update -qq
-    - apt install -y fakeroot rpm
     - yarn
     - yarn release:ci
   only:
