@@ -40,9 +40,9 @@ class Chat extends Component {
       })
     })
 
-    // webview.addEventListener('new-window', ({ url }) => {
-    //   ipcRenderer.send('openCall', url)
-    // })
+    webview.addEventListener('new-window', ({ url }) => {
+      ipcRenderer.send('openCall', url)
+    })
 
     webview.addEventListener('load-commit', ({ url }) => {
       const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?page=chat&url=${url}`
