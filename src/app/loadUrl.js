@@ -38,8 +38,8 @@ const loadUrl = (url, window = state.mainWindow) => {
   }, 10000)
 
   if (
-    matchOne(blobs.protocolBlobs, url) &&
-    matchOne(blobs.mainWindowBlobs, url)
+    matchOne(url, blobs.protocolBlobs) &&
+    matchOne(url, blobs.mainWindowBlobs)
   ) {
     loadUrl(`${pages.chat}&url=${url}`)
     return

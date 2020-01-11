@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
-import state from '../../state'
 
+import state from '../../state'
 import quit from './actions/quit.js'
 import openAboutWindow from './actions/openAboutWindow'
 import showMainWindow from './actions/showMainWindow'

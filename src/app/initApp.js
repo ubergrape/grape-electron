@@ -14,7 +14,6 @@ import path from 'path'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import { white } from 'grape-theme/dist/base-colors'
-import contextMenu from 'electron-context-menu'
 
 import loadUrl from './loadUrl'
 import handleNavigation from './handleNavigation'
@@ -37,10 +36,6 @@ const {
 } = images
 
 const messages = {
-  saveImageTo: {
-    id: 'saveImageTo',
-    defaultMessage: 'Save Image to…',
-  },
   windowsBadgeIconTitle: {
     id: 'windowsBadgeIconTitle',
     defaultMessage:
@@ -49,20 +44,6 @@ const messages = {
 }
 
 export default url => {
-  // eslint-disable-next-line global-require
-  const { formatMessage } = require('../i18n')
-  contextMenu({
-    append: (defaultActions, params) => [
-      {
-        label: formatMessage(messages.saveImageTo),
-        visible: params.mediaType === 'image',
-        click: () => {
-          state.mainWindow.webContents.downloadURL(params.srcURL)
-        },
-      },
-    ],
-  })
-
   autoUpdater.checkForUpdatesAndNotify()
 
   global.store = store.get() || env
@@ -84,42 +65,9 @@ export default url => {
     backgroundColor: white,
     webPreferences: {
       webviewTag: true,
-      preload: path.join(__dirname, './preload/mainWindow.js'),
       nodeIntegration: true,
+      preload: path.join(__dirname, './preload/mainWindow.js'),
     },
-  })
-
-  mainWindow.once('ready-to-show', () => {
-    if (
-      ((state.isShown || state.isInitialLoading) && !isDevelopment) ||
-      getOsType === 'windows'
-    ) {
-      mainWindow.show()
-    }
-    state.isInitialLoading = false
-  })
-
-  mainWindow.on('show', () => {
-    state.isShown = true
-  })
-
-  mainWindow.on('hide', () => {
-    state.isShown = false
-  })
-
-  mainWindow.webContents.on('new-window', handleNavigation)
-  mainWindow.webContents.on('will-navigate', handleNavigation)
-  mainWindow.webContents.on('did-navigate', (e, _url) => {
-    handleRedirect(_url)
-  })
-
-  mainWindow.on('close', e => {
-    if (app.quitting) {
-      state.mainWindow = null
-    } else {
-      e.preventDefault()
-      mainWindow.hide()
-    }
   })
 
   state.mainWindow = mainWindow
@@ -158,6 +106,43 @@ export default url => {
   state.tray.setToolTip(app.name)
   state.tray.setContextMenu(Menu.buildFromTemplate(getTrayTemplate()))
   state.tray.on('click', () => showMainWindow())
+
+  mainWindow.once('ready-to-show', () => {
+    if (
+      ((state.isShown || state.isInitialLoading) && !isDevelopment) ||
+      getOsType === 'windows'
+    ) {
+      mainWindow.show()
+    }
+    state.isInitialLoading = false
+  })
+
+  mainWindow.on('show', () => {
+    state.isShown = true
+  })
+
+  mainWindow.on('hide', () => {
+    state.isShown = false
+  })
+
+  mainWindow.webContents.on('new-window', (e, _url) => {
+    handleNavigation(_url, e)
+  })
+  mainWindow.webContents.on('will-navigate', (e, _url) => {
+    handleNavigation(_url, e)
+  })
+  mainWindow.webContents.on('did-navigate', (e, _url) => {
+    handleRedirect(_url)
+  })
+
+  mainWindow.on('close', e => {
+    if (app.quitting) {
+      state.mainWindow = null
+    } else {
+      e.preventDefault()
+      mainWindow.hide()
+    }
+  })
 }
 
 ipcMain.on('addBadge', (e, badge) => {
@@ -224,6 +209,10 @@ ipcMain.on('loadChat', () => {
 
 ipcMain.on('chatRedirect', (e, url) => {
   handleRedirect(url)
+})
+
+ipcMain.on('openCall', (e, url) => {
+  handleNavigation(url)
 })
 
 ipcMain.on('showMainWindow', () => {

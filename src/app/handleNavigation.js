@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shell, BrowserWindow } from 'electron'
-import minimatch from 'minimatch'
 import path from 'path'
 
 import ensureFocus from './ensureFocus'
@@ -18,14 +17,13 @@ export const openWindow = url => {
 
   const secondaryWindowConfig = {
     webPreferences: {
-      nodeIntegration: true,
       enableRemoteModule: false,
       contextIsolation: false,
     },
     icon: images.icon,
   }
 
-  if (minimatch(url, blobs.secondaryWindowBlobs)) {
+  if (matchOne(url, blobs.secondaryWindowBlobs)) {
     secondaryWindowConfig.webPreferences.preload = path.join(
       __dirname,
       './preload/secondaryWindow.js',
@@ -39,12 +37,12 @@ export const openWindow = url => {
   secondaryWindow.loadURL(url)
 }
 
-export default (e, url) => {
-  e.preventDefault()
+export default (url, e) => {
+  if (e) e.preventDefault()
 
-  if (matchOne(blobs.mainWindowBlobs, url)) return
+  if (matchOne(url, blobs.mainWindowBlobs)) return
 
-  if (matchOne(blobs.secondaryWindowBlobs, url)) {
+  if (matchOne(url, blobs.secondaryWindowBlobs)) {
     openWindow(url)
     return
   }

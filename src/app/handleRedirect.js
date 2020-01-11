@@ -8,7 +8,7 @@ import { getMenuTemplate } from './menu'
 
 export default url => {
   const { protocol } = new URL(url)
-  if (protocol === 'file:' && matchOne(blobs.chatBlobs, url)) {
+  if (protocol === 'file:' && matchOne(url, blobs.chatBlobs)) {
     state.isSettingsVisible = true
   } else {
     state.isSettingsVisible = false

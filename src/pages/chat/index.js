@@ -1,11 +1,19 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer } from 'electron'
+import contextMenu from 'electron-context-menu'
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import withStyles from 'react-jss'
+import { injectIntl } from 'react-intl'
 
 import pkg from '../../../package.json'
 import styles from './styles'
+
+const updateHistory = url => {
+  const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?page=chat&url=${url}`
+  window.history.pushState({ path: newUrl }, '', newUrl)
+  ipcRenderer.send('chatRedirect', newUrl)
+}
 
 class Chat extends Component {
   constructor(props) {
@@ -14,7 +22,22 @@ class Chat extends Component {
   }
 
   componentDidMount() {
+    const {
+      intl: { formatMessage },
+    } = this.props
     const webview = document.querySelector('webview')
+
+    contextMenu({
+      window: webview,
+      showSaveImageAs: true,
+      saveImage: false,
+      labels: {
+        saveImageAs: formatMessage({
+          id: 'saveImageTo',
+          defaultMessage: 'Save Image to…',
+        }),
+      },
+    })
 
     webview.addEventListener('page-title-updated', ({ title }) => {
       this.setState({
@@ -22,10 +45,16 @@ class Chat extends Component {
       })
     })
 
+    webview.addEventListener('new-window', ({ url }) => {
+      ipcRenderer.send('openCall', url)
+    })
+
+    webview.addEventListener('load-commit', ({ url }) => {
+      updateHistory(url)
+    })
+
     webview.addEventListener('will-navigate', ({ url }) => {
-      const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?page=chat&url=${url}`
-      window.history.pushState({ path: newUrl }, '', newUrl)
-      ipcRenderer.send('chatRedirect', newUrl)
+      updateHistory(url)
     })
   }
 
@@ -41,4 +70,4 @@ class Chat extends Component {
   }
 }
 
-export default withStyles(styles)(Chat)
+export default withStyles(styles)(injectIntl(Chat))
