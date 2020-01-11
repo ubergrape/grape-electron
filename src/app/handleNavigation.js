@@ -5,19 +5,8 @@ import path from 'path'
 
 import ensureFocus from './ensureFocus'
 import state from '../state'
-import { images } from '../constants'
-
-const mainWindowBlobs = [
-  'file://**',
-  '**/accounts/organization/dashboard*',
-  '**/chat',
-  '**/chat/**',
-  '**/accounts/**',
-  '**/accounts.google.com/**',
-  '**/github.com/login**',
-]
-
-const secondaryWindowBlobs = ['**/call/*']
+import { images, blobs } from '../constants'
+import { matchOne } from '../utils'
 
 export const openWindow = url => {
   if (state.secondaryWindow) {
@@ -29,15 +18,14 @@ export const openWindow = url => {
 
   const secondaryWindowConfig = {
     webPreferences: {
-      nodeIntegration: url.startsWith('file:'),
-      enableRemoteModule: url.startsWith('file:'),
-      nodeIntegrationInWorker: url.startsWith('file:'),
+      nodeIntegration: true,
+      enableRemoteModule: false,
       contextIsolation: false,
     },
     icon: images.icon,
   }
 
-  if (minimatch(url, '**/call/*')) {
+  if (minimatch(url, blobs.secondaryWindowBlobs)) {
     secondaryWindowConfig.webPreferences.preload = path.join(
       __dirname,
       './preload/secondaryWindow.js',
@@ -51,14 +39,12 @@ export const openWindow = url => {
   secondaryWindow.loadURL(url)
 }
 
-const shouldOpenIn = (globs, url) => globs.some(glob => minimatch(url, glob))
-
 export default (e, url) => {
-  if (shouldOpenIn(mainWindowBlobs, url)) return
-
   e.preventDefault()
 
-  if (shouldOpenIn(secondaryWindowBlobs, url)) {
+  if (matchOne(blobs.mainWindowBlobs, url)) return
+
+  if (matchOne(blobs.secondaryWindowBlobs, url)) {
     openWindow(url)
     return
   }

@@ -14,6 +14,7 @@ import qs from 'querystring'
 
 import ErrorBoundary from './error'
 import About from './about'
+import Chat from './chat'
 import Domain from './domain'
 import ConnectionError from './connection-error'
 
@@ -21,8 +22,9 @@ import { wrapWithIntlProvider } from '../i18n'
 
 const pageComponentMap = {
   about: About,
-  connectionError: ConnectionError,
+  chat: Chat,
   domain: Domain,
+  connectionError: ConnectionError,
 }
 
 const styles = {

@@ -6,7 +6,7 @@ import { IntlProvider, injectIntl } from 'react-intl'
 
 import * as translations from './translations'
 
-export const wrapWithIntlProvider = ChildComponent => ({ props }) => {
+export const wrapWithIntlProvider = ChildComponent => props => {
   const locale = (app ? app.getLocale() : navigator.language).substr(0, 2)
   const messages = translations[locale]
   return (

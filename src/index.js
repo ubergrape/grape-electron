@@ -10,7 +10,7 @@ import { register, unregister } from './app/shortcuts'
 import { pages } from './constants'
 import state from './state'
 import store from './store'
-import { isDevelopment, getOsType, getUrlToLoad } from './utils'
+import { isDevelopment, getOsType, getPageParams, getUrlToLoad } from './utils'
 import pkg from '../package.json'
 
 autoUpdater.logger = log
@@ -58,7 +58,15 @@ const init = () => {
 
   app.on('before-quit', () => {
     unregister()
-    store.set('lastUrl', state.mainWindow.webContents.getURL())
+    const currentUrl = state.mainWindow.webContents.getURL()
+
+    const { page, url } = getPageParams(currentUrl)
+    if (page === 'chat') {
+      store.set('lastUrl', url)
+    } else {
+      store.set('lastUrl', currentUrl)
+    }
+
     app.quitting = true
   })
 

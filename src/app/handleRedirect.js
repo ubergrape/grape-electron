@@ -1,14 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Menu } from 'electron'
-import minimatch from 'minimatch'
 
+import { matchOne } from '../utils'
+import { blobs } from '../constants'
 import state from '../state'
-// eslint-disable-next-line import/no-cycle
 import { getMenuTemplate } from './menu'
 
-export default (e, url) => {
+export default url => {
   const { protocol } = new URL(url)
-  if (protocol !== 'file:' && minimatch(url, '**/chat/**')) {
+  if (protocol === 'file:' && matchOne(blobs.chatBlobs, url)) {
     state.isSettingsVisible = true
   } else {
     state.isSettingsVisible = false

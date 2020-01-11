@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-cycle
-import loadApp from '../../loadApp'
+import loadUrl from '../../loadUrl'
 import { pages } from '../../../constants'
 
 export default () => {
-  loadApp(pages.domain)
+  loadUrl(pages.domain)
 }

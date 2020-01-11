@@ -4,6 +4,15 @@ import isDevelopment from './isDevelopment'
 /* eslint-disable import/no-cycle */
 import getBaseUrl from './getBaseUrl'
 import getChatUrl from './getChatUrl'
-/* eslint-enable import/no-cycle */
+import getPageParams from './getPageParams'
+import matchOne from './matchOne'
 
-export { getOsType, getUrlToLoad, isDevelopment, getBaseUrl, getChatUrl }
+export {
+  getOsType,
+  getUrlToLoad,
+  isDevelopment,
+  getBaseUrl,
+  getChatUrl,
+  getPageParams,
+  matchOne,
+}

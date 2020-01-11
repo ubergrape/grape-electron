@@ -16,7 +16,6 @@ const About = ({ classes, intl: { formatMessage } }) => (
   <div className={classes.wrapper}>
     <Helmet>
       <title>
-        {pkg.productName}:{' '}
         {formatMessage({
           id: 'about',
           defaultMessage: 'About',

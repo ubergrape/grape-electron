@@ -1,27 +1,31 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   app,
+  screen,
   ipcMain,
   Menu,
   Tray,
+  BrowserWindow,
   systemPreferences,
   nativeImage,
   nativeTheme,
 } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import path from 'path'
 import log from 'electron-log'
+import { autoUpdater } from 'electron-updater'
+import { white } from 'grape-theme/dist/base-colors'
 import contextMenu from 'electron-context-menu'
 
-import state from '../state'
-import loadApp from './loadApp'
-import loadURL from './loadUrl'
-
-import { getOsType, getChatUrl } from '../utils'
-import { images } from '../constants'
+import loadUrl from './loadUrl'
+import handleNavigation from './handleNavigation'
+import handleRedirect from './handleRedirect'
 import { getMenuTemplate, getTrayTemplate } from './menu'
-import showMainWindow from './menu/actions/showMainWindow'
-import store from '../store'
 import env from '../env'
+import store from '../store'
+import state from '../state'
+import { images } from '../constants'
+import { getOsType, getChatUrl, isDevelopment } from '../utils'
+import showMainWindow from './menu/actions/showMainWindow'
 
 const {
   trayIcon,
@@ -63,7 +67,65 @@ export default url => {
 
   global.store = store.get() || env
 
-  loadApp(url)
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
+
+  if (state.mainWindow) state.mainWindow.close()
+  else {
+    state.isShown = false
+    state.isInitialLoading = true
+  }
+
+  const mainWindow = new BrowserWindow({
+    minHeight: 600,
+    minWidth: 800,
+    width,
+    height,
+    show: Boolean(state.mainWindow) && state.isShown,
+    backgroundColor: white,
+    webPreferences: {
+      webviewTag: true,
+      preload: path.join(__dirname, './preload/mainWindow.js'),
+      nodeIntegration: true,
+    },
+  })
+
+  mainWindow.once('ready-to-show', () => {
+    if (
+      ((state.isShown || state.isInitialLoading) && !isDevelopment) ||
+      getOsType === 'windows'
+    ) {
+      mainWindow.show()
+    }
+    state.isInitialLoading = false
+  })
+
+  mainWindow.on('show', () => {
+    state.isShown = true
+  })
+
+  mainWindow.on('hide', () => {
+    state.isShown = false
+  })
+
+  mainWindow.webContents.on('new-window', handleNavigation)
+  mainWindow.webContents.on('will-navigate', handleNavigation)
+  mainWindow.webContents.on('did-navigate', (e, _url) => {
+    handleRedirect(_url)
+  })
+
+  mainWindow.on('close', e => {
+    if (app.quitting) {
+      state.mainWindow = null
+    } else {
+      e.preventDefault()
+      mainWindow.hide()
+    }
+  })
+
+  state.mainWindow = mainWindow
+  if (isDevelopment) mainWindow.webContents.openDevTools()
+
+  loadUrl(url)
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
@@ -153,11 +215,15 @@ ipcMain.on('domainChange', (e, { type, domain, protocol }) => {
     store.set('host.onPremisesDomain', domain)
   }
 
-  loadApp(getChatUrl())
+  loadUrl(getChatUrl())
 })
 
 ipcMain.on('loadChat', () => {
-  loadURL(getChatUrl(), state.mainWindow)
+  loadUrl(getChatUrl())
+})
+
+ipcMain.on('chatRedirect', (e, url) => {
+  handleRedirect(url)
 })
 
 ipcMain.on('showMainWindow', () => {

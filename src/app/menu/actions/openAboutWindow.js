@@ -16,6 +16,7 @@ export default () => {
     maximizable: false,
     backgroundColor: grayLighter,
     webPreferences: {
+      webviewTag: true,
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: false,

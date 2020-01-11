@@ -1,4 +1,5 @@
+import blobs from './blobs'
 import images from './images'
 import pages from './pages'
 
-export { images, pages }
+export { blobs, images, pages }

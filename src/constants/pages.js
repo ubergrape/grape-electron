@@ -11,6 +11,7 @@ const pages = format({
 
 export default {
   index: `${pages}`,
+  chat: `${pages}?page=chat`,
   about: `${pages}?page=about`,
   domain: `${pages}?page=domain`,
   connectionError: `${pages}?page=connectionError`,
