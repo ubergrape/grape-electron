@@ -10,7 +10,6 @@ import {
   nativeImage,
   nativeTheme,
 } from 'electron'
-import path from 'path'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import { white } from 'grape-theme/dist/base-colors'
@@ -66,7 +65,6 @@ export default url => {
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
-      preload: path.join(__dirname, './preload/mainWindow.js'),
     },
   })
 

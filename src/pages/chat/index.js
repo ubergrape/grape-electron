@@ -5,15 +5,10 @@ import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import withStyles from 'react-jss'
 import { injectIntl } from 'react-intl'
+import path from 'path'
 
 import pkg from '../../../package.json'
 import styles from './styles'
-
-const updateHistory = url => {
-  const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?page=chat&url=${url}`
-  window.history.pushState({ path: newUrl }, '', newUrl)
-  ipcRenderer.send('chatRedirect', newUrl)
-}
 
 class Chat extends Component {
   constructor(props) {
@@ -45,16 +40,14 @@ class Chat extends Component {
       })
     })
 
-    webview.addEventListener('new-window', ({ url }) => {
-      ipcRenderer.send('openCall', url)
-    })
+    // webview.addEventListener('new-window', ({ url }) => {
+    //   ipcRenderer.send('openCall', url)
+    // })
 
     webview.addEventListener('load-commit', ({ url }) => {
-      updateHistory(url)
-    })
-
-    webview.addEventListener('will-navigate', ({ url }) => {
-      updateHistory(url)
+      const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?page=chat&url=${url}`
+      window.history.pushState({ path: newUrl }, '', newUrl)
+      ipcRenderer.send('chatRedirect', newUrl)
     })
   }
 
@@ -64,7 +57,12 @@ class Chat extends Component {
     return (
       <div className={classes.wrapper}>
         <Helmet title={title} />
-        <webview className={classes.window} src={url} />
+        <webview
+          className={classes.window}
+          src={url}
+          enableremotemodule="false"
+          preload={`${path.join(__dirname, './preload/mainWindow.js')}`}
+        />
       </div>
     )
   }
