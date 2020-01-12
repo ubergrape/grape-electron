@@ -60,7 +60,6 @@ class Chat extends Component {
         <webview
           className={classes.window}
           src={url}
-          enableremotemodule="false"
           preload={path.join(__dirname, '../../app/preload/mainWindow.js')}
         />
       </div>

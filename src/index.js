@@ -79,13 +79,18 @@ const init = () => {
   })
 }
 
+const getPreloadScriptPath = name =>
+  `file://${path.join(__dirname, `./app/preload/${name}.js`)}`
+
 app.on('web-contents-created', (event, contents) => {
   contents.on('will-attach-webview', (e, webPreferences) => {
-    // Strip away preload scripts if unused or verify their location is legitimate
-    // eslint-disable-next-line no-param-reassign
-    delete webPreferences.preload
-    // eslint-disable-next-line no-param-reassign
-    delete webPreferences.preloadURL
+    const { preloadURL } = webPreferences
+    const mainWindowPath = getPreloadScriptPath('mainWindow')
+    const secondaryWindowPath = getPreloadScriptPath('mainWindow')
+
+    if (preloadURL !== mainWindowPath && preloadURL !== secondaryWindowPath) {
+      e.preventDefault()
+    }
 
     // Disable Node.js integration
     // eslint-disable-next-line no-param-reassign
