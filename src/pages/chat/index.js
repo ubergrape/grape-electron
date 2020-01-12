@@ -61,7 +61,7 @@ class Chat extends Component {
           className={classes.window}
           src={url}
           enableremotemodule="false"
-          preload={`${path.join(__dirname, './preload/mainWindow.js')}`}
+          preload={path.join(__dirname, '../../app/preload/mainWindow.js')}
         />
       </div>
     )
