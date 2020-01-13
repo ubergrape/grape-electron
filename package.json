@@ -43,6 +43,7 @@
     "mac": {
       "category": "public.app-category.business",
       "target": [
+        "mas",
         "dmg",
         "zip"
       ]
