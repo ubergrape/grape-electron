@@ -41,7 +41,7 @@ class Chat extends Component {
     })
 
     webview.addEventListener('new-window', ({ url }) => {
-      ipcRenderer.send('openCall', url)
+      ipcRenderer.send('openWindow', url)
     })
 
     webview.addEventListener('load-commit', ({ url }) => {

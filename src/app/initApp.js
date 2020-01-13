@@ -209,7 +209,7 @@ ipcMain.on('chatRedirect', (e, url) => {
   handleRedirect(url)
 })
 
-ipcMain.on('openCall', (e, url) => {
+ipcMain.on('openWindow', (e, url) => {
   handleNavigation(url)
 })
 
