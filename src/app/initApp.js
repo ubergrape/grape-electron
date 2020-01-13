@@ -7,7 +7,6 @@ import {
   Tray,
   BrowserWindow,
   systemPreferences,
-  nativeImage,
   nativeTheme,
 } from 'electron'
 import log from 'electron-log'
@@ -17,6 +16,7 @@ import { white } from 'grape-theme/dist/base-colors'
 import loadUrl from './loadUrl'
 import handleNavigation from './handleNavigation'
 import handleRedirect from './handleRedirect'
+import removeBadge from './removeBadge'
 import { getMenuTemplate, getTrayTemplate } from './menu'
 import env from '../env'
 import store from '../store'
@@ -170,21 +170,7 @@ ipcMain.on('addBadge', (e, badge) => {
 })
 
 ipcMain.on('removeBadge', () => {
-  const { tray, mainWindow } = state
-  switch (getOsType) {
-    case 'windows':
-      tray.setImage(trayWhiteWindowsIcon)
-      mainWindow.setOverlayIcon(nativeImage.createEmpty(), '')
-      break
-    case 'mac':
-      tray.setImage(nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon)
-      app.dock.setBadge('')
-      break
-    default:
-      tray.setImage(trayWhiteIcon)
-      app.setBadgeCount(0)
-      break
-  }
+  removeBadge()
 })
 
 ipcMain.on('onConnectionEvent', (e, name, text) => {

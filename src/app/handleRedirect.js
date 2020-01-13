@@ -5,12 +5,14 @@ import { matchOne } from '../utils'
 import { blobs } from '../constants'
 import state from '../state'
 import { getMenuTemplate } from './menu'
+import removeBadge from './removeBadge'
 
 export default url => {
   const { protocol } = new URL(url)
   if (protocol === 'file:' && matchOne(url, blobs.chatBlobs)) {
     state.isSettingsVisible = true
   } else {
+    removeBadge()
     state.isSettingsVisible = false
   }
 
