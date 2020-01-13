@@ -3,6 +3,7 @@
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
   "version": "3.0.0-beta.10",
+  "buildVersion": "72",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
@@ -42,7 +43,6 @@
     "mac": {
       "category": "public.app-category.business",
       "target": [
-        "mas",
         "dmg",
         "zip"
       ]

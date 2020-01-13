@@ -79,25 +79,6 @@ const init = () => {
   })
 }
 
-const getPreloadScriptPath = name =>
-  `file://${path.join(__dirname, `./app/preload/${name}.js`)}`
-
-app.on('web-contents-created', (event, contents) => {
-  contents.on('will-attach-webview', (e, webPreferences) => {
-    const { preloadURL } = webPreferences
-    const mainWindowPath = getPreloadScriptPath('mainWindow')
-    const secondaryWindowPath = getPreloadScriptPath('mainWindow')
-
-    if (preloadURL !== mainWindowPath && preloadURL !== secondaryWindowPath) {
-      e.preventDefault()
-    }
-
-    // Disable Node.js integration
-    // eslint-disable-next-line no-param-reassign
-    webPreferences.nodeIntegration = false
-  })
-})
-
 const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {

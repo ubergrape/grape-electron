@@ -27,7 +27,7 @@ const About = ({ classes, intl: { formatMessage } }) => (
     <div className={classes.name}>{pkg.productName}</div>
     <div className={classes.row}>
       <FormattedMessage id="version" defaultMessage="Version" /> {pkg.version} (
-      {pkg.build.buildVersion})
+      {pkg.buildVersion})
     </div>
     <div className={classes.row}>
       <table className={classes.table}>
@@ -51,7 +51,7 @@ const About = ({ classes, intl: { formatMessage } }) => (
         </tbody>
       </table>
     </div>
-    <div className={classes.row}>{pkg.build.copyright}</div>
+    <div className={classes.row}>{pkg.copyright}</div>
   </div>
 )
 
