@@ -3,11 +3,15 @@
   "productName": "Grape",
   "identifier": "com.ChatGrape",
   "description": "The world’s most advanced team chat meets enterprise search.",
-  "version": "2.17.1",
-  "build": "38",
+  "version": "2.19.1",
+  "build": "47",
   "author": "UberGrape GmbH",
   "copyright": "© 2017, UberGrape GmbH",
   "main": "./lib/app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ubergrape/grape-electron"
+  },
   "dependencies": {
     "electron-about-window": "^1.6.1",
     "electron-context-menu": "^0.2.1",
@@ -25,7 +29,8 @@
     "react-document-title": "^2.0.2",
     "react-dom": "^15.5.4",
     "react-intl": "^2.1.5",
-    "reset.css": "^2.0.2"
+    "reset.css": "^2.0.2",
+    "update-electron-app": "^1.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

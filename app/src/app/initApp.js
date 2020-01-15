@@ -13,6 +13,7 @@ import windowStateKeeper from 'electron-window-state'
 import { defineMessages } from 'react-intl'
 import log from 'electron-log'
 import path from 'path'
+import updateElectronApp from 'update-electron-app'
 
 import { isNotificationSupported, isWindows, isOSX } from './utils'
 import env from './env'
@@ -61,6 +62,13 @@ export default () => {
   const startInBackground = autostart && env.startInBackgroundWhenAutostarted
   console.log(`autostart: ${autostart}`) // eslint-disable-line no-console
   console.log(`startInBackground: ${startInBackground}`) // eslint-disable-line no-console
+
+  if (isWindows() || process.mas) {
+    updateElectronApp({
+      updateInterval: '5 minutes',
+      logger: log,
+    })
+  }
 
   storage.get('lastUrl', (err, data) => {
     state.prefs = Object.assign({}, state.dimensions, {
@@ -182,16 +190,6 @@ export default () => {
     log.info('web-contents-created')
   })
 
-  app.on('certificate-error', (e, webContents, url, error, callback) => {
-    log.info('certificate-error', url, error)
-    if (url.indexOf('staging.chatgrape.com') > -1) {
-      e.preventDefault()
-      callback(true)
-    } else {
-      callback(false)
-    }
-  })
-
   app.on(
     'select-client-certificate',
     (e, webContents, url, certificateList, callback) => {
@@ -294,9 +292,14 @@ export default () => {
       content: notification.message,
     })
     trayIcon.once('balloon-click', () => {
+      if (notification.event) {
+        e.sender.send(String(notification.event))
+        return
+      }
       e.sender.send(String(notification.events.onClick))
     })
     trayIcon.once('balloon-closed', () => {
+      if (notification.event) return
       e.sender.send(String(notification.events.onClose))
     })
 

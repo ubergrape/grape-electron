@@ -23,10 +23,6 @@ export default function handleOffline(url, win) {
     response = true
   })
 
-  webContents.once('certificate-error', () => {
-    loadApp(`${urls.certificateError}&url=${url}`)
-  })
-
   if (url) win.loadURL(url)
 
   setTimeout(() => {

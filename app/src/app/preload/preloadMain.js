@@ -13,9 +13,37 @@ const onConnectionEvent = (name, text) => {
   ipcRenderer.send('onConnectionEvent', name, text)
 }
 
-const notificationClickTimeout = 20000
+const notificationClickTimeout = 30000
 
-const showNotification = (options, callbacks, params, dependencies) => {
+const showNotification = (options, callbacks, dependencies, params) => {
+  // Code inside of this check should be removed withiin sometime
+  if (typeof callbacks !== 'object') {
+    const callback = callbacks
+    const { createWebNotification, random } = dependencies
+
+    if (remote.getGlobal('isNotificationSupported')) {
+      createWebNotification(options, callback)
+      return
+    }
+
+    const event = random(10000)
+    const { title, content } = options
+
+    ipcRenderer.once(event, callback)
+
+    // This will show Windows Tray Balllon in Windows < 10.
+    ipcRenderer.send('showNotification', {
+      event,
+      title,
+      message: content,
+    })
+
+    setTimeout(() => {
+      ipcRenderer.removeAllListeners(event)
+    }, notificationClickTimeout)
+    return
+  }
+
   const { createWebNotification, random } = dependencies
 
   if (remote.getGlobal('isNotificationSupported')) {
