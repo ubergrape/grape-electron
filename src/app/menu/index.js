@@ -6,6 +6,7 @@ import openAboutWindow from './actions/openAboutWindow'
 import showMainWindow from './actions/showMainWindow'
 import openSupport from './actions/openSupport'
 import openWebsite from './actions/openWebsite'
+import checkForUpdates from './actions/checkForUpdates'
 /* eslint-disable import/no-cycle */
 import chooseDomain from './actions/chooseDomain'
 import openSettings from './actions/openSettings'
@@ -103,6 +104,10 @@ const messages = defineMessages({
   about: {
     id: 'menuAbout',
     defaultMessage: 'About Grape',
+  },
+  checkForUpdates: {
+    id: 'menuCheckForUpdates',
+    defaultMessage: 'Check for updates...',
   },
   learnMore: {
     id: 'menuLearnMore',
@@ -258,6 +263,10 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.about),
           click: openAboutWindow,
+        },
+        {
+          label: formatMessage(messages.checkForUpdates),
+          click: checkForUpdates,
         },
         { type: 'separator' },
         {

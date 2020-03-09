@@ -43,6 +43,8 @@ const messages = {
 }
 
 export default url => {
+  log.transports.file.level = 'debug'
+  autoUpdater.logger = log
   autoUpdater.checkForUpdatesAndNotify()
 
   global.store = store.get() || env

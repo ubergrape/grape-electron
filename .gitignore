@@ -10,3 +10,4 @@ AppStore_Distribution.provisionprofile
 Developer_Distribution.provisionprofile
 
 .token
+dev-app-update.yml
