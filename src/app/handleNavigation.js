@@ -33,6 +33,8 @@ export const openWindow = url => {
   }
 
   const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
+  state.secondaryWindow = secondaryWindow
+
   secondaryWindow.once('closed', () => {
     state.secondaryWindow = null
   })
