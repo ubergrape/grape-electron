@@ -7,16 +7,16 @@
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib/ build/ && yarn build:lib && electron-builder --publish never",
+    "build": "rm -rf lib/ release/ && yarn build:lib && electron-builder --publish never",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
     "start:proxy": "yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
     "start:watch": "concurrently \"yarn build:lib:watch\"  \"sleep 3 && cross-env NODE_ENV=development electron .\"",
     "start:watch:proxy": "concurrently \"yarn build:lib:watch\" \"sleep 3 && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .\"",
-    "release": "rm -rf lib/ build/ && yarn build:lib && cross-env GH_TOKEN=\"$(more .token)\" electron-builder --publish onTagOrDraft",
-    "release:win": "rm -rf lib/ build/ && yarn build:lib && electron-builder --publish onTagOrDraft",
-    "release:ci": "rm -rf lib/ build/ && yarn build:lib && cross-env GH_TOKEN=\"${GITHUB_PUBLISH_TOKEN}\" electron-builder --publish onTagOrDraft",
+    "release": "rm -rf lib/ release/ && yarn build:lib && cross-env GH_TOKEN=\"$(more .token)\" APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish onTagOrDraft",
+    "release:win": "rm -rf lib/ release/ && yarn build:lib && electron-builder --publish onTagOrDraft",
+    "release:ci": "rm -rf lib/ release/ && yarn build:lib && cross-env GH_TOKEN=\"${GITHUB_PUBLISH_TOKEN}\" electron-builder --publish onTagOrDraft",
     "i18n:import": "yarn build:lib && babel-node i18n/scripts/import.js",
     "i18n:export": "yarn build:lib && babel-node i18n/scripts/export.js"
   },
@@ -32,6 +32,7 @@
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
     "buildVersion": "83",
+    "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
       "assets/tray-icons/*",
@@ -42,11 +43,16 @@
     ],
     "mac": {
       "category": "public.app-category.business",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
       "target": [
         "mas",
         "dmg",
         "zip"
       ]
+    },
+    "dmg": {
+      "sign": false
     },
     "linux": {
       "target": [
@@ -69,7 +75,7 @@
       "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
     },
     "directories": {
-      "output": "build",
+      "output": "release",
       "buildResources": "assets"
     }
   },
@@ -129,6 +135,7 @@
     "cross-env": "^6.0.3",
     "electron": "^8.1.1",
     "electron-builder": "^22.4.0",
+    "electron-notarize": "^0.2.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.9.0",

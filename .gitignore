@@ -1,6 +1,6 @@
 node_modules
 dist
-build
+release
 lib
 i18n/src
 
@@ -10,4 +10,6 @@ AppStore_Distribution.provisionprofile
 Developer_Distribution.provisionprofile
 
 .token
+.apple-user
+.apple-password
 dev-app-update.yml

@@ -58,10 +58,17 @@ More info [here](https://www.electron.build/configuration/publish.html#recommend
 
 If you already have `.token` file in the root of the project, please skip these steps.
 
-1. Got to [token page](https://github.com/settings/tokens) and create one.
+1. Go to [token page](https://github.com/settings/tokens) and create one.
 2. Copy token to the clipboard.
 3. Create `.token` file in the root of the project.
 4. Paste token and save the file.
+
+### Provide credentials from Apple ID
+
+If you already have `.apple-user` and `.apple-password` files in the root of the project, please skip these steps.
+
+1. Create `.apple-user` and `.apple-password` files
+2. Paste user and password to those files. If you're using 2FA, create App-Specific Password. More details (here)[https://support.apple.com/en-us/HT204397].
 
 ### MacOS
 
