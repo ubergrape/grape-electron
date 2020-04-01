@@ -10,19 +10,19 @@ import {
   nativeTheme,
 } from 'electron'
 import log from 'electron-log'
-import { autoUpdater } from 'electron-updater'
 import { white } from 'grape-theme/dist/base-colors'
 
 import loadUrl from './loadUrl'
 import handleNavigation from './handleNavigation'
 import handleRedirect from './handleRedirect'
 import removeBadge from './removeBadge'
+import autoUpdate from './autoUpdate'
 import { getMenuTemplate, getTrayTemplate } from './menu'
 import env from '../env'
 import store from '../store'
 import state from '../state'
-import { images } from '../constants'
-import { getOsType, getChatUrl, isDevelopment } from '../utils'
+import { images, isDevelopment } from '../constants'
+import { getOsType, getChatUrl } from '../utils'
 import showMainWindow from './menu/actions/showMainWindow'
 
 const {
@@ -43,8 +43,7 @@ const messages = {
 }
 
 export default url => {
-  autoUpdater.checkForUpdatesAndNotify()
-
+  autoUpdate()
   global.store = store.get() || env
 
   const { width, height } = screen.getPrimaryDisplay().workAreaSize

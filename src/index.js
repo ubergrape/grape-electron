@@ -2,19 +2,14 @@
 import { app } from 'electron'
 import electronReload from 'electron-reload'
 import path from 'path'
-import log from 'electron-log'
-import { autoUpdater } from 'electron-updater'
 
 import initApp from './app/initApp'
 import { register, unregister } from './app/shortcuts'
-import { pages } from './constants'
+import { pages, isDevelopment, isMac } from './constants'
 import state from './state'
 import store from './store'
-import { isDevelopment, getOsType, getPageParams, getUrlToLoad } from './utils'
+import { getOsType, getPageParams, getUrlToLoad } from './utils'
 import pkg from '../package.json'
-
-autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'debug'
 
 app.allowRendererProcessReuse = true
 
@@ -53,7 +48,7 @@ const init = () => {
   })
 
   app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
+    if (!isMac) app.quit()
   })
 
   app.on('before-quit', () => {
@@ -72,10 +67,6 @@ const init = () => {
 
   app.on('activate', () => {
     state.mainWindow.show()
-  })
-
-  autoUpdater.on('error', err => {
-    log.error(err)
   })
 }
 

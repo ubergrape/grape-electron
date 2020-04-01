@@ -1,5 +1,6 @@
-import path from 'path'
-import { assets } from './paths'
+import path, { normalize } from 'path'
+
+export const assets = normalize(`${__dirname}/../../assets`)
 
 const trayIcons = path.join(assets, 'tray-icons')
 

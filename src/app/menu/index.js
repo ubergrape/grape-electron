@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl'
 
 import state from '../../state'
 import quit from './actions/quit.js'
+import { isMac } from '../../constants'
 import openAboutWindow from './actions/openAboutWindow'
 import showMainWindow from './actions/showMainWindow'
 import openSupport from './actions/openSupport'
@@ -108,6 +109,10 @@ const messages = defineMessages({
   checkForUpdates: {
     id: 'menuCheckForUpdates',
     defaultMessage: 'Check for updates...',
+  },
+  restartForUpdate: {
+    id: 'menuRestartForUpdate',
+    defaultMessage: 'Restart to update',
   },
   learnMore: {
     id: 'menuLearnMore',
@@ -265,7 +270,9 @@ export const getMenuTemplate = () => {
           click: openAboutWindow,
         },
         {
-          label: formatMessage(messages.checkForUpdates),
+          label: state.isUpdateDownloaded
+            ? formatMessage(messages.restartForUpdate)
+            : formatMessage(messages.checkForUpdates),
           click: checkForUpdates,
         },
         { type: 'separator' },
@@ -281,8 +288,7 @@ export const getMenuTemplate = () => {
     },
   ]
 
-  // Windows and Linux
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     menu.unshift({
       label: formatMessage(messages.application),
       submenu: [
@@ -305,8 +311,7 @@ export const getMenuTemplate = () => {
     })
   }
 
-  // Mac
-  if (process.platform === 'darwin') {
+  if (isMac) {
     menu.unshift({
       label: formatMessage(messages.application),
       submenu: [

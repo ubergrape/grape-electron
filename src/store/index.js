@@ -5,7 +5,7 @@ import path from 'path'
 import fs from 'fs'
 
 /* eslint-disable import/no-cycle */
-import { isDevelopment } from '../utils'
+import { isDevelopment } from '../constants'
 import env from '../env'
 /* eslint-enable import/no-cycle */
 import pkg from '../../package.json'
