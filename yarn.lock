@@ -2279,24 +2279,6 @@ electron-builder@^22.4.0:
     update-notifier "^4.1.0"
     yargs "^15.1.0"
 
-electron-context-menu@^0.15.2:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/electron-context-menu/-/electron-context-menu-0.15.2.tgz#66f544a06d2099dafdecade2e9214a66e26b5764"
-  integrity sha512-r4Zv/NWKe6smezz66yIZSt0geRPx3wdfVlMYXNSGsPcN7LiyZXGlxWvCX9gsqN8Rg8nWC3Q2EcXzt8d9NQFUyg==
-  dependencies:
-    cli-truncate "^2.0.0"
-    electron-dl "^1.2.0"
-    electron-is-dev "^1.0.1"
-
-electron-dl@^1.2.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-1.14.0.tgz#1466f1b945664ca3d784268307c2b935728177bf"
-  integrity sha512-4okyei42a1mLsvLK7hLrIfd20EQzB18nIlLTwBV992aMSmTGLUEFRTmO1MfSslGNrzD8nuPuy1l/VxO8so4lig==
-  dependencies:
-    ext-name "^5.0.0"
-    pupa "^1.0.0"
-    unused-filename "^1.0.0"
-
 electron-is-dev@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-1.1.0.tgz#b15a2a600bdc48a51a857d460e05f15b19a2522c"
@@ -3164,6 +3146,24 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0,
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
   integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
+
+grape-electron-context-menu@^1.0.1-0.16.0:
+  version "1.0.1-0.16.0"
+  resolved "https://registry.yarnpkg.com/grape-electron-context-menu/-/grape-electron-context-menu-1.0.1-0.16.0.tgz#c0e356622747997c93d183fb0dc5dc4fb0650765"
+  integrity sha512-oS83zOl9htdMFp8iUQQWSS2TmjF4yYkQS8tq/2tOGmffaf8UpQk0OsWaWsgCkQBahy+TW9Y5Tr5rPzI5QjWH1g==
+  dependencies:
+    cli-truncate "^2.0.0"
+    electron-is-dev "^1.0.1"
+    grape-electron-dl "^1.0.0-3.0.0"
+
+grape-electron-dl@^1.0.0-3.0.0:
+  version "1.0.0-3.0.0"
+  resolved "https://registry.yarnpkg.com/grape-electron-dl/-/grape-electron-dl-1.0.0-3.0.0.tgz#4ce443085178249f4657f8dc553fa776ffc4386d"
+  integrity sha512-cRkapMR4uNN9cBozOBukXuQ8XmKsQxn4UaIYFyStVwEqGjFXyQqAW1+tp28rvZmFTJEabACkBkfosAqh2TRrIQ==
+  dependencies:
+    ext-name "^5.0.0"
+    pupa "^2.0.1"
+    unused-filename "^2.1.0"
 
 grape-theme@^3.5.0:
   version "3.5.0"
@@ -4965,11 +4965,6 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-pupa@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
-  integrity sha1-mpVopa9+ZXuEYqbp1TKHQ1YM7/Y=
-
 pupa@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pupa/-/pupa-2.0.1.tgz#dbdc9ff48ffbea4a26a069b6f9f7abb051008726"
@@ -6074,13 +6069,13 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unused-filename@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-1.0.0.tgz#d340880f71ae2115ebaa1325bef05cc6684469c6"
-  integrity sha1-00CID3GuIRXrqhMlvvBcxmhEacY=
+unused-filename@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-2.1.0.tgz#33719c4e8d9644f32d2dec1bc8525c6aaeb4ba51"
+  integrity sha512-BMiNwJbuWmqCpAM1FqxCTD7lXF97AvfQC8Kr/DIeA6VtvhJaMDupZ82+inbjl5yVP44PcxOuCSxye1QMS0wZyg==
   dependencies:
     modify-filename "^1.1.0"
-    path-exists "^3.0.0"
+    path-exists "^4.0.0"
 
 upath@^1.1.1:
   version "1.2.0"

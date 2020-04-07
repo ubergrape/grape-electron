@@ -149,11 +149,11 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
-    "electron-context-menu": "^0.15.2",
     "electron-log": "^4.0.3",
     "electron-reload": "^1.5.0",
     "electron-store": "^5.1.0",
     "electron-updater": "^4.2.4",
+    "grape-electron-context-menu": "^1.0.1-0.16.0",
     "grape-theme": "^3.5.0",
     "jss": "^10.0.3",
     "jss-plugin-camel-case": "^10.0.3",

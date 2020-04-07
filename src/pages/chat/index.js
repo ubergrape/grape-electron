@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer } from 'electron'
-import contextMenu from 'electron-context-menu'
+import contextMenu from 'grape-electron-context-menu'
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import withStyles from 'react-jss'
