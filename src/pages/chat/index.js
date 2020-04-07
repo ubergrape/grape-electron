@@ -25,7 +25,6 @@ class Chat extends Component {
     contextMenu({
       window: webview,
       showSaveImageAs: true,
-      saveImage: false,
       labels: {
         saveImageAs: formatMessage({
           id: 'saveImageTo',
