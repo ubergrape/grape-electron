@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   app,
+  session,
   screen,
   ipcMain,
   Menu,
@@ -11,6 +12,7 @@ import {
 } from 'electron'
 import log from 'electron-log'
 import { white } from 'grape-theme/dist/base-colors'
+import { registerListener } from 'grape-electron-dl'
 
 import loadUrl from './loadUrl'
 import handleNavigation from './handleNavigation'
@@ -204,4 +206,34 @@ ipcMain.on('showMainWindow', () => {
 
 ipcMain.on('bounceIcon', () => {
   if (getOsType === 'mac') app.dock.bounce()
+})
+
+ipcMain.on('electron-dl:download', (event, { options, url, partition }) => {
+  const webviewSession = session.fromPartition(partition)
+
+  webviewSession.downloadURL(url)
+
+  const listener = (e, item) => {
+    registerListener(
+      webviewSession,
+      {
+        ...options,
+        webview: {
+          event: e,
+          item,
+          webContents: state.mainWindow.webContents,
+        },
+      },
+      (error, i) => {
+        if (options.unregisterWhenDone) {
+          webviewSession.removeListener('will-download', listener)
+        }
+        event.reply('electron-context-menu:saved', { error, item: i })
+      },
+    )
+  }
+
+  webviewSession.on('will-download', listener)
+
+  event.reply('receivedDownloadOptions')
 })
