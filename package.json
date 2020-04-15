@@ -2,7 +2,7 @@
   "name": "grape-electron",
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
-  "version": "3.0.0-beta.22",
+  "version": "3.0.0-beta.23",
   "buildVersion": "84",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
