@@ -304,7 +304,7 @@ export const getMenuTemplate = () => {
         { type: 'separator' },
         {
           label: formatMessage(messages.quit),
-          accelerator: 'Cmd+Q',
+          accelerator: 'Ctrl+Q',
           click: quit,
         },
       ],
@@ -344,7 +344,7 @@ export const getMenuTemplate = () => {
         { type: 'separator' },
         {
           label: formatMessage(messages.quit),
-          accelerator: 'Ctrl+Q',
+          accelerator: 'Cmd+Q',
           click: quit,
         },
       ],
