@@ -43,13 +43,22 @@
     ],
     "mac": {
       "category": "public.app-category.business",
+      "entitlements": "build/entitlements.mac.plist",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "We need access to your microphone so people you talk to in a Grape Call can hear you.",
+        "NSCameraUsageDescription": "Allow your conversational partners to see you in a Grape Call. You can turn off your video anytime during a call."
+      },
       "target": [
         "mas",
         "dmg",
         "zip"
       ]
+    },
+    "mas": {
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist"
     },
     "dmg": {
       "sign": false
@@ -134,7 +143,7 @@
     "concurrently": "^5.0.2",
     "cross-env": "^6.0.3",
     "electron": "^8.2.1",
-    "electron-builder": "^22.4.0",
+    "electron-builder": "^22.5.1",
     "electron-notarize": "^0.2.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
