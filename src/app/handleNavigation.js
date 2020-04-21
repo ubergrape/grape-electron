@@ -21,6 +21,7 @@ export const openWindow = url => {
     webPreferences: {
       enableRemoteModule: false,
       contextIsolation: false,
+      partition: 'persist:webview',
     },
     icon: images.icon,
   }
