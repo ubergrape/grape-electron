@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shell, BrowserWindow } from 'electron'
-import path from 'path'
 
 import ensureFocus from './ensureFocus'
 import state from '../state'
@@ -24,13 +23,6 @@ export const openWindow = url => {
       partition: 'persist:webview',
     },
     icon: images.icon,
-  }
-
-  if (matchOne(url, blobs.secondaryWindowBlobs)) {
-    secondaryWindowConfig.webPreferences.preload = path.join(
-      __dirname,
-      './preload/secondaryWindow.js',
-    )
   }
 
   const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
