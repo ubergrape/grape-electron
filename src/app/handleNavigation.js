@@ -34,6 +34,7 @@ export const openWindow = url => {
   }
 
   const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
+  secondaryWindow.removeMenu()
   state.secondaryWindow = secondaryWindow
 
   // https://github.com/jitsi/jitsi-meet-electron-utils/blob/master/screensharing/index.js

@@ -20,6 +20,8 @@ export default () => {
     },
   })
 
+  aboutWindow.removeMenu()
+
   aboutWindow.once('ready-to-show', () => {
     aboutWindow.show()
   })
