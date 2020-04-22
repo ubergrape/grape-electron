@@ -19,7 +19,6 @@ export const openWindow = url => {
     width: 1200,
     height: 800,
     webPreferences: {
-      enableRemoteModule: false,
       contextIsolation: false,
       partition: 'persist:webview',
     },
