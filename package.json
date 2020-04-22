@@ -6,6 +6,9 @@
   "buildVersion": "84",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "build": "rm -rf lib/ release/ && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
     "build:lib": "babel src -d lib --copy-files",
