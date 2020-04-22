@@ -33,6 +33,7 @@ export const openWindow = url => {
   }
 
   const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
+  secondaryWindow.removeMenu()
   state.secondaryWindow = secondaryWindow
 
   secondaryWindow.once('closed', () => {
