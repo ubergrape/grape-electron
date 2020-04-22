@@ -45,7 +45,7 @@ const messages = {
 }
 
 export default url => {
-  autoUpdate()
+  if (getOsType !== 'linux') autoUpdate()
   global.store = store.get() || env
 
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
