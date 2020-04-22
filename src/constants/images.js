@@ -5,7 +5,7 @@ export const assets = normalize(`${__dirname}/../../assets`)
 const trayIcons = path.join(assets, 'tray-icons')
 
 export default {
-  logo: path.join(assets, 'logo.png'),
+  logo: path.join(assets, 'logo.svg'),
   icon: path.join(assets, 'icon.png'),
   trayIcon: path.join(trayIcons, 'tray.png'),
   trayWhiteIcon: path.join(trayIcons, 'tray-white.png'),
