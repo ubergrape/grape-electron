@@ -20,7 +20,6 @@ export const openWindow = url => {
     height: 800,
     webPreferences: {
       enableRemoteModule: false,
-      contextIsolation: false,
       partition: 'persist:webview',
     },
     icon: images.icon,
