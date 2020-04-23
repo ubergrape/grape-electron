@@ -253,6 +253,7 @@ export const getMenuTemplate = () => {
         },
         {
           label: formatMessage(messages.zoom),
+          visible: isMac,
           role: 'zoom',
         },
         { type: 'separator' },
