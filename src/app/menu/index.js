@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl'
 
 import state from '../../state'
 import quit from './actions/quit.js'
+import { getOsType } from '../../utils'
 import { isMac } from '../../constants'
 import openAboutWindow from './actions/openAboutWindow'
 import showMainWindow from './actions/showMainWindow'
@@ -261,31 +262,6 @@ export const getMenuTemplate = () => {
         },
       ],
     },
-    {
-      role: 'help',
-      label: formatMessage(messages.help),
-      submenu: [
-        {
-          label: formatMessage(messages.about),
-          click: openAboutWindow,
-        },
-        {
-          label: state.isUpdateDownloaded
-            ? formatMessage(messages.restartForUpdate)
-            : formatMessage(messages.checkForUpdates),
-          click: checkForUpdates,
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.learnMore),
-          click: openWebsite,
-        },
-        {
-          label: formatMessage(messages.openHelpCenter),
-          click: openSupport,
-        },
-      ],
-    },
   ]
 
   if (!isMac) {
@@ -309,6 +285,33 @@ export const getMenuTemplate = () => {
         },
       ],
     })
+
+    menu.push({
+      role: 'help',
+      label: formatMessage(messages.help),
+      submenu: [
+        {
+          label: formatMessage(messages.about),
+          click: openAboutWindow,
+        },
+        {
+          label: state.isUpdateDownloaded
+            ? formatMessage(messages.restartForUpdate)
+            : formatMessage(messages.checkForUpdates),
+          visible: getOsType !== 'linux',
+          click: checkForUpdates,
+        },
+        { type: 'separator' },
+        {
+          label: formatMessage(messages.learnMore),
+          click: openWebsite,
+        },
+        {
+          label: formatMessage(messages.openHelpCenter),
+          click: openSupport,
+        },
+      ],
+    })
   }
 
   if (isMac) {
@@ -316,10 +319,22 @@ export const getMenuTemplate = () => {
       label: formatMessage(messages.application),
       submenu: [
         {
+          label: formatMessage(messages.about),
+          click: openAboutWindow,
+        },
+        { type: 'separator' },
+        {
           label: formatMessage(messages.settings),
           click: openSettings,
           visible: state.isSettingsVisible,
         },
+        {
+          label: state.isUpdateDownloaded
+            ? formatMessage(messages.restartForUpdate)
+            : formatMessage(messages.checkForUpdates),
+          click: checkForUpdates,
+        },
+        { type: 'separator' },
         {
           label: formatMessage(messages.chooseDomain),
           click: chooseDomain,
@@ -346,6 +361,21 @@ export const getMenuTemplate = () => {
           label: formatMessage(messages.quit),
           accelerator: 'Cmd+Q',
           click: quit,
+        },
+      ],
+    })
+
+    menu.push({
+      role: 'help',
+      label: formatMessage(messages.help),
+      submenu: [
+        {
+          label: formatMessage(messages.learnMore),
+          click: openWebsite,
+        },
+        {
+          label: formatMessage(messages.openHelpCenter),
+          click: openSupport,
         },
       ],
     })
