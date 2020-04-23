@@ -232,6 +232,7 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.zoomIn),
           role: 'zoomin',
+          accelerator: 'CmdOrCtrl+Plus',
         },
         {
           label: formatMessage(messages.zoomOut),
