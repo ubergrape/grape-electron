@@ -7,7 +7,7 @@ const loadUrl = (url, window = state.mainWindow) => {
 
   const handleOffline = (e, code) => {
     // https://cs.chromium.org/chromium/src/net/base/net_error_list.h
-    if (code === -3) return
+    if (typeof code === 'undefined' || code === -3) return
     loadUrl(pages.connectionError)
   }
 
