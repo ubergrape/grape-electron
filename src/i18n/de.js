@@ -30,6 +30,8 @@ export default {
   "menuFront": "Alle Nach Vorne Bringen",
   "menuHelp": "Hilfe",
   "menuAbout": "Über Grape",
+  "menuCheckForUpdates": "Auf Updates überprüfen...",
+  "menuRestartForUpdate": "Zum Aktualisieren neu starten",
   "menuLearnMore": "Mehr erfahren",
   "menuOpenHelpCenter": "Hilfezentrum öffnen",
   "menuApplication": "Anwendung",
@@ -58,5 +60,16 @@ export default {
   "onPremisesTab": "On-Premises",
   "serverDomainOrUrl": "Server Domain oder URL",
   "continue": "Weiter",
-  "somethingWentWrong": "Etwas ist schief gelaufen."
+  "somethingWentWrong": "Etwas ist schief gelaufen.",
+  "updateNewVersion": "Es gibt eine neue Version!",
+  "updateInstall": "Möchten Sie die aktuellste Version von Grape jetzt installieren?",
+  "updateUpdateGrape": "Grape aktualisieren",
+  "updateCancel": "Abbrechen",
+  "updateNewVersionReady": "Neue Version steht bereit!",
+  "updateRestart": "Starten Sie die App zum Anwenden der Aktualisierung neu.",
+  "updateLater": "Später",
+  "updateRestartAndUpdate": "Neu starten und aktualisieren",
+  "updateUpToDate": "Sie sind auf dem neuesten Stand!",
+  "updateLatest": "Sie benutzen bereits die neueste Version von Grape.",
+  "updateOk": "OK"
 }
