@@ -301,7 +301,7 @@ export const getMenuTemplate = () => {
             ? formatMessage(messages.restartForUpdate)
             : formatMessage(messages.checkForUpdates),
           visible: getOsType !== 'linux',
-          click: checkForUpdates,
+          click: state.isUpdateDownloaded ? restartForUpdate : checkForUpdates,
         },
         { type: 'separator' },
         {
