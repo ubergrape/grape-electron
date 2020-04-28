@@ -13,13 +13,13 @@ const messages = {
     id: 'updateInstall',
     defaultMessage: 'Do you want to install the latest version of Grape now?',
   },
-  update: {
-    id: 'updateUpdateGrape',
-    defaultMessage: 'Update Grape',
-  },
   cancel: {
     id: 'updateCancel',
     defaultMessage: 'Cancel',
+  },
+  update: {
+    id: 'updateUpdateGrape',
+    defaultMessage: 'Update Grape',
   },
 }
 

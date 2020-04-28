@@ -36,11 +36,11 @@ export default () => {
     dialog
       .showMessageBox({
         type: 'info',
-        title: formatMessage(messages.later),
-        message: formatMessage(messages.updateRestart),
+        title: formatMessage(messages.newVersion),
+        message: formatMessage(messages.restart),
         buttons: [
           formatMessage(messages.later),
-          formatMessage(messages.restart),
+          formatMessage(messages.restartAndUpdate),
         ],
       })
       .then(({ response }) => {
