@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Menu, dialog } from 'electron'
+import { app, Menu, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../../state'
@@ -45,7 +45,15 @@ export default () => {
       })
       .then(({ response }) => {
         if (response === 1) {
-          autoUpdater.quitAndInstall()
+          try {
+            autoUpdater.quitAndInstall()
+            setTimeout(() => {
+              app.relaunch()
+              app.exit(0)
+            }, 6000)
+          } catch (e) {
+            dialog.showErrorBox('Error', 'Failed to install updates')
+          }
         }
       })
   })
