@@ -28,8 +28,8 @@ export default () => {
   const { formatMessage } = require('../../i18n')
 
   autoUpdater.on('update-available', () => {
-    dialog.showMessageBox(
-      {
+    dialog
+      .showMessageBox({
         type: 'info',
         title: formatMessage(messages.newVersionAvailable),
         message: formatMessage(messages.install),
@@ -37,9 +37,9 @@ export default () => {
           formatMessage(messages.cancel),
           formatMessage(messages.update),
         ],
-      },
-      buttonIndex => {
-        if (buttonIndex === 1) {
+      })
+      .then(({ response }) => {
+        if (response === 1) {
           if (isMas) {
             shell.openExternal(
               'macappstore://itunes.apple.com/app/chatgrape/id971791845?mt=12',
@@ -49,7 +49,6 @@ export default () => {
 
           autoUpdater.downloadUpdate()
         }
-      },
-    )
+      })
   })
 }

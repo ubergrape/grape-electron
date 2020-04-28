@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 

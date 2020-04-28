@@ -33,8 +33,8 @@ export default () => {
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
-    dialog.showMessageBox(
-      {
+    dialog
+      .showMessageBox({
         type: 'info',
         title: formatMessage(messages.later),
         message: formatMessage(messages.updateRestart),
@@ -42,12 +42,11 @@ export default () => {
           formatMessage(messages.later),
           formatMessage(messages.restart),
         ],
-      },
-      buttonIndex => {
-        if (buttonIndex === 1) {
+      })
+      .then(({ response }) => {
+        if (response === 1) {
           autoUpdater.quitAndInstall()
         }
-      },
-    )
+      })
   })
 }
