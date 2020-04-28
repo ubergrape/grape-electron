@@ -9,6 +9,7 @@ import showMainWindow from './actions/showMainWindow'
 import openSupport from './actions/openSupport'
 import openWebsite from './actions/openWebsite'
 import checkForUpdates from './actions/checkForUpdates'
+import restartForUpdate from './actions/restartForUpdate'
 /* eslint-disable import/no-cycle */
 import chooseDomain from './actions/chooseDomain'
 import openSettings from './actions/openSettings'
@@ -333,7 +334,7 @@ export const getMenuTemplate = () => {
           label: state.isUpdateDownloaded
             ? formatMessage(messages.restartForUpdate)
             : formatMessage(messages.checkForUpdates),
-          click: checkForUpdates,
+          click: state.isUpdateDownloaded ? restartForUpdate : checkForUpdates,
         },
         { type: 'separator' },
         {
