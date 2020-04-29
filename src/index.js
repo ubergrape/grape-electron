@@ -78,7 +78,7 @@ if (!gotTheLock) {
   app.on('second-instance', () => {
     if (state.mainWindow) {
       if (state.mainWindow.isMinimized()) state.mainWindow.restore()
-      state.mainWindow.focus()
+      state.mainWindow.show()
     }
   })
 
