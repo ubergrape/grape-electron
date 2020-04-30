@@ -37,6 +37,7 @@ export default {
   "menuApplication": "Application",
   "menuSettings": "Settings",
   "menuChooseDomain": "Choose domain",
+  "menuLogOut": "Log out",
   "menuQuit": "Quit",
   "menuServices": "Services",
   "menuHide": "Hide Grape",
@@ -71,5 +72,8 @@ export default {
   "updateRestartAndUpdate": "Restart and update",
   "updateUpToDate": "You're up to date!",
   "updateLatest": "You're already using the latest version of Grape.",
-  "updateOk": "OK"
+  "updateOk": "OK",
+  "logOutTitle": "Are you sure you want to log out?",
+  "logOutCancel": "Cancel",
+  "logOutConfirm": "Log out"
 }

@@ -37,6 +37,7 @@ export default {
   "menuApplication": "Anwendung",
   "menuSettings": "Einstellungen",
   "menuChooseDomain": "Domain auswählen",
+  "menuLogOut": "Abmelden",
   "menuQuit": "Beenden",
   "menuServices": "Dienste",
   "menuHide": "Grape ausblenden",
@@ -71,5 +72,8 @@ export default {
   "updateRestartAndUpdate": "Neu starten und aktualisieren",
   "updateUpToDate": "Sie sind auf dem neuesten Stand!",
   "updateLatest": "Sie benutzen bereits die neueste Version von Grape.",
-  "updateOk": "OK"
+  "updateOk": "OK",
+  "logOutTitle": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+  "logOutCancel": "Abbrechen",
+  "logOutConfirm": "Abmelden"
 }
