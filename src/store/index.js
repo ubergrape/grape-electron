@@ -54,11 +54,6 @@ const store = new Store({
   name: 'graperc',
   cwd: filePath,
   schema,
-  migrations: {
-    '3.0.0-alpha.14': s => {
-      s.delete('host.type')
-    },
-  },
 })
 
 store.onDidAnyChange(() => {

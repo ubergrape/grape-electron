@@ -12,6 +12,7 @@ import checkForUpdates from './actions/checkForUpdates'
 import restartForUpdate from './actions/restartForUpdate'
 /* eslint-disable import/no-cycle */
 import chooseDomain from './actions/chooseDomain'
+import logOut from './actions/logOut'
 import openSettings from './actions/openSettings'
 /* eslint-enable import/no-cycle */
 
@@ -135,6 +136,10 @@ const messages = defineMessages({
   chooseDomain: {
     id: 'menuChooseDomain',
     defaultMessage: 'Choose domain',
+  },
+  logOut: {
+    id: 'menuLogOut',
+    defaultMessage: 'Log out',
   },
   quit: {
     id: 'menuQuit',
@@ -279,6 +284,10 @@ export const getMenuTemplate = () => {
           label: formatMessage(messages.chooseDomain),
           click: chooseDomain,
         },
+        {
+          label: formatMessage(messages.logOut),
+          click: logOut,
+        },
         { type: 'separator' },
         {
           label: formatMessage(messages.quit),
@@ -340,6 +349,10 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.chooseDomain),
           click: chooseDomain,
+        },
+        {
+          label: formatMessage(messages.logOut),
+          click: logOut,
         },
         { type: 'separator' },
         {
