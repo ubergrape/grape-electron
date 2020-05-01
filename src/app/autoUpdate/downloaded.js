@@ -47,6 +47,12 @@ export default () => {
         if (response === 1) {
           setImmediate(() => {
             app.removeAllListeners('window-all-closed')
+            if (state.mainWindow) {
+              state.mainWindow.close()
+            }
+            if (state.secondaryWindow) {
+              state.secondaryWindow.close()
+            }
             autoUpdater.quitAndInstall()
           })
         }
