@@ -8,7 +8,6 @@ import notAvailable from './notAvailable'
 import error from './error'
 
 export default () => {
-  autoUpdater.channel = 'latest'
   autoUpdater.logger = log
   autoUpdater.logger.transports.file.level = 'debug'
   autoUpdater.autoDownload = true
