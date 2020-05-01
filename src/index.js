@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 import electronReload from 'electron-reload'
+import log from 'electron-log'
 import path from 'path'
 
 import initApp from './app/initApp'
@@ -48,6 +49,7 @@ const init = () => {
   })
 
   app.on('window-all-closed', () => {
+    log.debug('window-all-closed')
     if (!isMac) app.quit()
   })
 
