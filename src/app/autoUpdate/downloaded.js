@@ -54,6 +54,8 @@ export default () => {
               browserWindow.close()
             })
 
+            state.mainWindow = null
+
             autoUpdater.quitAndInstall()
           })
         }

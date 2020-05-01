@@ -135,6 +135,8 @@ export default url => {
   })
 
   mainWindow.on('close', e => {
+    log.debug('close')
+    log.debug('app.quitting', app.quitting)
     if (app.quitting) {
       state.mainWindow = null
     } else {
