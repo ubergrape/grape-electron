@@ -3,6 +3,7 @@ import { app, BrowserWindow, Menu, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../../state'
+import setLastUrl from '../setLastUrl'
 import { getMenuTemplate } from '../menu'
 
 const messages = {
@@ -53,6 +54,8 @@ export default () => {
               browserWindow.removeAllListeners('close')
               browserWindow.close()
             })
+
+            setLastUrl()
 
             state.mainWindow = null
             state.secondaryWindow = null

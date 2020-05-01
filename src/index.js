@@ -1,15 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app } from 'electron'
 import electronReload from 'electron-reload'
-import log from 'electron-log'
 import path from 'path'
 
 import initApp from './app/initApp'
+import setLastUrl from './app/setLastUrl'
 import { register, unregister } from './app/shortcuts'
 import { pages, isDevelopment, isMac } from './constants'
 import state from './state'
 import store from './store'
-import { getOsType, getPageParams, getUrlToLoad } from './utils'
+import { getOsType, getUrlToLoad } from './utils'
 import pkg from '../package.json'
 
 app.allowRendererProcessReuse = true
@@ -53,16 +53,8 @@ const init = () => {
   })
 
   app.on('before-quit', () => {
-    log.debug('before-quit')
     unregister()
-    const currentUrl = state.mainWindow.webContents.getURL()
-
-    const { page, url } = getPageParams(currentUrl)
-    if (page === 'chat') {
-      store.set('lastUrl', url)
-    } else {
-      store.set('lastUrl', currentUrl)
-    }
+    setLastUrl()
 
     app.quitting = true
   })
