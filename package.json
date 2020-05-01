@@ -47,6 +47,7 @@
     "mac": {
       "category": "public.app-category.business",
       "entitlements": "build/entitlements.mac.plist",
+      "provisioningProfile": "AppStore_Distribution.provisionprofile",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "extendInfo": {

@@ -5,7 +5,7 @@ import path from 'path'
 
 import initApp from './app/initApp'
 import { register, unregister } from './app/shortcuts'
-import { pages, isDevelopment, isMac } from './constants'
+import { pages, isDevelopment, isMas, isMac } from './constants'
 import state from './state'
 import store from './store'
 import { getOsType, getPageParams, getUrlToLoad } from './utils'
@@ -73,17 +73,22 @@ const init = () => {
   })
 }
 
-const gotTheLock = app.requestSingleInstanceLock()
-
-if (!gotTheLock) {
-  app.quit()
-} else {
-  app.on('second-instance', () => {
-    if (state.mainWindow) {
-      if (state.mainWindow.isMinimized()) state.mainWindow.restore()
-      state.mainWindow.show()
-    }
-  })
-
+// https://github.com/electron/electron/issues/15958
+if (isMas) {
   init()
+} else {
+  const gotTheLock = app.requestSingleInstanceLock()
+
+  if (!gotTheLock) {
+    app.quit()
+  } else {
+    app.on('second-instance', () => {
+      if (state.mainWindow) {
+        if (state.mainWindow.isMinimized()) state.mainWindow.restore()
+        state.mainWindow.show()
+      }
+    })
+
+    init()
+  }
 }
