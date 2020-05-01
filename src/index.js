@@ -49,6 +49,8 @@ const init = () => {
   })
 
   app.on('window-all-closed', () => {
+    // eslint-disable-next-line no-console
+    console.log('window-all-closed')
     log.debug('window-all-closed')
     if (!isMac) app.quit()
   })
