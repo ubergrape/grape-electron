@@ -74,7 +74,7 @@
         "rpm",
         "AppImage"
       ],
-      "executableName": "Grape",
+      "executableName": "grape",
       "artifactName": "${productName}-${version}.${ext}",
       "category": "Office",
       "icon": "assets/icons/",
