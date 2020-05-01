@@ -49,13 +49,11 @@ const init = () => {
   })
 
   app.on('window-all-closed', () => {
-    // eslint-disable-next-line no-console
-    console.log('window-all-closed')
-    log.debug('window-all-closed')
     if (!isMac) app.quit()
   })
 
   app.on('before-quit', () => {
+    log.debug('before-quit')
     unregister()
     const currentUrl = state.mainWindow.webContents.getURL()
 
