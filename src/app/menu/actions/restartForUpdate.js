@@ -1,4 +1,6 @@
-import { app, autoUpdater } from 'electron-updater'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { app } from 'electron'
+import { autoUpdater } from 'electron-updater'
 
 export default () => {
   setImmediate(() => {
