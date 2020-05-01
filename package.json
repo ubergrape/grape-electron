@@ -40,6 +40,7 @@
       "lib/**/*",
       "assets/tray-icons/*",
       "assets/icon.png",
+      "assets/icon.icns",
       "assets/logo.svg",
       "assets/overlay.png",
       "package.json"
