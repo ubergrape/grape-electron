@@ -55,6 +55,7 @@ export default () => {
             })
 
             state.mainWindow = null
+            state.secondaryWindow = null
 
             autoUpdater.quitAndInstall()
           })
