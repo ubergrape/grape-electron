@@ -54,6 +54,8 @@ export default () => {
               browserWindow.close()
             })
 
+            // As quitAndInstall method from autoUpdate closing app firstly and only after will emit `before-quit`.
+            // https://www.electron.build/auto-update.html#module_electron-updater.AppUpdater+quitAndInstall
             state.mainWindow = null
             state.secondaryWindow = null
 

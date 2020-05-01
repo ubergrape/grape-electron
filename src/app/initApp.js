@@ -175,7 +175,7 @@ ipcMain.on('removeBadge', () => {
 })
 
 ipcMain.on('onConnectionEvent', (e, name, text) => {
-  log.warn('on-connection-event', name, text || '')
+  log.info('on-connection-event', name, text || '')
 })
 
 ipcMain.on('domainChange', (e, { type, domain, protocol }) => {
