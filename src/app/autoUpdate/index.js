@@ -1,6 +1,7 @@
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
+import state from '../../state'
 import available from './available'
 import downloaded from './downloaded'
 import notAvailable from './notAvailable'
@@ -11,7 +12,10 @@ export default () => {
   autoUpdater.logger.transports.file.level = 'debug'
   autoUpdater.autoDownload = true
 
-  autoUpdater.checkForUpdates()
+  state.isInitialUpdateCheck = true
+  autoUpdater.checkForUpdates().then(() => {
+    state.isInitialUpdateCheck = false
+  })
 
   available()
   downloaded()

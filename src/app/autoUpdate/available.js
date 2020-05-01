@@ -2,6 +2,7 @@
 import { dialog, shell } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
+import state from '../../state'
 import { isMas } from '../../constants'
 
 const messages = {
@@ -28,9 +29,11 @@ export default () => {
   const { formatMessage } = require('../../i18n')
 
   autoUpdater.on('update-available', () => {
+    if (state.isInitialUpdateCheck) return
+
     dialog
       .showMessageBox({
-        type: 'info',
+        type: 'question',
         title: formatMessage(messages.newVersionAvailable),
         message: formatMessage(messages.install),
         buttons: [

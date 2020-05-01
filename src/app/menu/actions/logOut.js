@@ -35,7 +35,7 @@ export default () => {
 
   dialog
     .showMessageBox({
-      type: 'info',
+      type: 'question',
       message: formatMessage(messages.logOutTitle),
       buttons: [
         formatMessage(messages.logOutCancel),

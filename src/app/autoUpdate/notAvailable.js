@@ -30,6 +30,7 @@ export default () => {
     }
 
     dialog.showMessageBox({
+      type: 'info',
       title: formatMessage(messages.upToDate),
       message: formatMessage(messages.latest),
       buttons: [formatMessage(messages.ok)],
