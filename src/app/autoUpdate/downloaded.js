@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { app, Menu, dialog } from 'electron'
+import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../../state'
@@ -47,6 +48,7 @@ export default () => {
         if (response === 1) {
           setImmediate(() => {
             app.removeAllListeners('window-all-closed')
+            log.debug('state.mainWindow', state.mainWindow)
             if (state.mainWindow) {
               state.mainWindow.close()
             }
