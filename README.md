@@ -9,6 +9,8 @@ yarn start
 
 ## Scripts
 
+`clean` - removes `lib` and `release` folders.
+
 `build` - build project code and app once.
 
 `build:lib` - build project code once.
