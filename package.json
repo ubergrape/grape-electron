@@ -10,16 +10,17 @@
     "node": ">=12"
   },
   "scripts": {
-    "build": "rm -rf lib/ release/ && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
+    "clean": "rm -rf lib/ release/",
+    "build": "yarn:clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
     "start:proxy": "yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
     "start:watch": "concurrently \"yarn build:lib:watch\"  \"sleep 3 && cross-env NODE_ENV=development electron .\"",
     "start:watch:proxy": "concurrently \"yarn build:lib:watch\" \"sleep 3 && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .\"",
-    "release": "rm -rf lib/ release/ && yarn build:lib && cross-env GH_TOKEN=\"$(more .token)\" APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish onTagOrDraft",
-    "release:win": "rm -rf lib/ release/ && yarn build:lib && electron-builder --publish onTagOrDraft",
-    "release:ci": "rm -rf lib/ release/ && yarn build:lib && cross-env GH_TOKEN=\"${GITHUB_PUBLISH_TOKEN}\" electron-builder --publish onTagOrDraft",
+    "release": "yarn:clean && yarn build:lib && cross-env GH_TOKEN=\"$(more .token)\" APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish onTagOrDraft",
+    "release:win": "yarn:clean && yarn build:lib && electron-builder --publish onTagOrDraft",
+    "release:ci": "yarn:clean && yarn build:lib && cross-env GH_TOKEN=\"${GITHUB_PUBLISH_TOKEN}\" electron-builder --publish onTagOrDraft",
     "i18n:import": "yarn build:lib && babel-node i18n/scripts/import.js",
     "i18n:export": "yarn build:lib && babel-node i18n/scripts/export.js"
   },
