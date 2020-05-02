@@ -84,6 +84,11 @@
       }
     },
     "win": {
+      "target": [
+        "nsis",
+        "msi",
+        "appx"
+      ],
       "certificateSubjectName": "UberGrape GmbH",
       "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
     },
