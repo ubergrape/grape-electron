@@ -7,7 +7,6 @@ import {
   Menu,
   Tray,
   BrowserWindow,
-  systemPreferences,
   nativeTheme,
 } from 'electron'
 import log from 'electron-log'
@@ -81,15 +80,12 @@ export default url => {
       state.tray = new Tray(trayWhiteWindowsIcon)
       break
     case 'mac':
-      // https://electronjs.org/docs/tutorial/mojave-dark-mode-guide#automatically-updating-your-own-interfaces
-      systemPreferences.subscribeNotification(
-        'AppleInterfaceThemeChangedNotification',
-        () => {
-          state.tray.setImage(
-            nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon,
-          )
-        },
-      )
+      // https://www.electronjs.org/docs/tutorial/mojave-dark-mode-guide#automatically-updating-your-own-interfaces
+      nativeTheme.on('updated', () => {
+        state.tray.setImage(
+          nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon,
+        )
+      })
 
       state.tray = new Tray(
         nativeTheme.shouldUseDarkColors ? trayWhiteIcon : trayIcon,
