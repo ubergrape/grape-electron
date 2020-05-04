@@ -10,7 +10,7 @@
     "node": ">=12"
   },
   "scripts": {
-    "clean": "rm -rf lib/ release/",
+    "clean": "rm -rf lib/ dist/",
     "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
@@ -39,11 +39,11 @@
     "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
-      "assets/tray-icons/*",
-      "assets/icon.png",
-      "assets/icon.icns",
-      "assets/logo.svg",
-      "assets/overlay.png",
+      "build/tray-icons/*",
+      "build/icon.png",
+      "build/icon.icns",
+      "build/logo.svg",
+      "build/overlay.png",
       "package.json"
     ],
     "mac": {
@@ -78,7 +78,7 @@
       "executableName": "grape",
       "artifactName": "${productName}-${version}.${ext}",
       "category": "Office",
-      "icon": "assets/icons/",
+      "icon": "build/icons/",
       "description": "Grape Business Messenger",
       "desktop": {
         "Terminal": "false"
@@ -96,9 +96,17 @@
     "nsis": {
       "deleteAppDataOnUninstall": true
     },
-    "directories": {
-      "output": "release",
-      "buildResources": "assets"
+    "appx": {
+      "applicationId": "com.ChatGrape",
+      "identityName": "UberGrape.Grape-TeamCommunicationDesktop",
+      "displayName": "UberGrape",
+      "publisher": "CN=869B100E-2DEA-4598-9D81-4598A2D70A3C",
+      "languages": [
+        "en-us",
+        "de"
+      ],
+      "showNameOnTiles": true,
+      "setBuildNumber": true
     }
   },
   "babel": {
