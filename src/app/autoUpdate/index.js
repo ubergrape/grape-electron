@@ -11,6 +11,7 @@ export default () => {
   autoUpdater.logger = log
   autoUpdater.logger.transports.file.level = 'debug'
   autoUpdater.autoDownload = true
+  autoUpdater.allowPrerelease = false
 
   state.isInitialUpdateCheck = true
   autoUpdater.checkForUpdates().then(() => {
