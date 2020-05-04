@@ -99,6 +99,7 @@
     "appx": {
       "applicationId": "com.ChatGrape",
       "identityName": "UberGrape.Grape-TeamCommunicationDesktop",
+      "displayName": "Grape Messenger",
       "publisherDisplayName": "UberGrape",
       "publisher": "CN=869B100E-2DEA-4598-9D81-4598A2D70A3C",
       "languages": [

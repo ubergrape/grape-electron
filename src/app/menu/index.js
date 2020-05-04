@@ -278,7 +278,7 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.settings),
           click: openSettings,
-          visible: state.isSettingsVisible,
+          visible: state.isChatOpened,
         },
         {
           label: formatMessage(messages.chooseDomain),
@@ -287,6 +287,7 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.logOut),
           click: logOut,
+          visible: state.isChatOpened,
         },
         { type: 'separator' },
         {
@@ -337,7 +338,7 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.settings),
           click: openSettings,
-          visible: state.isSettingsVisible,
+          visible: state.isChatOpened,
         },
         {
           label: state.isUpdateDownloaded
@@ -353,6 +354,7 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.logOut),
           click: logOut,
+          visible: state.isChatOpened,
         },
         { type: 'separator' },
         {

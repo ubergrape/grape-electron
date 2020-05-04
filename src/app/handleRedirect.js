@@ -10,10 +10,10 @@ import removeBadge from './removeBadge'
 export default url => {
   const { protocol } = new URL(url)
   if (protocol === 'file:' && matchOne(url, blobs.chatBlobs)) {
-    state.isSettingsVisible = true
+    state.isChatOpened = true
   } else {
     removeBadge()
-    state.isSettingsVisible = false
+    state.isChatOpened = false
   }
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))

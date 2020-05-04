@@ -1,5 +1,5 @@
 export default {
-  isSettingsVisible: false,
+  isChatOpened: false,
   isUpdateDownloaded: false,
   isInitialUpdateChecked: false,
 }
