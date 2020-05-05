@@ -2,8 +2,8 @@
   "name": "grape-electron",
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
-  "version": "3.0.0-beta.62",
-  "buildVersion": "123",
+  "version": "3.0.0-beta.63",
+  "buildVersion": "124",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "engines": {
@@ -35,7 +35,7 @@
     "appId": "com.ChatGrape",
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
-    "buildVersion": "123",
+    "buildVersion": "124",
     "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
