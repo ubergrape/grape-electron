@@ -98,6 +98,7 @@
     },
     "appx": {
       "applicationId": "com.ChatGrape",
+      "background": "#1E86F0",
       "identityName": "UberGrape.Grape-TeamCommunicationDesktop",
       "displayName": "Grape Messenger",
       "publisherDisplayName": "UberGrape",
