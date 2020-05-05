@@ -77,7 +77,7 @@
       ],
       "executableName": "grape",
       "artifactName": "${productName}-${version}.${ext}",
-      "category": "Office",
+      "category": "InstantMessaging",
       "icon": "build/icons/",
       "description": "Grape Business Messenger",
       "desktop": {
