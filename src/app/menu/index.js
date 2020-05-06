@@ -176,51 +176,6 @@ export const getMenuTemplate = () => {
   const { formatMessage } = require('../../i18n')
   const menu = [
     {
-      label: formatMessage(messages.edit),
-      submenu: [
-        {
-          label: formatMessage(messages.undo),
-          role: 'undo',
-        },
-        {
-          label: formatMessage(messages.redo),
-          role: 'redo',
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.cut),
-          role: 'cut',
-        },
-        {
-          label: formatMessage(messages.copy),
-          role: 'copy',
-        },
-        {
-          label: formatMessage(messages.paste),
-          role: 'paste',
-        },
-        {
-          label: formatMessage(messages.selectAll),
-          role: 'selectall',
-        },
-        { type: 'separator', visible: isMac },
-        {
-          label: formatMessage(messages.speech),
-          visible: isMac,
-          submenu: [
-            {
-              label: formatMessage(messages.startSpeaking),
-              role: 'startspeaking',
-            },
-            {
-              label: formatMessage(messages.stopSpeaking),
-              role: 'stopspeaking',
-            },
-          ],
-        },
-      ],
-    },
-    {
       label: formatMessage(messages.view),
       submenu: [
         // Replacing "Force reload" with "Reload" to don't confuse a user with two reload button
@@ -279,32 +234,66 @@ export const getMenuTemplate = () => {
       ],
     })
 
-    menu.push({
-      role: 'help',
-      label: formatMessage(messages.help),
-      submenu: [
-        {
-          label: formatMessage(messages.about),
-          click: openAboutWindow,
-        },
-        {
-          label: state.isUpdateDownloaded
-            ? formatMessage(messages.restartForUpdate)
-            : formatMessage(messages.checkForUpdates),
-          visible: getOsType !== 'linux',
-          click: state.isUpdateDownloaded ? restartForUpdate : checkForUpdates,
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.learnMore),
-          click: openWebsite,
-        },
-        {
-          label: formatMessage(messages.openHelpCenter),
-          click: openSupport,
-        },
-      ],
-    })
+    menu.push(
+      {
+        label: formatMessage(messages.edit),
+        submenu: [
+          {
+            label: formatMessage(messages.undo),
+            role: 'undo',
+          },
+          {
+            label: formatMessage(messages.redo),
+            role: 'redo',
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.cut),
+            role: 'cut',
+          },
+          {
+            label: formatMessage(messages.copy),
+            role: 'copy',
+          },
+          {
+            label: formatMessage(messages.paste),
+            role: 'paste',
+          },
+          {
+            label: formatMessage(messages.selectAll),
+            role: 'selectall',
+          },
+        ],
+      },
+      {
+        role: 'help',
+        label: formatMessage(messages.help),
+        submenu: [
+          {
+            label: formatMessage(messages.about),
+            click: openAboutWindow,
+          },
+          {
+            label: state.isUpdateDownloaded
+              ? formatMessage(messages.restartForUpdate)
+              : formatMessage(messages.checkForUpdates),
+            visible: getOsType !== 'linux',
+            click: state.isUpdateDownloaded
+              ? restartForUpdate
+              : checkForUpdates,
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.learnMore),
+            click: openWebsite,
+          },
+          {
+            label: formatMessage(messages.openHelpCenter),
+            click: openSupport,
+          },
+        ],
+      },
+    )
   }
 
   if (isMac) {
@@ -365,6 +354,50 @@ export const getMenuTemplate = () => {
     })
 
     menu.push(
+      {
+        label: formatMessage(messages.edit),
+        submenu: [
+          {
+            label: formatMessage(messages.undo),
+            role: 'undo',
+          },
+          {
+            label: formatMessage(messages.redo),
+            role: 'redo',
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.cut),
+            role: 'cut',
+          },
+          {
+            label: formatMessage(messages.copy),
+            role: 'copy',
+          },
+          {
+            label: formatMessage(messages.paste),
+            role: 'paste',
+          },
+          {
+            label: formatMessage(messages.selectAll),
+            role: 'selectall',
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.speech),
+            submenu: [
+              {
+                label: formatMessage(messages.startSpeaking),
+                role: 'startspeaking',
+              },
+              {
+                label: formatMessage(messages.stopSpeaking),
+                role: 'stopspeaking',
+              },
+            ],
+          },
+        ],
+      },
       {
         role: 'window',
         label: formatMessage(messages.window),
