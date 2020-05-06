@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl'
 import state from '../../state'
 import quit from './actions/quit.js'
 import { getOsType } from '../../utils'
-import { isMac } from '../../constants'
+import { isMac, isMas } from '../../constants'
 import openAboutWindow from './actions/openAboutWindow'
 import showMainWindow from './actions/showMainWindow'
 import openSupport from './actions/openSupport'
@@ -96,6 +96,10 @@ const messages = defineMessages({
   zoom: {
     id: 'menuZoom',
     defaultMessage: 'Zoom',
+  },
+  grape: {
+    id: 'menuGrape',
+    defaultMessage: 'Grape',
   },
   front: {
     id: 'menuFront',
@@ -264,6 +268,12 @@ export const getMenuTemplate = () => {
         },
         { type: 'separator' },
         {
+          label: formatMessage(messages.grape),
+          click: showMainWindow,
+          accelerator: 'CmdOrCtrl+O',
+        },
+        { type: 'separator' },
+        {
           label: formatMessage(messages.front),
           role: 'front',
         },
@@ -345,6 +355,7 @@ export const getMenuTemplate = () => {
             ? formatMessage(messages.restartForUpdate)
             : formatMessage(messages.checkForUpdates),
           click: state.isUpdateDownloaded ? restartForUpdate : checkForUpdates,
+          visible: !isMas,
         },
         { type: 'separator' },
         {

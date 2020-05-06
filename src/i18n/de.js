@@ -27,6 +27,7 @@ export default {
   "menuWindow": "Fenster",
   "menuMinimize": "Im Dock ablegen",
   "menuZoom": "Zoomen",
+  "menuGrape": "Grape",
   "menuFront": "Alle Nach Vorne Bringen",
   "menuHelp": "Hilfe",
   "menuAbout": "Über Grape",

@@ -22,7 +22,7 @@ import { getMenuTemplate, getTrayTemplate } from './menu'
 import env from '../env'
 import store from '../store'
 import state from '../state'
-import { images, isDevelopment } from '../constants'
+import { images, isDevelopment, isMac, isWindowsStore } from '../constants'
 import { getOsType, getChatUrl } from '../utils'
 import showMainWindow from './menu/actions/showMainWindow'
 
@@ -44,7 +44,7 @@ const messages = {
 }
 
 export default url => {
-  if (getOsType !== 'linux') autoUpdate()
+  if (getOsType !== 'linux' && !isMac && !isWindowsStore) autoUpdate()
   global.store = store.get() || env
 
   const { width, height } = screen.getPrimaryDisplay().workAreaSize

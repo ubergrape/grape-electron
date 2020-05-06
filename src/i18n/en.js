@@ -27,6 +27,7 @@ export default {
   "menuClose": "Close Window",
   "menuMinimize": "Minimize",
   "menuZoom": "Zoom",
+  "menuGrape": "Grape",
   "menuFront": "Bring All to Front",
   "menuHelp": "Help",
   "menuAbout": "About Grape",

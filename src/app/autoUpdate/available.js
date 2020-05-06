@@ -3,7 +3,7 @@ import { dialog, shell } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../../state'
-import { isMas, isWindowsStore } from '../../constants'
+import { isWindowsStore } from '../../constants'
 
 const messages = {
   newVersionAvailable: {
@@ -43,13 +43,6 @@ export default () => {
       })
       .then(({ response }) => {
         if (response === 1) {
-          if (isMas) {
-            shell.openExternal(
-              'macappstore://itunes.apple.com/app/chatgrape/id971791845?mt=12',
-            )
-            return
-          }
-
           if (isWindowsStore) {
             shell.openExternal('ms-windows-store://pdp/?ProductId=9P28KPMR8L2Z')
             return
