@@ -249,36 +249,6 @@ export const getMenuTemplate = () => {
         },
       ],
     },
-    {
-      role: 'window',
-      label: formatMessage(messages.window),
-      submenu: [
-        {
-          label: formatMessage(messages.close),
-          role: 'close',
-        },
-        {
-          label: formatMessage(messages.minimize),
-          role: 'minimize',
-        },
-        {
-          label: formatMessage(messages.zoom),
-          visible: isMac,
-          role: 'zoom',
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.grape),
-          click: showMainWindow,
-          accelerator: 'CmdOrCtrl+O',
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.front),
-          role: 'front',
-        },
-      ],
-    },
   ]
 
   if (!isMac) {
@@ -393,20 +363,52 @@ export const getMenuTemplate = () => {
       ],
     })
 
-    menu.push({
-      role: 'help',
-      label: formatMessage(messages.help),
-      submenu: [
-        {
-          label: formatMessage(messages.learnMore),
-          click: openWebsite,
-        },
-        {
-          label: formatMessage(messages.openHelpCenter),
-          click: openSupport,
-        },
-      ],
-    })
+    menu.push(
+      {
+        role: 'window',
+        label: formatMessage(messages.window),
+        submenu: [
+          {
+            label: formatMessage(messages.close),
+            role: 'close',
+          },
+          {
+            label: formatMessage(messages.minimize),
+            role: 'minimize',
+          },
+          {
+            label: formatMessage(messages.zoom),
+            visible: isMac,
+            role: 'zoom',
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.grape),
+            click: showMainWindow,
+            accelerator: 'CmdOrCtrl+O',
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.front),
+            role: 'front',
+          },
+        ],
+      },
+      {
+        role: 'help',
+        label: formatMessage(messages.help),
+        submenu: [
+          {
+            label: formatMessage(messages.learnMore),
+            click: openWebsite,
+          },
+          {
+            label: formatMessage(messages.openHelpCenter),
+            click: openSupport,
+          },
+        ],
+      },
+    )
   }
 
   return menu
