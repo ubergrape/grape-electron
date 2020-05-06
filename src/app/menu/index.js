@@ -203,9 +203,10 @@ export const getMenuTemplate = () => {
           label: formatMessage(messages.selectAll),
           role: 'selectall',
         },
-        { type: 'separator' },
+        { type: 'separator', visible: isMac },
         {
           label: formatMessage(messages.speech),
+          visible: isMac,
           submenu: [
             {
               label: formatMessage(messages.startSpeaking),
