@@ -208,33 +208,32 @@ export const getMenuTemplate = () => {
   ]
 
   if (!isMac) {
-    menu.unshift({
-      label: formatMessage(messages.application),
-      submenu: [
-        {
-          label: formatMessage(messages.settings),
-          click: openSettings,
-          visible: state.isChatOpened,
-        },
-        {
-          label: formatMessage(messages.chooseDomain),
-          click: chooseDomain,
-        },
-        {
-          label: formatMessage(messages.logOut),
-          click: logOut,
-          visible: state.isChatOpened,
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.quit),
-          accelerator: 'Ctrl+Q',
-          click: quit,
-        },
-      ],
-    })
-
-    menu.push(
+    menu.unshift(
+      {
+        label: formatMessage(messages.application),
+        submenu: [
+          {
+            label: formatMessage(messages.settings),
+            click: openSettings,
+            visible: state.isChatOpened,
+          },
+          {
+            label: formatMessage(messages.chooseDomain),
+            click: chooseDomain,
+          },
+          {
+            label: formatMessage(messages.logOut),
+            click: logOut,
+            visible: state.isChatOpened,
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.quit),
+            accelerator: 'Ctrl+Q',
+            click: quit,
+          },
+        ],
+      },
       {
         label: formatMessage(messages.edit),
         submenu: [
@@ -265,95 +264,95 @@ export const getMenuTemplate = () => {
           },
         ],
       },
-      {
-        role: 'help',
-        label: formatMessage(messages.help),
-        submenu: [
-          {
-            label: formatMessage(messages.about),
-            click: openAboutWindow,
-          },
-          {
-            label: state.isUpdateDownloaded
-              ? formatMessage(messages.restartForUpdate)
-              : formatMessage(messages.checkForUpdates),
-            visible: getOsType !== 'linux',
-            click: state.isUpdateDownloaded
-              ? restartForUpdate
-              : checkForUpdates,
-          },
-          { type: 'separator' },
-          {
-            label: formatMessage(messages.learnMore),
-            click: openWebsite,
-          },
-          {
-            label: formatMessage(messages.openHelpCenter),
-            click: openSupport,
-          },
-        ],
-      },
     )
-  }
 
-  if (isMac) {
-    menu.unshift({
-      label: formatMessage(messages.application),
+    menu.push({
+      role: 'help',
+      label: formatMessage(messages.help),
       submenu: [
         {
           label: formatMessage(messages.about),
           click: openAboutWindow,
         },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.settings),
-          click: openSettings,
-          visible: state.isChatOpened,
-        },
         {
           label: state.isUpdateDownloaded
             ? formatMessage(messages.restartForUpdate)
             : formatMessage(messages.checkForUpdates),
+          visible: getOsType !== 'linux',
           click: state.isUpdateDownloaded ? restartForUpdate : checkForUpdates,
-          visible: !isMas,
         },
         { type: 'separator' },
         {
-          label: formatMessage(messages.chooseDomain),
-          click: chooseDomain,
+          label: formatMessage(messages.learnMore),
+          click: openWebsite,
         },
         {
-          label: formatMessage(messages.logOut),
-          click: logOut,
-          visible: state.isChatOpened,
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.services),
-          role: 'services',
-        },
-        {
-          label: formatMessage(messages.hide),
-          role: 'hide',
-        },
-        {
-          label: formatMessage(messages.hideOthers),
-          role: 'hideothers',
-        },
-        {
-          label: formatMessage(messages.unhide),
-          role: 'unhide',
-        },
-        { type: 'separator' },
-        {
-          label: formatMessage(messages.quit),
-          accelerator: 'Cmd+Q',
-          click: quit,
+          label: formatMessage(messages.openHelpCenter),
+          click: openSupport,
         },
       ],
     })
+  }
 
-    menu.push(
+  if (isMac) {
+    menu.unshift(
+      {
+        label: formatMessage(messages.application),
+        submenu: [
+          {
+            label: formatMessage(messages.about),
+            click: openAboutWindow,
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.settings),
+            click: openSettings,
+            visible: state.isChatOpened,
+          },
+          {
+            label: state.isUpdateDownloaded
+              ? formatMessage(messages.restartForUpdate)
+              : formatMessage(messages.checkForUpdates),
+            click: state.isUpdateDownloaded
+              ? restartForUpdate
+              : checkForUpdates,
+            visible: !isMas,
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.chooseDomain),
+            click: chooseDomain,
+          },
+          {
+            label: formatMessage(messages.logOut),
+            click: logOut,
+            visible: state.isChatOpened,
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.services),
+            role: 'services',
+          },
+          {
+            label: formatMessage(messages.hide),
+            role: 'hide',
+          },
+          {
+            label: formatMessage(messages.hideOthers),
+            role: 'hideothers',
+          },
+          {
+            label: formatMessage(messages.unhide),
+            role: 'unhide',
+          },
+          { type: 'separator' },
+          {
+            label: formatMessage(messages.quit),
+            accelerator: 'Cmd+Q',
+            click: quit,
+          },
+        ],
+      },
       {
         label: formatMessage(messages.edit),
         submenu: [
@@ -398,6 +397,9 @@ export const getMenuTemplate = () => {
           },
         ],
       },
+    )
+
+    menu.push(
       {
         role: 'window',
         label: formatMessage(messages.window),
