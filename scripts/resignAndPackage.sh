@@ -4,12 +4,14 @@ printf "......................\nresignAndPackage start\n\n"
 
 # Name of your app.
 APP="Grape"
-# Your Certificate name.
+# Your сertificate name.
 CERT="UberGrape GmbH (Y8DPE6DGC7)"
+# Path to project.
+PROJECT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}/..")" ; pwd -P )
 # The path of your app to sign.
-APP_PATH="/Users/aleshaoleg/Documents/Projects/grape-electron/dist/mas/$APP.app"
+APP_PATH="$PROJECT_PATH/dist/mas/$APP.app"
 # The path to the location you want to put the signed package.
-RESULT_PATH="/Users/aleshaoleg/Documents/Projects/grape-electron/dist/mas/$APP.pkg"
+RESULT_PATH="$PROJECT_PATH/dist/mas/$APP.pkg"
 # The name of certificates you requested.
 APP_KEY="3rd Party Mac Developer Application: $CERT"
 INSTALLER_KEY="3rd Party Mac Developer Installer: $CERT"
