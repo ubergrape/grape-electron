@@ -1,45 +1,133 @@
 {
-  "version": "2.19.2",
-  "devDependencies": {
-    "asar": "^0.10.0",
-    "babel-eslint": "^8.2.3",
-    "electron": "^4.1.3",
-    "electron-download": "^3.2.0",
-    "electron-installer-zip": "^0.1.2",
-    "electron-osx-sign": "^0.4.10",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-config-ubergrape": "^5.1.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "^7.9.1",
-    "extract-zip": "^1.6.0",
-    "fs-jetpack": "^0.10.3",
-    "gulp": "^3.9.1",
-    "gulp-less": "^3.0.3",
-    "gulp-util": "^3.0.6",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.2.0",
-    "prettier": "^1.13.5",
-    "q": "^1.4.1",
-    "semver": "^5.3.0",
-    "yargs": "^4.2.0"
-  },
-  "optionalDependencies": {
-    "appdmg": "^0.3.2",
-    "rcedit": "^2.0.0"
+  "name": "grape-electron",
+  "appId": "com.ChatGrape",
+  "author": "UberGrape GmbH <support@chatgrape.com>",
+  "version": "3.0.0-beta.66",
+  "buildVersion": "127",
+  "description": "The world’s most advanced team chat meets enterprise search.",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=12"
   },
   "scripts": {
-    "postinstall": "cd app && yarn",
-    "build": "gulp build",
-    "release": "yarn --cwd ./app build && gulp release --env=production",
-    "start": "node ./tasks/start",
-    "test": "node ./tasks/start --env=test",
-    "install-native": "node ./tasks/install_native_module",
-    "lint": "cd app && yarn lint",
-    "precommit": "lint-staged"
+    "clean": "rm -rf lib/ dist/",
+    "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
+    "build:mac:store": "yarn build && bash scripts/resignAndPackage.sh",
+    "build:lib": "babel src -d lib --copy-files",
+    "build:lib:watch": "yarn build:lib --copy-files --watch",
+    "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
+    "start:proxy": "yarn build:lib && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .",
+    "start:watch": "concurrently \"yarn build:lib:watch\"  \"sleep 3 && cross-env NODE_ENV=development electron .\"",
+    "start:watch:proxy": "concurrently \"yarn build:lib:watch\" \"sleep 3 && cross-env NODE_ENV=development electron --disable-http-cache --proxy-server=0.0.0.0:3128 .\"",
+    "release": "yarn clean && yarn build:lib && cross-env GH_TOKEN=\"$(more .token)\" APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish onTagOrDraft",
+    "release:win": "yarn clean && yarn build:lib && electron-builder --publish onTagOrDraft",
+    "release:ci": "yarn clean && yarn build:lib && cross-env GH_TOKEN=\"${GITHUB_PUBLISH_TOKEN}\" electron-builder --publish onTagOrDraft",
+    "i18n:import": "yarn build:lib && babel-node i18n/scripts/import.js",
+    "i18n:export": "yarn build:lib && babel-node i18n/scripts/export.js"
+  },
+  "repository": "https://github.com/ubergrape/grape-electron",
+  "keywords": [
+    "Grape",
+    "chat",
+    "enterprise chat"
+  ],
+  "productName": "Grape",
+  "build": {
+    "appId": "com.ChatGrape",
+    "productName": "Grape",
+    "copyright": "© 2020, UberGrape GmbH",
+    "buildVersion": "127",
+    "afterSign": "scripts/notarize.js",
+    "files": [
+      "lib/**/*",
+      "build/tray-icons/*",
+      "build/icon.png",
+      "build/icon.icns",
+      "build/logo.svg",
+      "build/overlay.png",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.business",
+      "entitlements": "build/entitlements.mac.plist",
+      "provisioningProfile": "AppStore_Distribution.provisionprofile",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "We need access to your microphone so people you talk to in a Grape Call can hear you.",
+        "NSCameraUsageDescription": "Allow your conversational partners to see you in a Grape Call. You can turn off your video anytime during a call."
+      },
+      "target": [
+        "mas",
+        "dmg",
+        "zip"
+      ]
+    },
+    "mas": {
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist"
+    },
+    "dmg": {
+      "sign": false
+    },
+    "linux": {
+      "target": [
+        "tar.gz",
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
+      "executableName": "grape",
+      "artifactName": "${productName}-${version}.${ext}",
+      "category": "InstantMessaging",
+      "icon": "build/icons/",
+      "description": "Grape Business Messenger",
+      "desktop": {
+        "Terminal": "false"
+      }
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "msi",
+        "appx"
+      ],
+      "certificateSubjectName": "UberGrape GmbH",
+      "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
+    },
+    "nsis": {
+      "deleteAppDataOnUninstall": true
+    },
+    "appx": {
+      "applicationId": "com.ChatGrape",
+      "backgroundColor": "#1E86F0",
+      "identityName": "UberGrape.Grape-TeamCommunicationDesktop",
+      "displayName": "Grape Messenger",
+      "publisherDisplayName": "UberGrape",
+      "publisher": "CN=869B100E-2DEA-4598-9D81-4598A2D70A3C",
+      "languages": [
+        "en-us",
+        "de"
+      ],
+      "showNameOnTiles": true,
+      "setBuildNumber": true
+    }
+  },
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-export-default-from",
+      [
+        "react-intl",
+        {
+          "messagesDir": "./i18n"
+        }
+      ]
+    ],
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   },
   "lint-staged": {
     "*.js": [
@@ -55,5 +143,73 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "eslintConfig": {
+    "env": {
+      "commonjs": true,
+      "es6": true,
+      "node": true
+    },
+    "extends": "eslint-config-ubergrape",
+    "parserOptions": {
+      "ecmaVersion": 2018
+    }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-export-default-from": "^7.7.4",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-react-intl": "^5.1.16",
+    "concurrently": "^5.0.2",
+    "cross-env": "^6.0.3",
+    "electron": "^8.2.3",
+    "electron-builder": "^22.5.1",
+    "electron-notarize": "^0.2.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-ubergrape": "^5.4.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "husky": "^4.0.6",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "electron-log": "^4.0.3",
+    "electron-reload": "^1.5.0",
+    "electron-store": "^5.1.0",
+    "electron-updater": "^4.2.4",
+    "grape-electron-context-menu": "^1.0.2-0.16.0",
+    "grape-electron-dl": "^1.0.1-3.0.0",
+    "grape-theme": "^3.5.0",
+    "jss": "^10.0.3",
+    "jss-plugin-camel-case": "^10.0.3",
+    "jss-plugin-default-unit": "^10.0.3",
+    "jss-plugin-expand": "^10.0.3",
+    "jss-plugin-extend": "^10.0.3",
+    "jss-plugin-global": "^10.0.3",
+    "jss-plugin-isolate": "^10.0.3",
+    "jss-plugin-nested": "^10.0.3",
+    "jss-plugin-rule-value-function": "^10.0.3",
+    "minimatch": "^3.0.4",
+    "querystring": "^0.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-helmet": "^5.2.1",
+    "react-intl": "^3.11.0",
+    "react-jss": "^10.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

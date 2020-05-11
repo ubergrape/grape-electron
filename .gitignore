@@ -1,14 +1,15 @@
 node_modules
-*.log
-.DS_Store
-Thumbs.db
+dist
+release
+lib
+i18n/src
 
-/app/spec.js
-/build/
-/releases/
-/tmp/
-*.DS_Store
+yarn-error.log
 
 AppStore_Distribution.provisionprofile
 Developer_Distribution.provisionprofile
-code_signing.p12
+
+.token
+.apple-user
+.apple-password
+dev-app-update.yml
