@@ -1,0 +1,42 @@
+---
+
+image: "registry.ubergrape.com:5000/docker/node"
+
+stages:
+  - build
+  - release
+
+cache:
+  key: "test00001"
+  paths:
+    - electron_cache
+    - electron_builder_cache
+
+
+build-linux:
+  stage: build
+  variables:
+    ELECTRON_CACHE: /builds/grape/grape-electron/electron_cache
+    ELECTRON_BUILDER_CACHE: /builds/grape/grape-electron/electron_builder_cache
+  script:
+    - mkdir -p electron_cache electron_builder_cache
+    - yarn
+    - yarn build
+  only:
+    - branches
+  except:
+    - tags
+
+release-github:
+  stage: release
+  variables:
+    ELECTRON_CACHE: /builds/grape/grape-electron/electron_cache
+    ELECTRON_BUILDER_CACHE: /builds/grape/grape-electron/electron_builder_cache
+  script:
+    - echo "Releasing to github"
+    - echo "${GITHUB_PUBLISH_TOKEN}" > .token
+    - mkdir -p electron_cache electron_builder_cache
+    - yarn
+    - yarn release:ci
+  only:
+    - web
