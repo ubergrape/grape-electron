@@ -13,6 +13,8 @@ yarn start
 
 `build` - build project code and app once.
 
+`build:mac:store` - build version for macOS store, with a correct signature.
+
 `build:lib` - build project code once.
 
 `build:lib:watch` - build project code after each code update.
@@ -88,7 +90,7 @@ After, you'll see `mas`, `dmg` and `zip` files in the draft release.
 
 #### macOS store build
 
-To build version for the macOS app store, set `hardenedRuntime` to `false` in config. To speed up the build process for the app store version, you can leave only `mas` target in macOS `targets` field.
+For macOS store build please use `build:mac:store` and set `hardenedRuntime` to `false` in config. To speed up the build process for the app store version, you can leave only `mas` target in macOS `targets` field.
 
 ### Linux
 

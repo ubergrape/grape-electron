@@ -12,6 +12,7 @@
   "scripts": {
     "clean": "rm -rf lib/ dist/",
     "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
+    "build:mac:store": "yarn build && bash scripts/resignAndPackage.sh",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
