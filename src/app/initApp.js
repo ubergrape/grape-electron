@@ -16,6 +16,7 @@ import { registerListener } from 'grape-electron-dl'
 import loadUrl from './loadUrl'
 import handleNavigation from './handleNavigation'
 import handleRedirect from './handleRedirect'
+import { register as registerProtocol } from './protocolHandler'
 import removeBadge from './removeBadge'
 import autoUpdate from './autoUpdate'
 import { getMenuTemplate, getTrayTemplate } from './menu'
@@ -101,6 +102,8 @@ export default url => {
   state.tray.setToolTip(app.name)
   state.tray.setContextMenu(Menu.buildFromTemplate(getTrayTemplate()))
   state.tray.on('click', () => showMainWindow())
+
+  registerProtocol()
 
   mainWindow.once('ready-to-show', () => {
     if (
