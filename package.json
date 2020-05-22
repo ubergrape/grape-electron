@@ -2,8 +2,8 @@
   "name": "grape-electron",
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
-  "version": "3.0.1",
-  "buildVersion": "140",
+  "version": "3.0.2",
+  "buildVersion": "144",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "engines": {
@@ -12,7 +12,6 @@
   "scripts": {
     "clean": "rm -rf lib/ dist/",
     "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
-    "build:mac:store": "yarn build && bash scripts/resignAndPackage.sh",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
@@ -36,7 +35,7 @@
     "appId": "com.ChatGrape",
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
-    "buildVersion": "140",
+    "buildVersion": "144",
     "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
@@ -51,16 +50,14 @@
       "category": "public.app-category.business",
       "entitlements": "build/entitlements.mac.plist",
       "provisioningProfile": "AppStore_Distribution.provisionprofile",
-      "hardenedRuntime": true,
+      "hardenedRuntime": false,
       "gatekeeperAssess": false,
       "extendInfo": {
         "NSMicrophoneUsageDescription": "We need access to your microphone so people you talk to in a Grape Call can hear you.",
         "NSCameraUsageDescription": "Allow your conversational partners to see you in a Grape Call. You can turn off your video anytime during a call."
       },
       "target": [
-        "mas",
-        "dmg",
-        "zip"
+        "mas"
       ]
     },
     "mas": {
@@ -168,7 +165,7 @@
     "concurrently": "^5.0.2",
     "cross-env": "^6.0.3",
     "electron": "^8.3.0",
-    "electron-builder": "^22.5.1",
+    "electron-builder": "^22.6.1",
     "electron-notarize": "^0.2.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
