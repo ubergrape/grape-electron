@@ -95,7 +95,9 @@
       "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
     },
     "nsis": {
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
     },
     "appx": {
       "applicationId": "com.ChatGrape",
