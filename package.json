@@ -2,8 +2,8 @@
   "name": "grape-electron",
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
-  "version": "3.0.0",
-  "buildVersion": "137",
+  "version": "3.0.3",
+  "buildVersion": "148",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "engines": {
@@ -12,7 +12,6 @@
   "scripts": {
     "clean": "rm -rf lib/ dist/",
     "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
-    "build:mac:store": "yarn build && bash scripts/resignAndPackage.sh",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
@@ -36,7 +35,7 @@
     "appId": "com.ChatGrape",
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
-    "buildVersion": "137",
+    "buildVersion": "148",
     "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
@@ -96,7 +95,9 @@
       "rfc3161TimeStampServer": "http://timestamp.sectigo.com?td=sha256"
     },
     "nsis": {
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
     },
     "appx": {
       "applicationId": "com.ChatGrape",
@@ -167,8 +168,8 @@
     "babel-plugin-react-intl": "^5.1.16",
     "concurrently": "^5.0.2",
     "cross-env": "^6.0.3",
-    "electron": "^8.2.3",
-    "electron-builder": "^22.5.1",
+    "electron": "^8.3.0",
+    "electron-builder": "^22.6.1",
     "electron-notarize": "^0.2.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
