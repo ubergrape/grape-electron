@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { BrowserWindow } from 'electron'
 import { defineMessages } from 'react-intl'
 
 import state from '../../state'
@@ -80,6 +82,14 @@ const messages = defineMessages({
   zoomOut: {
     id: 'menuZoomOut',
     defaultMessage: 'Zoom Out',
+  },
+  developer: {
+    id: 'menuDeveloper',
+    defaultMessage: 'Developer',
+  },
+  toggleDevTools: {
+    id: 'menuToggleDevTools',
+    defaultMessage: 'Toggle Developer Tools',
   },
   window: {
     id: 'menuWindow',
@@ -202,6 +212,18 @@ export const getMenuTemplate = () => {
         {
           label: formatMessage(messages.zoomOut),
           role: 'zoomout',
+        },
+        { type: 'separator' },
+        {
+          label: formatMessage(messages.developer),
+          submenu: [
+            {
+              label: formatMessage(messages.toggleDevTools),
+              click: () => {
+                BrowserWindow.getFocusedWindow().webContents.toggleDevTools()
+              },
+            },
+          ],
         },
       ],
     },

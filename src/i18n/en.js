@@ -23,6 +23,8 @@ export default {
   "menuResetZoom": "Actual Size",
   "menuZoomIn": "Zoom In",
   "menuZoomOut": "Zoom Out",
+  "menuDeveloper": "Developer",
+  "menuToggleDevTools": "Toggle Developer Tools",
   "menuWindow": "Window",
   "menuClose": "Close Window",
   "menuMinimize": "Minimize",
