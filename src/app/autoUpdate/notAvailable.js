@@ -24,6 +24,8 @@ export default () => {
   const { formatMessage } = require('../../i18n')
 
   autoUpdater.on('update-not-available', () => {
+    if (state.checkingForUpdateAutomatically) return
+
     if (!state.isInitialUpdateChecked) {
       state.isInitialUpdateChecked = true
       return

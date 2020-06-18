@@ -26,6 +26,7 @@ import state from '../state'
 import { images, isDevelopment, isMas, isWindowsStore } from '../constants'
 import { getOsType, getChatUrl } from '../utils'
 import showMainWindow from './menu/actions/showMainWindow'
+import startUpdateTimer from './autoUpdate/startUpdateTimer'
 
 const {
   trayIcon,
@@ -47,6 +48,7 @@ const messages = {
 export default url => {
   if (getOsType !== 'linux' && !isMas && !isWindowsStore) autoUpdate()
   global.store = store.get() || env
+  startUpdateTimer()
 
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
 

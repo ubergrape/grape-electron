@@ -5,5 +5,15 @@ import isDevelopment from './isDevelopment'
 import isMas from './isMas'
 import isMac from './isMac'
 import isWindowsStore from './isWindowsStore'
+import delays from './delays'
 
-export { blobs, images, pages, isDevelopment, isMas, isMac, isWindowsStore }
+export {
+  blobs,
+  images,
+  pages,
+  isDevelopment,
+  isMas,
+  isMac,
+  isWindowsStore,
+  delays,
+}

@@ -3,6 +3,7 @@ import { dialog, shell } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../../state'
+import resetUpdateTimer from './resetUpdateTimer'
 import { isWindowsStore } from '../../constants'
 
 const messages = {
@@ -18,6 +19,10 @@ const messages = {
     id: 'updateCancel',
     defaultMessage: 'Cancel',
   },
+  later: {
+    id: 'updateLater',
+    defaultMessage: 'Later',
+  },
   update: {
     id: 'updateUpdateGrape',
     defaultMessage: 'Update Grape',
@@ -29,6 +34,39 @@ export default () => {
   const { formatMessage } = require('../../i18n')
 
   autoUpdater.on('update-available', () => {
+    if (state.checkingForUpdateAutomatically) {
+      dialog
+        .showMessageBox({
+          type: 'question',
+          title: formatMessage(messages.newVersionAvailable),
+          message: formatMessage(messages.install),
+          buttons: [
+            formatMessage(messages.later),
+            formatMessage(messages.update),
+          ],
+        })
+        .then(({ response }) => {
+          if (response === 0) {
+            resetUpdateTimer(true)
+            return
+          }
+
+          if (response === 1) {
+            if (isWindowsStore) {
+              shell.openExternal(
+                'ms-windows-store://pdp/?ProductId=9P28KPMR8L2Z',
+              )
+              return
+            }
+
+            resetUpdateTimer(true)
+            autoUpdater.downloadUpdate()
+          }
+        })
+
+      return
+    }
+
     if (state.isInitialUpdateCheck) return
 
     dialog
