@@ -70,6 +70,7 @@ export default {
   "updateNewVersionReady": "Nowa wersja jest gotowa!",
   "updateRestart": "Zrestartuj aplikację, aby zastosować aktualizację.",
   "updateLater": "Później",
+  "downloadUpdateLater": "Później",
   "updateRestartAndUpdate": "Restart i aktualizacja",
   "updateUpToDate": "Jesteś na bieżąco!",
   "updateLatest": "Używasz już najnowszej wersji Grape.",
