@@ -20,7 +20,7 @@ const messages = {
     defaultMessage: 'Cancel',
   },
   later: {
-    id: 'updateLater',
+    id: 'checkUpdateLater',
     defaultMessage: 'Later',
   },
   update: {
