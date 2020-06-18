@@ -6,7 +6,7 @@
  */
 export default {
   "saveImageTo": "Bild speichern unter…",
-  "windowsBadgeIconTitle": "{amount} ungelesene {amount, plural, one {Konversation} other {Konersationen}}",
+  "windowsBadgeIconTitle": "{amount} ungelesene {amount, plural, one {channel} andere {channels}}",
   "menuEdit": "Bearbeiten",
   "menuUndo": "Rückgängig",
   "menuRedo": "Erneut",
@@ -23,8 +23,8 @@ export default {
   "menuResetZoom": "Normal",
   "menuZoomIn": "Vergrößern",
   "menuZoomOut": "Verkleinern",
-  "menuClose": "Schließen",
   "menuWindow": "Fenster",
+  "menuClose": "Schließen",
   "menuMinimize": "Im Dock ablegen",
   "menuZoom": "Zoomen",
   "menuGrape": "Grape",
@@ -48,7 +48,7 @@ export default {
   "about": "Über",
   "version": "Version",
   "lostConnectionTitle": "Verbindung verloren",
-  "couldNotConnect": "Verbindung zum Grape Server gescheitert.",
+  "couldNotConnect": "Verbindung zum Grape Server fehlgeschlagen.",
   "badSslCert": "Das von der Instanz \"{url}\" verwendete Zertifikat scheint ungültig zu sein.",
   "checkInternetConnection": "Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind.",
   "tryToReload": "Versuchen Sie, {button}.",
