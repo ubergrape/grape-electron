@@ -17,6 +17,8 @@
   "menuResetZoom": "Normal",
   "menuZoomIn": "Vergrößern",
   "menuZoomOut": "Verkleinern",
+  "menuDeveloper": "Developer",
+  "menuToggleDevTools": "Auf Developer Tools umschalten",
   "menuWindow": "Fenster",
   "menuClose": "Schließen",
   "menuMinimize": "Im Dock ablegen",
