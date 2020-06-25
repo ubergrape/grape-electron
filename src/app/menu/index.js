@@ -72,7 +72,7 @@ const messages = defineMessages({
     defaultMessage: 'Toggle Full Screen',
   },
   resetZoom: {
-    id: 'menuResetZoom',
+    id: 'menuActualSize',
     defaultMessage: 'Actual Size',
   },
   zoomIn: {
@@ -96,7 +96,7 @@ const messages = defineMessages({
     defaultMessage: 'Window',
   },
   close: {
-    id: 'menuClose',
+    id: 'menuCloseWindow',
     defaultMessage: 'Close Window',
   },
   minimize: {
@@ -112,7 +112,7 @@ const messages = defineMessages({
     defaultMessage: 'Grape',
   },
   front: {
-    id: 'menuFront',
+    id: 'menuBringAllToFront',
     defaultMessage: 'Bring All to Front',
   },
   help: {
@@ -172,7 +172,7 @@ const messages = defineMessages({
     defaultMessage: 'Hide Others',
   },
   unhide: {
-    id: 'menuUnhide',
+    id: 'menuShowAll',
     defaultMessage: 'Show All',
   },
   open: {
