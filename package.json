@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rm -rf lib/ dist/",
     "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
-    "build:win-on-win": "yarn build:lib && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --windows --x64 --publish never",
+    "build:win-on-win": "yarn build:lib && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --windows --publish never",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
