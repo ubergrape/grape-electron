@@ -21,7 +21,7 @@ StrCpy $3 ""
 StrCpy $2 $1
 
 ExecWait '$2 /quiet /norestart' $1
-MessageBox MB_OK "post uninstall exe: $1"
+;MessageBox MB_OK "post uninstall exe: $1"
 IntCmp $1 0 "" +2 +2 ; Don't delete the installer if it was aborted
 Delete "$2" ; Delete the uninstaller
 RMDir "$3" ; Try to delete $InstDir
@@ -49,7 +49,7 @@ StrCpy $3 ""
 StrCpy $2 $1
 
 ExecWait 'MsiExec.exe /X "$2" /norestart /qb' $1
-MessageBox MB_OK "post uninstall msi: $1"
+;MessageBox MB_OK "post uninstall msi: $1"
 
 Pop $3
 Pop $2
@@ -57,45 +57,53 @@ Exch $1 ; exitcode
 FunctionEnd
 !endif
  
-!macro customInit
+ ; we hook our code into the last "page" before installation, but don't actually show anything, just run our uninstaller
+ ; note that customPageAfterChangeDir is NOT called when doing a one-click install!
+!macro customPageAfterChangeDir
 
-; find uninstall exe under 32-bit path
-ReadRegStr $0 HKLM "SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdExe}" "UninstallString"
-${If} $0 != ""
-	!insertmacro UninstallExistingExe $0 $0
-	${If} $0 <> 0
-		MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
-		Abort
-	${EndIf}
-${EndIf}
-; find uninstall exe under 64-bit path
-ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdExe}" "UninstallString"
-${If} $0 != ""
-	!insertmacro UninstallExistingExe $0 $0
-	${If} $0 <> 0
-		MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
-		Abort
-	${EndIf}
-${EndIf}
+Page custom uninstallV2
 
-; find uninstall msi under 32-bit path
-ReadRegStr $0 HKLM "SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdMsi}" "UninstallString"
-${If} $0 != ""
-	StrCpy $0 "${UninstIdMsi}"
-	!insertmacro UninstallExistingMsi $0 $0
-	${If} $0 <> 0
-		MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
-		Abort
+Function uninstallV2
+
+	; find uninstall exe under 32-bit path
+	ReadRegStr $0 HKLM "SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdExe}" "UninstallString"
+	${If} $0 != ""
+		!insertmacro UninstallExistingExe $0 $0
+		${If} $0 <> 0
+			MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
+			Quit
+		${EndIf}
 	${EndIf}
-${EndIf}
-; find uninstall msi under 64-bit path
-ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdMsi}" "UninstallString"
-${If} $0 != ""
-	StrCpy $0 "${UninstIdMsi}"
-	!insertmacro UninstallExistingMsi $0 $0
-	${If} $0 <> 0
-		MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
-		Abort
+	; find uninstall exe under 64-bit path
+	ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdExe}" "UninstallString"
+	${If} $0 != ""
+		!insertmacro UninstallExistingExe $0 $0
+		${If} $0 <> 0
+			MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
+			Quit
+		${EndIf}
 	${EndIf}
-${EndIf}
+
+	; find uninstall msi under 32-bit path
+	ReadRegStr $0 HKLM "SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdMsi}" "UninstallString"
+	${If} $0 != ""
+		StrCpy $0 "${UninstIdMsi}"
+		!insertmacro UninstallExistingMsi $0 $0
+		${If} $0 <> 0
+			MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
+			Quit
+		${EndIf}
+	${EndIf}
+	; find uninstall msi under 64-bit path
+	ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdMsi}" "UninstallString"
+	${If} $0 != ""
+		StrCpy $0 "${UninstIdMsi}"
+		!insertmacro UninstallExistingMsi $0 $0
+		${If} $0 <> 0
+			MessageBox MB_YESNO|MB_ICONSTOP "Failed to uninstall, continue anyway?" /SD IDYES IDYES +2
+			Quit
+		${EndIf}
+	${EndIf}
+	
+FunctionEnd
 !macroend
