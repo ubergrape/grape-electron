@@ -123,7 +123,7 @@ class Domain extends Component {
                 tab === 'cloud' ? classes.activeTab : ''
               }`}
             >
-              <FormattedMessage id="grapeTab" defaultMessage="Grape Cloud" />
+              <FormattedMessage id="cloudTab" defaultMessage="Grape Cloud" />
             </button>
             <button
               type="button"
