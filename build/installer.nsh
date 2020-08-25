@@ -3,6 +3,7 @@
  
 !define UninstIdExe "{0b40325a-6c1b-41fb-9800-283d3f40247f}"
 !define UninstIdMsi "{071A3CCA-285A-4F60-AFE8-FFFCB355E675}"
+!define GrapeExecutableName "grape.exe"
 
  
 !macro UninstallExistingExe exitcode uninstcommand
@@ -64,6 +65,16 @@ FunctionEnd
 Page custom uninstallV2
 
 Function uninstallV2
+
+	; close any running instances of grape
+	StrCpy $1 "${GrapeExecutableName}"
+	nsProcess::_FindProcess "$1"
+	Pop $R0
+	${If} $R0 = 0
+      nsProcess::_KillProcess "$1"
+      Pop $R0
+      Sleep 500
+    ${EndIf}
 
 	; find uninstall exe under 32-bit path
 	ReadRegStr $0 HKLM "SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\${UninstIdExe}" "UninstallString"
