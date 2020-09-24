@@ -15,8 +15,9 @@ app.allowRendererProcessReuse = true
 
 const init = () => {
   if (isDevelopment) {
-    electronReload(__dirname, {
+    electronReload(path.join(__dirname, '../src'), {
       electron: path.join(__dirname, '../node_modules/.bin/electron'),
+      forceHardReset: true,
     })
   }
 
