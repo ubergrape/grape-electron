@@ -18,6 +18,18 @@ const showMainWindow = () => {
   ipcRenderer.send('showMainWindow')
 }
 
+const onCallStarted = () => {
+  ipcRenderer.send('onCallStarted')
+}
+
+const onCallFinished = () => {
+  ipcRenderer.send('onCallFinished')
+}
+
+const setWebClientVersion = version => {
+  ipcRenderer.send('setWebClientVersion', version)
+}
+
 const onConnectionEvent = (name, text) => {
   ipcRenderer.send('onConnectionEvent', name, text)
 }
@@ -57,6 +69,9 @@ window.grapeAppVersion = pkg.version
 window.grapeAppBridge = {
   addBadge,
   removeBadge,
+  onCallStarted,
+  onCallFinished,
+  setWebClientVersion,
   bounceIcon,
   showMainWindow,
   onConnectionEvent,
