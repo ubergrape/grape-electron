@@ -4,5 +4,6 @@
     "cloudProtocol": "https:",
     "cloudDomain": "chatgrape.com",
     "path": "chat"
-  }
+  },
+  "allowPrerelease": false
 }
