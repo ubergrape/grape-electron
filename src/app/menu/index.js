@@ -332,12 +332,28 @@ export const getMenuTemplate = () => {
             visible: state.isChatOpened,
           },
           {
-            label: state.isUpdateDownloaded
-              ? formatMessage(messages.restartForUpdate)
-              : formatMessage(messages.checkForUpdates),
-            click: state.isUpdateDownloaded
-              ? restartForUpdate
-              : checkForUpdates,
+            label: (() => {
+              if (state.isUpdateDownloading) {
+                return 'Downloading in progress....'
+              }
+
+              if (state.isUpdateDownloaded) {
+                return formatMessage(messages.restartForUpdate)
+              }
+
+              return formatMessage(messages.checkForUpdates)
+            })(),
+            click: (() => {
+              if (state.isUpdateDownloading) {
+                return null
+              }
+
+              if (state.isUpdateDownloaded) {
+                return restartForUpdate
+              }
+
+              return checkForUpdates
+            })(),
             visible: !isMas,
           },
           { type: 'separator' },
