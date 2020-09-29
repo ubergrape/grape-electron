@@ -81,7 +81,7 @@ If you already have `.apple-user` and `.apple-password` files in the root of the
 Run the command below, to build and upload a new app to draft release. Please make sure that all needed certificates installed. Check [documentation](https://www.electron.build/code-signing.html#how-to-export-certificate-on-macos) to know how to export certificate. Ask Apple Developer Account owner for your developer account and help with providing certificates.
 
 ```bash
-yarn release
+GH_TOKEN=<token> yarn release
 ```
 
 After, you'll see `mas`, `dmg` and `zip` files in the draft release.
