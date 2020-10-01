@@ -1,14 +1,23 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shell, BrowserWindow } from 'electron'
+import windowStateKeeper from 'electron-window-state'
 import path from 'path'
 
 import { images, blobs } from '../constants'
 import { matchOne } from '../utils'
 
 export const openWindow = url => {
+  const secondaryWindowState = windowStateKeeper({
+    defaultWidth: 1200,
+    defaultHeight: 800,
+    file: 'secondary-window-state.json',
+  })
+
   const secondaryWindowConfig = {
-    width: 1200,
-    height: 800,
+    width: secondaryWindowState.width,
+    height: secondaryWindowState.height,
+    x: secondaryWindowState.x,
+    y: secondaryWindowState.y,
     webPreferences: {
       contextIsolation: false,
       partition: 'persist:webview',
@@ -24,6 +33,8 @@ export const openWindow = url => {
   }
 
   const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
+
+  secondaryWindowState.manage(secondaryWindow)
 
   secondaryWindow.loadURL(url)
 }
