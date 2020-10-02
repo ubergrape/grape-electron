@@ -2,19 +2,10 @@
 import { shell, BrowserWindow } from 'electron'
 import path from 'path'
 
-import ensureFocus from './ensureFocus'
-import state from '../state'
 import { images, blobs } from '../constants'
 import { matchOne } from '../utils'
 
 export const openWindow = url => {
-  if (state.secondaryWindow) {
-    const { secondaryWindow } = state
-    ensureFocus(secondaryWindow)
-    secondaryWindow.loadURL(url)
-    return
-  }
-
   const secondaryWindowConfig = {
     width: 1200,
     height: 800,
@@ -33,11 +24,6 @@ export const openWindow = url => {
   }
 
   const secondaryWindow = new BrowserWindow(secondaryWindowConfig)
-  state.secondaryWindow = secondaryWindow
-
-  secondaryWindow.once('closed', () => {
-    state.secondaryWindow = null
-  })
 
   secondaryWindow.loadURL(url)
 }
