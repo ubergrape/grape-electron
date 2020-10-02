@@ -185,6 +185,7 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "compare-versions": "^3.6.0",
     "electron-log": "^4.0.3",
     "electron-reload": "^1.5.0",
     "electron-store": "^5.1.0",

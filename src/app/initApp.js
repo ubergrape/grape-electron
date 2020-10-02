@@ -184,6 +184,18 @@ ipcMain.on('removeBadge', () => {
   removeBadge()
 })
 
+ipcMain.on('onCallStarted', () => {
+  state.isCallOngoing = true
+})
+
+ipcMain.on('onCallFinished', () => {
+  state.isCallOngoing = false
+})
+
+ipcMain.on('setWebClientVersion', (e, version) => {
+  state.webClientVersion = version
+})
+
 ipcMain.on('onConnectionEvent', (e, name, text) => {
   log.info('on-connection-event', name, text || '')
 })
