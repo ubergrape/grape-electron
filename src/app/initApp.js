@@ -12,6 +12,7 @@ import {
 import log from 'electron-log'
 import { white } from 'grape-theme/dist/base-colors'
 import { registerListener } from 'grape-electron-dl'
+import windowStateKeeper from 'electron-window-state'
 
 import loadUrl from './loadUrl'
 import handleNavigation from './handleNavigation'
@@ -48,19 +49,27 @@ export default url => {
   if (getOsType !== 'linux' && !isMas && !isWindowsStore) autoUpdate()
   global.store = store.get() || env
 
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize
-
   if (state.mainWindow) state.mainWindow.close()
   else {
     state.isShown = false
     state.isInitialLoading = true
   }
 
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
+
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: width,
+    defaultHeight: height,
+    file: 'main-window-state.json',
+  })
+
   const mainWindow = new BrowserWindow({
     minHeight: 600,
     minWidth: 800,
-    width,
-    height,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
     show: Boolean(state.mainWindow) && state.isShown,
     backgroundColor: white,
     webPreferences: {
@@ -68,6 +77,8 @@ export default url => {
       nodeIntegration: true,
     },
   })
+
+  mainWindowState.manage(mainWindow)
 
   state.mainWindow = mainWindow
   if (isDevelopment) mainWindow.webContents.openDevTools()

@@ -1,3 +1,5 @@
 export en from './en'
 export de from './de'
 export pl from './pl'
+export fr from './fr'
+export it from './it'

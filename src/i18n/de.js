@@ -35,6 +35,7 @@ export default {
   "menuAbout": "Über Grape",
   "menuCheckForUpdates": "Auf Updates überprüfen...",
   "menuRestartForUpdate": "Zum Aktualisieren neu starten",
+  "menuUpdateInProgress": "Update in progress...",
   "menuLearnMore": "Mehr erfahren",
   "menuOpenHelpCenter": "Hilfezentrum öffnen",
   "menuApplication": "Anwendung",

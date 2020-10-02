@@ -131,6 +131,10 @@ const messages = defineMessages({
     id: 'menuRestartForUpdate',
     defaultMessage: 'Restart to update',
   },
+  updateInProgress: {
+    id: 'menuUpdateInProgress',
+    defaultMessage: 'Update in progress...',
+  },
   learnMore: {
     id: 'menuLearnMore',
     defaultMessage: 'Learn More',
@@ -297,11 +301,30 @@ export const getMenuTemplate = () => {
           click: openAboutWindow,
         },
         {
-          label: state.isUpdateDownloaded
-            ? formatMessage(messages.restartForUpdate)
-            : formatMessage(messages.checkForUpdates),
+          label: (() => {
+            if (state.isUpdateDownloading) {
+              return formatMessage(messages.updateInProgress)
+            }
+
+            if (state.isUpdateDownloaded) {
+              return formatMessage(messages.restartForUpdate)
+            }
+
+            return formatMessage(messages.checkForUpdates)
+          })(),
+          click: (() => {
+            if (state.isUpdateDownloading) {
+              return null
+            }
+
+            if (state.isUpdateDownloaded) {
+              return restartForUpdate
+            }
+
+            return checkForUpdates
+          })(),
+          enabled: !state.isUpdateDownloading,
           visible: getOsType !== 'linux',
-          click: state.isUpdateDownloaded ? restartForUpdate : checkForUpdates,
         },
         { type: 'separator' },
         {
@@ -332,12 +355,29 @@ export const getMenuTemplate = () => {
             visible: state.isChatOpened,
           },
           {
-            label: state.isUpdateDownloaded
-              ? formatMessage(messages.restartForUpdate)
-              : formatMessage(messages.checkForUpdates),
-            click: state.isUpdateDownloaded
-              ? restartForUpdate
-              : checkForUpdates,
+            label: (() => {
+              if (state.isUpdateDownloading) {
+                return formatMessage(messages.updateInProgress)
+              }
+
+              if (state.isUpdateDownloaded) {
+                return formatMessage(messages.restartForUpdate)
+              }
+
+              return formatMessage(messages.checkForUpdates)
+            })(),
+            click: (() => {
+              if (state.isUpdateDownloading) {
+                return null
+              }
+
+              if (state.isUpdateDownloaded) {
+                return restartForUpdate
+              }
+
+              return checkForUpdates
+            })(),
+            enabled: !state.isUpdateDownloading,
             visible: !isMas,
           },
           { type: 'separator' },

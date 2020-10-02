@@ -2,8 +2,8 @@
   "name": "grape-electron",
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
-  "version": "3.2.0",
-  "buildVersion": "151",
+  "version": "3.3.0-beta.2",
+  "buildVersion": "153",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "engines": {
@@ -35,7 +35,7 @@
     "appId": "com.ChatGrape",
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
-    "buildVersion": "151",
+    "buildVersion": "153",
     "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
@@ -190,6 +190,7 @@
     "electron-reload": "^1.5.0",
     "electron-store": "^5.1.0",
     "electron-updater": "^4.2.4",
+    "electron-window-state": "^5.0.3",
     "grape-electron-context-menu": "^1.0.2-0.16.0",
     "grape-electron-dl": "^1.0.1-3.0.0",
     "grape-theme": "^3.5.0",
