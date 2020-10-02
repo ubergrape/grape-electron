@@ -31,6 +31,7 @@ export default () => {
 
   autoUpdater.on('update-downloaded', () => {
     state.isUpdateDownloaded = true
+    state.isUpdateDownloading = false
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 

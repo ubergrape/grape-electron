@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { dialog, shell } from 'electron'
+import { dialog, shell, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
+import { getMenuTemplate } from '../menu'
 
 import state from '../../state'
 import { isWindowsStore } from '../../constants'
@@ -47,6 +48,10 @@ export default () => {
             shell.openExternal('ms-windows-store://pdp/?ProductId=9P28KPMR8L2Z')
             return
           }
+
+          state.isUpdateDownloading = true
+
+          Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
           autoUpdater.downloadUpdate()
         }
