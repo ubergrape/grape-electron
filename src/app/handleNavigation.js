@@ -62,7 +62,7 @@ export const openWindow = _url => {
 
   secondaryWindowState.manage(secondaryWindow)
 
-  secondaryWindow.loadURL(url)
+  secondaryWindow.loadURL(_url)
 }
 
 export default (_url, e) => {
