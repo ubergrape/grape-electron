@@ -28,7 +28,7 @@ export const openWindow = _url => {
     icon: images.icon,
   }
 
-  if (compareVersions.compare(state.webClientVersion, '2.15.8', '>')) {
+  if (compareVersions.compare(state.webClientVersion, '2.16.0', '>=')) {
     let isCallWindowExist = false
 
     BrowserWindow.getAllWindows().forEach(win => {
