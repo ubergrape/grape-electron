@@ -3,4 +3,8 @@ export default {
   isUpdateDownloaded: false,
   isUpdateDownloading: false,
   isInitialUpdateChecked: false,
+  checkingForUpdateAutomatically: false,
+  updateCounter: 0,
+  shouldCheckUpdateLater: false,
+  updateInterval: null,
 }

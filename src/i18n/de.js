@@ -73,6 +73,7 @@ export default {
   "updateNewVersionReady": "Neue Version steht bereit!",
   "updateRestart": "Starten Sie die App zum Anwenden der Aktualisierung neu.",
   "updateLater": "Später",
+  "downloadUpdateLater": "Später",
   "updateRestartAndUpdate": "Neu starten und aktualisieren",
   "updateUpToDate": "Sie sind auf dem neuesten Stand!",
   "updateLatest": "Sie benutzen bereits die neueste Version von Grape.",
