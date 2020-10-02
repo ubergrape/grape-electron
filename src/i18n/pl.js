@@ -35,7 +35,6 @@ export default {
   "menuAbout": "O Grape",
   "menuCheckForUpdates": "Sprawdź aktualizacje...",
   "menuRestartForUpdate": "Ponowne uruchomienie w celu aktualizacji",
-  "menuUpdateInProgress": "Update in progress...",
   "menuLearnMore": "Dowiedz się więcej",
   "menuOpenHelpCenter": "Otwórz Centrum Pomocy",
   "menuApplication": "Aplikacja",
