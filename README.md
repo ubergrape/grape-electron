@@ -62,7 +62,7 @@ More info [here](https://www.electron.build/configuration/publish.html#recommend
 
 If you already have `.token` file in the root of the project, please skip these steps.
 
-1. Go to [token page](https://github.com/settings/tokens) and create one.
+1. Go to [token page](https://github.com/settings/tokens) and create one with write:packages permission.
 2. Copy token to the clipboard.
 3. Create `.token` file in the root of the project.
 4. Paste token and save the file.
