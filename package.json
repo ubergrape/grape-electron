@@ -3,7 +3,7 @@
   "appId": "com.ChatGrape",
   "author": "UberGrape GmbH <support@chatgrape.com>",
   "version": "3.3.0-beta.4",
-  "buildVersion": "155",
+  "buildVersion": "158",
   "description": "The world’s most advanced team chat meets enterprise search.",
   "main": "lib/index.js",
   "engines": {
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib/ dist/",
-    "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" electron-builder --publish never",
+    "build": "yarn clean && yarn build:lib && cross-env APPLEID=\"$(more .apple-user)\" APPLEIDPASS=\"$(more .apple-password)\" CSV_NAME=\"UberGrape GmbH (Y8DPE6DGC7)\"  electron-builder --publish never",
     "build:lib": "babel src -d lib --copy-files",
     "build:lib:watch": "yarn build:lib --copy-files --watch",
     "start": "yarn build:lib && cross-env NODE_ENV=development electron .",
@@ -35,7 +35,7 @@
     "appId": "com.ChatGrape",
     "productName": "Grape",
     "copyright": "© 2020, UberGrape GmbH",
-    "buildVersion": "155",
+    "buildVersion": "158",
     "afterSign": "scripts/notarize.js",
     "files": [
       "lib/**/*",
@@ -48,23 +48,19 @@
     ],
     "mac": {
       "category": "public.app-category.business",
-      "entitlements": "build/entitlements.mac.plist",
-      "provisioningProfile": "AppStore_Distribution.provisionprofile",
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
+      "provisioningProfile": "Developer_Distribution_20201017.provisionprofile",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": true,
       "extendInfo": {
         "NSMicrophoneUsageDescription": "We need access to your microphone so people you talk to in a Grape Call can hear you.",
         "NSCameraUsageDescription": "Allow your conversational partners to see you in a Grape Call. You can turn off your video anytime during a call."
       },
-      "target": [
-        "mas",
-        "dmg",
-        "zip"
-      ]
+      "target": "mas-dev"
     },
     "mas": {
       "entitlements": "build/entitlements.mas.plist",
-      "entitlementsInherit": "build/entitlements.mas.inherit.plist"
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "forceCodeSigning": true
     },
     "dmg": {
       "sign": false
@@ -158,15 +154,15 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.1",
     "@babel/node": "^7.7.7",
-    "@babel/plugin-proposal-class-properties": "^7.7.4",
-    "@babel/plugin-proposal-export-default-from": "^7.7.4",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-export-default-from": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-react-intl": "^5.1.16",
+    "babel-plugin-react-intl": "^5.1.18",
     "concurrently": "^5.0.2",
     "cross-env": "^6.0.3",
     "electron": "^8.3.0",
@@ -185,6 +181,7 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "compare-versions": "^3.6.0",
     "electron-log": "^4.0.3",
     "electron-reload": "^1.5.0",
