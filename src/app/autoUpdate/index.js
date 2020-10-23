@@ -15,8 +15,10 @@ export default () => {
   autoUpdater.allowPrerelease = store.get('allowPrerelease')
 
   state.isInitialUpdateCheck = true
+  state.isUpdateDownloading = true
   autoUpdater.checkForUpdates().then(() => {
     state.isInitialUpdateCheck = false
+    state.isUpdateDownloading = false
   })
 
   available()
