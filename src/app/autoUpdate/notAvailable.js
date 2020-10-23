@@ -24,10 +24,7 @@ export default () => {
   const { formatMessage } = require('../../i18n')
 
   autoUpdater.on('update-not-available', () => {
-    if (!state.isInitialUpdateChecked) {
-      state.isInitialUpdateChecked = true
-      return
-    }
+    if (state.isInitialUpdateCheck) return
 
     dialog.showMessageBox({
       type: 'info',
