@@ -54,6 +54,11 @@ const store = new Store({
   name: 'graperc',
   cwd: filePath,
   schema,
+  migrations: {
+    '>=3.3.0-beta.7': _store => {
+      _store.set('allowPrerelease', false)
+    },
+  },
 })
 
 store.onDidAnyChange(() => {

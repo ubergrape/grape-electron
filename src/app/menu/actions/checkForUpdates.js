@@ -1,7 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { shell } from 'electron'
+import { shell, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
+
+import state from '../../../state'
 import { isWindowsStore } from '../../../constants'
+// eslint-disable-next-line import/no-cycle
+import { getMenuTemplate } from '..'
 
 export default () => {
   if (isWindowsStore) {
@@ -10,6 +14,9 @@ export default () => {
   }
 
   autoUpdater.autoDownload = false
+
+  state.isUpdateDownloading = true
+  Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
   autoUpdater.checkForUpdates()
 }

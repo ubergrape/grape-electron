@@ -1,8 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { dialog } from 'electron'
+import { dialog, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 import state from '../../state'
+import { getMenuTemplate } from '../menu'
 
 const messages = {
   upToDate: {
@@ -25,6 +26,9 @@ export default () => {
 
   autoUpdater.on('update-not-available', () => {
     if (state.isInitialUpdateCheck) return
+
+    state.isUpdateDownloading = false
+    Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
     dialog.showMessageBox({
       type: 'info',

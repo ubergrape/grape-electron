@@ -54,7 +54,11 @@ export default () => {
           Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
 
           autoUpdater.downloadUpdate()
+          return
         }
+
+        state.isUpdateDownloading = false
+        Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
       })
   })
 }
