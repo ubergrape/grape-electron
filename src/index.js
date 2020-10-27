@@ -93,3 +93,8 @@ if (isMas) {
     init()
   }
 }
+
+process.on('uncaughtException', error => {
+  // eslint-disable-next-line no-console
+  console.log(error)
+})
