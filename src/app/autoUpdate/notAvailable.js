@@ -25,10 +25,10 @@ export default () => {
   const { formatMessage } = require('../../i18n')
 
   autoUpdater.on('update-not-available', () => {
-    if (state.isInitialUpdateCheck) return
-
     state.isUpdateDownloading = false
     Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
+
+    if (state.isInitialUpdateCheck) return
 
     dialog.showMessageBox({
       type: 'info',

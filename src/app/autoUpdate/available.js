@@ -49,10 +49,6 @@ export default () => {
             return
           }
 
-          state.isUpdateDownloading = true
-
-          Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
-
           autoUpdater.downloadUpdate()
           return
         }

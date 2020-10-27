@@ -23,8 +23,6 @@ export default () => {
 
   autoUpdater.checkForUpdates().then(() => {
     state.isInitialUpdateCheck = false
-    state.isUpdateDownloading = false
-    Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()))
   })
 
   available()
