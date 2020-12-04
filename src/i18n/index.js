@@ -8,7 +8,7 @@ import * as translations from './translations'
 
 export const wrapWithIntlProvider = ChildComponent => props => {
   const locale = (app ? app.getLocale() : navigator.language).substr(0, 2)
-  const messages = translations[locale]
+  const messages = translations.uk
   return (
     <IntlProvider locale={locale} messages={messages}>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
