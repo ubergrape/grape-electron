@@ -46,8 +46,17 @@ const messages = {
 }
 
 export default url => {
-  if (getOsType !== 'linux' && !isMas && !isWindowsStore) autoUpdate()
   global.store = store.get() || env
+
+  const isAutoUpdateEnabled = store.get('autoUpdateEnabled')
+  if (
+    getOsType !== 'linux' &&
+    !isMas &&
+    !isWindowsStore &&
+    isAutoUpdateEnabled
+  ) {
+    autoUpdate()
+  }
 
   if (state.mainWindow) state.mainWindow.close()
   else {
