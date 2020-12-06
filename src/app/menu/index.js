@@ -3,6 +3,8 @@ import { BrowserWindow } from 'electron'
 import { defineMessages } from 'react-intl'
 
 import state from '../../state'
+import store from '../../store'
+
 import quit from './actions/quit.js'
 import { getOsType } from '../../utils'
 import { isMac, isMas } from '../../constants'
@@ -10,6 +12,7 @@ import openAboutWindow from './actions/openAboutWindow'
 import showMainWindow from './actions/showMainWindow'
 import openSupport from './actions/openSupport'
 import openWebsite from './actions/openWebsite'
+// eslint-disable-next-line import/no-cycle
 import checkForUpdates from './actions/checkForUpdates'
 import restartForUpdate from './actions/restartForUpdate'
 /* eslint-disable import/no-cycle */
@@ -324,7 +327,7 @@ export const getMenuTemplate = () => {
             return checkForUpdates
           })(),
           enabled: !state.isUpdateDownloading,
-          visible: getOsType !== 'linux',
+          visible: getOsType !== 'linux' && store.get('autoUpdateEnabled'),
         },
         { type: 'separator' },
         {
@@ -378,7 +381,7 @@ export const getMenuTemplate = () => {
               return checkForUpdates
             })(),
             enabled: !state.isUpdateDownloading,
-            visible: !isMas,
+            visible: !isMas && store.get('autoUpdateEnabled'),
           },
           { type: 'separator' },
           {
