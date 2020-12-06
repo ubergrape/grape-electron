@@ -58,6 +58,9 @@ const store = new Store({
     '>=3.3.0-beta.7': _store => {
       _store.set('allowPrerelease', false)
     },
+    '>=3.4.0-beta.1': _store => {
+      _store.set('autoUpdateEnabled', true)
+    },
   },
 })
 
