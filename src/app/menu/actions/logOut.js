@@ -1,8 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { dialog, session } from 'electron'
 
-import store from '../../../store'
-import env from '../../../env'
 import loadUrl from '../../loadUrl'
 import { pages } from '../../../constants'
 
@@ -44,8 +42,6 @@ export default () => {
     })
     .then(({ response }) => {
       if (response === 1) {
-        store.clear()
-        store.set(env)
         clearSessionData()
       }
     })
