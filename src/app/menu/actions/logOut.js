@@ -14,7 +14,7 @@ const messages = {
     defaultMessage: 'Cancel',
   },
   logOutConfirm: {
-    id: 'logOutAction',
+    id: 'logOutConfirm',
     defaultMessage: 'Log out',
   },
 }
