@@ -6,7 +6,7 @@
  */
 export default {
   "saveImageTo": "Resmi Kaydet…",
-  "windowsBadgeIconTitle": "{miktar} okunmamış {miktar, çoğul, bir {kanal} diğer {kanal}}",
+  "windowsBadgeIconTitle": "{amount} okunmamış {amount, plural, one {channel} other {channels}}",
   "menuEdit": "Düzenleme",
   "menuUndo": "Geri alma",
   "menuRedo": "Yeniden yap",
@@ -52,7 +52,7 @@ export default {
   "version": "Sürüm",
   "lostConnectionTitle": "Bağlantı kaybedildi",
   "couldNotConnect": "Uygulama, Grape sunucusuna bağlanamadı.",
-  "badSslCert": "\"{Url}\" örneği tarafından kullanılan sertifika geçersiz görünüyor.",
+  "badSslCert": "\"{url}\" örneği tarafından kullanılan sertifika geçersiz görünüyor.",
   "checkInternetConnection": "Lütfen internet bağlantınızın düzgün çalışıp çalışmadığını kontrol edin.",
   "tryToReload": "Tekrar {button} deneyin.",
   "loading": "Yükleniyor…",
@@ -61,7 +61,7 @@ export default {
   "changeOnPremisesDomain": "şirket içi etki alanını değiştir",
   "chooseDomainTitle": "Alan seçin",
   "whereToConnectTitle": "Nereye bağlanmak istersiniz?",
-  "cloudTab": "Üzüm Bulutu",
+  "cloudTab": "Grape Cloud",
   "onPremisesTab": "Şirket İçi",
   "serverDomainOrUrl": "Sunucu Etki Alanı veya URL",
   "continue": "Devam et",
