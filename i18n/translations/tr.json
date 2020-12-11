@@ -1,6 +1,6 @@
 {
   "saveImageTo": "Resmi Kaydet…",
-  "windowsBadgeIconTitle": "{amount} okunmamış  {amount, plural, one {channel} other {channels}}",
+  "windowsBadgeIconTitle": "{amount} okunmamış {amount, plural, one {channel} other {channels}}",
   "menuEdit": "Düzenleme",
   "menuUndo": "Geri alma",
   "menuRedo": "Yeniden yap",
