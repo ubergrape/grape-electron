@@ -6,7 +6,8 @@
  */
 export default {
   "saveImageTo": "Resmi Kaydet…",
-  "windowsBadgeIconTitle": "{amount} okunmamış {amount, plural, one {channel} other {channels}}",
+  "windowsBadgeIconTitle": "{windowsBadgeIconTitleUnread} {amount, plural, one {channel} other {channels}}",
+  "windowsBadgeIconTitleUnread": "{amount} unread",
   "menuEdit": "Düzenleme",
   "menuUndo": "Geri alma",
   "menuRedo": "Yeniden yap",

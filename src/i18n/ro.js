@@ -6,7 +6,8 @@
  */
 export default {
   "saveImageTo": "Salvați imaginea în ...",
-  "windowsBadgeIconTitle": "{amount} necitită {amount, plural, one {channel} other {channels}}",
+  "windowsBadgeIconTitle": "{windowsBadgeIconTitleUnread} {amount, plural, one {channel} other {channels}}",
+  "windowsBadgeIconTitleUnread": "{amount} unread",
   "menuEdit": "Editați | ×",
   "menuUndo": "Anula",
   "menuRedo": "A reface",

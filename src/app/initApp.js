@@ -41,7 +41,11 @@ const messages = {
   windowsBadgeIconTitle: {
     id: 'windowsBadgeIconTitle',
     defaultMessage:
-      '{amount} unread {amount, plural, one {channel} other {channels}}',
+      '{windowsBadgeIconTitleUnread} {amount, plural, one {channel} other {channels}}',
+  },
+  windowsBadgeIconTitleUnread: {
+    id: 'windowsBadgeIconTitleUnread',
+    defaultMessage: '{amount} unread',
   },
 }
 
@@ -175,6 +179,12 @@ ipcMain.on('addBadge', (e, badge) => {
         overlayIcon,
         formatMessage(messages.windowsBadgeIconTitle, {
           amount: parseInt(badge, 10),
+          windowsBadgeIconTitleUnread: formatMessage(
+            messages.windowsBadgeIconTitleUnread,
+            {
+              amount: parseInt(badge, 10),
+            },
+          ),
         }),
       )
       break
