@@ -6,7 +6,8 @@
  */
 export default {
   "saveImageTo": "Зберегти Зображення в…",
-  "windowsBadgeIconTitle": "{amount}непрочитана {amount, plural, one {channel} інші {channels}}",
+  "windowsBadgeIconTitle": "{windowsBadgeIconTitleUnread} {amount, plural, one {channel} other {channels}}",
+  "windowsBadgeIconTitleUnread": "{amount} unread",
   "menuEdit": "Редагувати",
   "menuUndo": "Скасувати",
   "menuRedo": "Переробити",
