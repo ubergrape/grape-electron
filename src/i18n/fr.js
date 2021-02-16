@@ -7,7 +7,7 @@
 export default {
   "saveImageTo": "Sauvegarder l'image dans...",
   "windowsBadgeIconTitle": "{windowsBadgeIconTitleUnread} {amount, plural, one {channel} other {channels}}",
-  "windowsBadgeIconTitleUnread": "{amount} unread",
+  "windowsBadgeIconTitleUnread": "{amount} non lu",
   "menuEdit": "Éditer",
   "menuUndo": "Annuler",
   "menuRedo": "Refaire",
