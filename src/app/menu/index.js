@@ -356,6 +356,8 @@ export const getMenuTemplate = () => {
             label: formatMessage(messages.settings),
             click: openSettings,
             visible: state.isChatOpened,
+            enabled: state.isChatOpened,
+            accelerator: 'Cmd+,'
           },
           {
             label: (() => {
